@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FrontendController;
 use Inertia\Inertia;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
@@ -17,14 +18,7 @@ use App\Http\Controllers\SliderController;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render(
-        'Welcome',
-    
-    );
-})->name('welcome');
-
-
+Route::get('/', [FrontendController::class, 'index'])->name('welcome');
 
 Route::get('/lessons', function () {
     return Inertia::render('Lessons');

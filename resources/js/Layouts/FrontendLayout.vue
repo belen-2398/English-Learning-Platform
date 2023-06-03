@@ -7,7 +7,6 @@
             </Head>
             <Nav />
         </header>     
-        <!-- Main -->
         <main>
             <slot />
         </main>
