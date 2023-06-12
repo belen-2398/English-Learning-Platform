@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('topic_id')->nullable();
             $table->string('name');
+            $table->enum('level', ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
             $table->enum('category', ['grammar', 'vocabulary', 'mixed']);
             $table->smallInteger('order')->unique()->nullable();
             $table->enum('type', ['match', 'fill', 'select', 'order']);

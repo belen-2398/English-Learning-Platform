@@ -18,7 +18,7 @@ return new class extends Migration
             $table->enum('category', ['grammar', 'vocabulary']);
             $table->smallInteger('order')->unique()->nullable();
             $table->smallInteger('points')->default('1');
-            $table->smallInteger('visible')->default('0')->comment('0=not-visible, 1=visible');
+            $table->smallInteger('status')->default('0')->comment('0=not visible, 1=visible');
             $table->text('explanation1');
             $table->text('explanation2')->nullable();
             $table->text('explanation3')->nullable();

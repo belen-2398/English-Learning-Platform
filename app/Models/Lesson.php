@@ -14,7 +14,7 @@ class Lesson extends Model
         'level',
         'name',
         'description',
-        'visible',
+        'status',
         'order',
     ];
 

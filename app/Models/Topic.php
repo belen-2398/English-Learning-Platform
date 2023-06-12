@@ -17,7 +17,7 @@ class Topic extends Model
         'category',
         'order',
         'points',
-        'visible',
+        'status',
         'explanation1',
         'explanation2',
         'explanation3',

@@ -1,0 +1,44 @@
+:root {
+    --color-primary: #f7c89d;
+
+    --color-secondary: #fdeedc;
+
+    --color-tertiary: #ebaf56;
+
+    --color-hover: rgb(177, 173, 169);
+
+    background-color: white;
+}
+
+.head-title {
+    text-align: center;
+    font-size: 2rem;
+    padding: 4px;
+}
+
+.head-subtitle {
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.color-button {
+    border-radius: 10%;
+    margin-top: 2px;
+    padding: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: var(--color-primary);
+}
+
+.color-button:hover {
+    background-color: var(--color-hover);
+}
+
+.form-control {
+    border: 1px solid #ddd;
+}
+
+.table-image {
+    width: auto;
+    height: 60px;
+}

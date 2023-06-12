@@ -3,63 +3,116 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lesson;
-use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class LessonController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function A1Index()
     {
-        $lessons = Lesson::where('visible', '1');
+        $lessons = Lesson::where('status', '1')
+            ->where('level', 'A1')
+            ->orderBy('order', 'asc')
+            ->get();
+
+        return Inertia::render('Lessons/A1', [
+            'lessons' => $lessons,
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function A2Index()
     {
-        //
+        $lessons = Lesson::where('status', '1')
+            ->where('level', 'A2')
+            ->orderBy('order', 'asc')
+            ->get();
+
+        return Inertia::render('Lessons/A2', [
+            'lessons' => $lessons,
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function B1Index()
     {
-        //
+        $lessons = Lesson::where('status', '1')
+            ->where('level', 'B1')
+            ->orderBy('order', 'asc')
+            ->get();
+
+        return Inertia::render('Lessons/B1', [
+            'lessons' => $lessons,
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
+    public function B2Index()
+    {
+        $lessons = Lesson::where('status', '1')
+            ->where('level', 'B2')
+            ->orderBy('order', 'asc')
+            ->get();
+
+        return Inertia::render('Lessons/B2', [
+            'lessons' => $lessons,
+        ]);
+    }
+
+    public function C1Index()
+    {
+        $lessons = Lesson::where('status', '1')
+            ->where('level', 'C1')
+            ->orderBy('order', 'asc')
+            ->get();
+
+        return Inertia::render('Lessons/C1', [
+            'lessons' => $lessons,
+        ]);
+    }
+
+    public function C2Index()
+    {
+        $lessons = Lesson::where('status', '1')
+            ->where('level', 'C2')
+            ->orderBy('order', 'asc')
+            ->get();
+
+        return Inertia::render('Lessons/C2', [
+            'lessons' => $lessons,
+        ]);
+    }
+
+    public function A1from0()
+    {
+        return Inertia::render('Lessons/A1from0', []);
+    }
+
+    public function A2from0()
+    {
+        return Inertia::render('Lessons/A1from0', []);
+    }
+
+    public function B1from0()
+    {
+        return Inertia::render('Lessons/A1from0', []);
+    }
+
+    public function B2from0()
+    {
+        return Inertia::render('Lessons/A1from0', []);
+    }
+
+    public function C1from0()
+    {
+        return Inertia::render('Lessons/A1from0', []);
+    }
+    public function C2from0()
+    {
+        return Inertia::render('Lessons/A1from0', []);
+    }
+
     public function show(Lesson $lesson)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Lesson $lesson)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Lesson $lesson)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Lesson $lesson)
-    {
-        //
+        Lesson::findOrFail($lesson);
+        return Inertia::render('Lessons/Show', [
+            'lesson' => $lesson,
+        ]);
     }
 }

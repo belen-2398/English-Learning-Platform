@@ -16,10 +16,14 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->role_as == 2) {
-            return $next($request);
+        if (Auth::user()) {
+            if (Auth::user()->role_as == 2) {
+                return $next($request);
+            } else {
+                return redirect('/')->with('message', 'You are not the admin.');
+            }
+        } else {
+            return redirect('/')->with('message', 'You are not logged in.');
         }
-
-        return redirect('/')->with('status', 'You are not the admin.');
     }
 }

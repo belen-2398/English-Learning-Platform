@@ -13,6 +13,7 @@ class Slider extends Model
         'title',
         'description',
         'image',
-        'status'
+        'status',
+        'link'
     ];
 }

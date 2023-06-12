@@ -16,7 +16,7 @@ return new class extends Migration
             $table->enum('level', ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
             $table->string('name');
             $table->mediumText('description');
-            $table->smallInteger('visible')->default('0')->comment('0=not visible; 1=visible');
+            $table->smallInteger('status')->default('0')->comment('0=not visible, 1=visible');
             $table->smallInteger('order')->unique();
             $table->timestamps();
         });

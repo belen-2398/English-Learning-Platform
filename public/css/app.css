@@ -1,27 +1,23 @@
-
 :root {
-  --color-primary: #ffc997;
+    --color-primary: #ffc997;
 
-  --color-secondary: #FDEEDC;
+    --color-secondary: #fdeedc;
 
-  --color-tertiary: #E38B29;
+    --color-tertiary: #e38b29;
 
-  --color-hover: rgb(252, 228, 202);
+    --color-hover: rgb(252, 228, 202);
 
-  background-color: var(--color-primary);
+    background-color: var(--color-primary);
 }
-
 
 .head-title {
     text-align: center;
     font-size: 2rem;
-
 }
 
-.head-subtitle{
+.head-subtitle {
     text-align: center;
-    font-size: 1.5rem; 
-
+    font-size: 1.5rem;
 }
 /* Navbar */
 .nav-link {
@@ -53,3 +49,9 @@
     background-color: var(--color-hover);
 }
 
+.form-control {
+    border: 1px solid #ddd;
+}
+.sidebar .nav .nav-item.active {
+    background-color: #e9e9e9;
+}
