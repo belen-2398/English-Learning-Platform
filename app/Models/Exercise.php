@@ -11,11 +11,14 @@ class Exercise extends Model
     use HasFactory;
 
     protected $fillable = [
+        'lesson_id',
         'topic_id',
         'name',
+        'level',
         'category',
         'order',
         'type',
+        'status'
     ];
 
     // TODO: Morph?

@@ -22,9 +22,12 @@ class WordOfDayFactory extends Factory
             'pronunciation' => $this->faker->word,
             'audio' => 'audiotest.mp3',
             'definition' => $this->faker->paragraph,
-            'examples' => $this->faker->sentence,
+            'example1' => $this->faker->sentence,
+            'example2' => $this->faker->sentence,
+            'example3' => $this->faker->sentence,
+            'example4' => $this->faker->sentence,
+            'example5' => $this->faker->sentence,
             'image' => 'imgtest.jpg',
-            'addToDictionary' => $this->faker->boolean(),
             'status' => $this->faker->boolean(),
         ];
     }

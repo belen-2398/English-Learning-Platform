@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class WordofDay extends Model
+class WordOfDay extends Model
 {
     use HasFactory;
 
@@ -17,9 +17,12 @@ class WordofDay extends Model
         'pronunciation',
         'audio',
         'definition',
-        'examples',
+        'example1',
+        'example2',
+        'example3',
+        'example4',
+        'example5',
         'image',
-        'addToDictionary',
         'status'
     ];
 }

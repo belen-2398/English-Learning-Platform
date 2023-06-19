@@ -2,117 +2,77 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Exercise;
 use App\Models\Lesson;
+use App\Models\Topic;
 use Inertia\Inertia;
 
 class LessonController extends Controller
 {
-    public function A1Index()
+    public function index()
     {
-        $lessons = Lesson::where('status', '1')
-            ->where('level', 'A1')
-            ->orderBy('order', 'asc')
-            ->get();
+        $levelsOrder = "'A1', 'A2', 'B1', 'B2', 'C1', 'C2'";
 
-        return Inertia::render('Lessons/A1', [
+        $lessons = Lesson::where('status', '1')
+            ->with('topics')
+            ->orderByRaw("FIELD(level, $levelsOrder) ASC")
+            ->orderBy('order', 'asc')
+            ->get()
+            ->groupBy('level');
+
+        return Inertia::render('Lessons', [
             'lessons' => $lessons,
         ]);
     }
 
-    public function A2Index()
+    public function levelIndex($level)
     {
         $lessons = Lesson::where('status', '1')
-            ->where('level', 'A2')
+            ->where('level', $level)
             ->orderBy('order', 'asc')
             ->get();
 
-        return Inertia::render('Lessons/A2', [
+        return Inertia::render('Lessons/Level', [
             'lessons' => $lessons,
+            'level' => $level,
         ]);
     }
 
-    public function B1Index()
+    public function from0Index($level)
     {
         $lessons = Lesson::where('status', '1')
-            ->where('level', 'B1')
+            ->where('level', $level)
+            ->with('topics')
             ->orderBy('order', 'asc')
             ->get();
 
-        return Inertia::render('Lessons/B1', [
+        return Inertia::render('Lessons/From0', [
             'lessons' => $lessons,
+            'level' => $level,
         ]);
-    }
-
-    public function B2Index()
-    {
-        $lessons = Lesson::where('status', '1')
-            ->where('level', 'B2')
-            ->orderBy('order', 'asc')
-            ->get();
-
-        return Inertia::render('Lessons/B2', [
-            'lessons' => $lessons,
-        ]);
-    }
-
-    public function C1Index()
-    {
-        $lessons = Lesson::where('status', '1')
-            ->where('level', 'C1')
-            ->orderBy('order', 'asc')
-            ->get();
-
-        return Inertia::render('Lessons/C1', [
-            'lessons' => $lessons,
-        ]);
-    }
-
-    public function C2Index()
-    {
-        $lessons = Lesson::where('status', '1')
-            ->where('level', 'C2')
-            ->orderBy('order', 'asc')
-            ->get();
-
-        return Inertia::render('Lessons/C2', [
-            'lessons' => $lessons,
-        ]);
-    }
-
-    public function A1from0()
-    {
-        return Inertia::render('Lessons/A1from0', []);
-    }
-
-    public function A2from0()
-    {
-        return Inertia::render('Lessons/A1from0', []);
-    }
-
-    public function B1from0()
-    {
-        return Inertia::render('Lessons/A1from0', []);
-    }
-
-    public function B2from0()
-    {
-        return Inertia::render('Lessons/A1from0', []);
-    }
-
-    public function C1from0()
-    {
-        return Inertia::render('Lessons/A1from0', []);
-    }
-    public function C2from0()
-    {
-        return Inertia::render('Lessons/A1from0', []);
     }
 
     public function show(Lesson $lesson)
     {
-        Lesson::findOrFail($lesson);
+        $topics = Topic::where('lesson_id', $lesson->id)
+            ->where('status', '1')
+            ->orderBy('order', 'asc')
+            ->get();
+
+        $grmTopics = $topics->where('category', 'grammar')->all();
+        $vocabTopics = $topics->where('category', 'vocabulary')->all();
+
+        $mixedExercises = Exercise::where('lesson_id', $lesson->id)
+            ->where('status', '1')
+            ->where('category', 'mixed')
+            ->orderBy('order', 'asc')
+            ->get();
+
         return Inertia::render('Lessons/Show', [
             'lesson' => $lesson,
+            'grmTopics' => $grmTopics,
+            'vocabTopics' => $vocabTopics,
+            'mixedExercises' => $mixedExercises,
         ]);
     }
 }

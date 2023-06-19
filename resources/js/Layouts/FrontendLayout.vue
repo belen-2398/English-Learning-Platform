@@ -1,12 +1,15 @@
 <template>
     <div>
-        <header class="bg-white shadow-lg h-auto pb-6">
+        <header class="pb-6">
 
             <Head>
                 <title>Learn English</title>
                 <meta head-key="description" name="description" content="A website to learn English." />
             </Head>
-            <Nav />
+            <div class="pb-4 bg-[var(--color-medium1)]">
+                <Nav />
+            </div>
+
         </header>
         <main>
             <div v-if="$page.props.flash.message" role="alert"
@@ -15,7 +18,7 @@
             </div>
             <slot />
         </main>
-        <footer class="bg-white rounded-lg shadow m-4 dark:bg-gray-800">
+        <footer class="rounded-lg shadow m-4 dark:bg-gray-800">
             <Footer />
         </footer>
     </div>

@@ -2,7 +2,7 @@
 <template>
     <div>
         <Head title="Dictionary" />
-        <h1>Dictionary.</h1>
+        <h1>Dictionary</h1>
     </div>
 </template>
 

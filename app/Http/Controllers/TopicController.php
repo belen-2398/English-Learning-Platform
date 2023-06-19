@@ -11,7 +11,7 @@ class TopicController extends Controller
     /**
      * Display a listing of the resource.
      */
-    
+
 
     public function usersIndex()
     {
@@ -21,7 +21,7 @@ class TopicController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-   
+
 
     public function usersShow(Topic $topic)
     {
@@ -30,6 +30,8 @@ class TopicController extends Controller
         ]);
     }
 
-
-    
+    public function from0Index()
+    {
+        $topics = Topic::where('status', '1')->get();
+    }
 }

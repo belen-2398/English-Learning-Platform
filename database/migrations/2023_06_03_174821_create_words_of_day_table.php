@@ -18,9 +18,12 @@ return new class extends Migration
             $table->string('pronunciation')->nullable();
             $table->string('audio')->nullable();
             $table->mediumText('definition');
-            $table->mediumText('examples');
+            $table->mediumText('example1');
+            $table->mediumText('example2')->nullable();
+            $table->mediumText('example3')->nullable();
+            $table->mediumText('example4')->nullable();
+            $table->mediumText('example5')->nullable();
             $table->string('image')->nullable();
-            $table->tinyInteger('addToDictionary')->default('0')->comment('0=not added, 1=added');
             $table->tinyInteger('status')->default('0')->comment('0=not visible, 1=visible');
             $table->timestamps();
         });

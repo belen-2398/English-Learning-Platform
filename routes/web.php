@@ -9,32 +9,25 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\Admin\TopicController as AdminTopicController;
-use App\Http\Controllers\Admin\WordofDayController;
+use App\Http\Controllers\WordOfDayController;
 
 Route::get('/', [FrontendController::class, 'index'])->name('welcome');
 
-Route::get('/lessons', function () {
-    return Inertia::render('Lessons');
-});
-
 Route::controller(LessonController::class)->group(function () {
-    Route::get('/A1', 'A1Index');
-    Route::get('/A2', 'A2Index');
-    Route::get('/B1', 'B1Index');
-    Route::get('/B2', 'B2Index');
-    Route::get('/C1', 'C1Index');
-    Route::get('/C2', 'C2Index');
-    Route::get('/A1-from-0', 'A1from0');
-    Route::get('/A2-from-0', 'A2from0');
-    Route::get('/B1-from-0', 'B1from0');
-    Route::get('/B2-from-0', 'B2from0');
-    Route::get('/C1-from-0', 'C1from0');
-    Route::get('/C2-from-0', 'C2from0');
+    Route::get('/lessons', 'index');
+    Route::get('/lessons/level/{level}', 'levelIndex');
+    Route::get('/lessons/from0/{level}', 'from0Index');
     Route::get('/lessons/{lesson}', 'show')->name('user.lessons.show');
 });
 
-Route::get('/topics', [TopicController::class, 'usersIndex']);
-Route::get('/topics/{topic}', [TopicController::class, 'usersShow'])->name('user.topics.show');
+Route::controller(TopicController::class)->group(function () {
+    Route::get('/topics', 'usersIndex');
+    Route::get('/topics/{topic}', 'usersShow')->name('user.topics.show');
+    Route::get('/topics/from0/{level}', 'from0Index');
+});
+
+Route::get('/wordsOfDay', [WordOfDayController::class, 'usersIndex']);
+Route::get('/wordsOfDay/{wordOfDay}', [WordOfDayController::class, 'usersShow'])->name('user.wordsOfDay.show');
 
 Route::get('/about', function () {
     return Inertia::render('About', [
@@ -60,5 +53,5 @@ Route::prefix('admin')->middleware([IsAdmin::class])->group(function () {
     Route::resource('/sliders', SliderController::class)->except('show');
     Route::resource('/lessons', AdminLessonController::class);
     Route::resource('/topics', AdminTopicController::class);
-    Route::resource('/word-of-day', WordofDayController::class);
+    Route::resource('/word-of-day', AdminWordOfDayController::class);
 });

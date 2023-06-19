@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('lesson_id')->nullable();
             $table->string('name');
             $table->enum('category', ['grammar', 'vocabulary']);
-            $table->smallInteger('order')->unique()->nullable();
+            $table->smallInteger('order')->nullable();
             $table->smallInteger('points')->default('1');
             $table->smallInteger('status')->default('0')->comment('0=not visible, 1=visible');
             $table->text('explanation1');

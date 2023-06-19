@@ -1,74 +1,160 @@
 <template>
-    <div class="mb-10">
+    <div class="my-10">
+
         <Head title="Welcome Page" />
-        <h1 class="head-title mt-10">Welcome <span v-if="$page.props.auth.user"> {{ $page.props.auth.user.name }}</span> </h1>
-        <h2 v-if="!$page.props.auth.user" class="head-subtitle mt-6">Check out our <Link class="hover:underline" href="/lessons">lessons</Link> or <Link class="hover:underline" :href="route('login')">login</Link> for full access.</h2>
+        <div class="short-line">
+            <h1 class="pt-6 mb-8">Welcome <span v-if="$page.props.auth.user"> {{
+                $page.props.auth.user.name
+            }}</span>
+            </h1>
+            <h2 v-if="!$page.props.auth.user" class="pb-4">CHECK OUT OUR
+                <Link class="hover-underline text-xl" href="/lessons">LESSONS</Link> OR
+                <Link class="hover-underline text-xl" :href="route('login')">LOGIN</Link> FOR FULL ACCESS.
+            </h2>
+        </div>
+
     </div>
     <div>
-        <div>
+        <div class="my-16">
             <Splide :options="splideOptions" aria-label="English Levels">
-                <SplideSlide v-for="slider in sliders" :key="slider.id">
-                    <template v-if="slider.link" >
-                        <Link :href="slider.link">
-                            <!-- Fix links in DB -->
-                            <img class="mx-auto justify-center" :src="slider.image" :alt="slider.description" />
-                        </Link>
-                    </template>
-                    <template v-else>
-                        <img class="mx-auto justify-center" :src="slider.image" :alt="slider.description" />
-                    </template>
+                <SplideSlide>
+                    <div class="slide1 ml-24">
+                        <div class="my-auto">
+                            <button button @click="openModal('A1')" type="button">
+                                <h3>A1</h3>
+                                <h4>Beginner</h4>
+                            </button>
+                        </div>
+                    </div>
+                </SplideSlide>
+                <SplideSlide>
+                    <div class="slide1 ml-8">
+                        <div class="my-auto">
+                            <button button @click="openModal('A2')" type="button">
+                                <h3>A2</h3>
+                                <h4>Beginner</h4>
+                            </button>
+                        </div>
+                    </div>
+                </SplideSlide>
+                <SplideSlide>
+                    <div class="slide1 ml-24">
+                        <div class="my-auto">
+                            <button button @click="openModal('B1')" type="button">
+                                <h3>B1</h3>
+                                <h4>Intermediate</h4>
+                            </button>
+                        </div>
+                    </div>
+                </SplideSlide>
+                <SplideSlide>
+                    <div class="slide1 ml-8">
+                        <div class="my-auto">
+                            <button button @click="openModal('B2')" type="button">
+                                <h3>B2</h3>
+                                <h4>Intermediate</h4>
+                            </button>
+                        </div>
+                    </div>
+                </SplideSlide>
+                <SplideSlide>
+                    <div class="slide1 ml-24">
+                        <div class="my-auto">
+                            <button button @click="openModal('C1')" type="button">
+                                <h3>C1</h3>
+                                <h4>Advanced</h4>
+                            </button>
+                        </div>
+                    </div>
+                </SplideSlide>
+                <SplideSlide>
+                    <div class="slide1 ml-8">
+                        <div class="my-auto">
+                            <button button @click="openModal('C2')" type="button">
+                                <h3>C2</h3>
+                                <h4>Advanced</h4>
+                            </button>
+                        </div>
+                    </div>
                 </SplideSlide>
             </Splide>
         </div>
-        <div class="mx-auto my-6 justify-center flex" v-if="wordOfDay">
-            <Link href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" src="#" :alt="wordOfDay.word">
+
+        <div class="block">
+            <div class="small-sign mx-auto invisible-border" v-if="wordOfDay">
+                <Link :href="route('user.wordsOfDay.show', { wordOfDay: wordOfDay.id })"
+                    class="flex flex-col items-center md:flex-row md:max-w-xl">
+                <img class="object-cover w-96 rounded-t-lg h-full md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
+                    :src="wordOfDay.image" :alt="wordOfDay.word">
                 <div class="flex flex-col justify-between p-4 leading-normal">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Word of the Day</h5>
-                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ wordOfDay.word }}</p>
+                    <h5 class="font-bold tracking-tight underline">Word of the Day</h5>
+                    <h6 class="mb-3">{{ wordOfDay.word }}</h6>
                 </div>
-            </Link>
+                </Link>
+            </div>
+            <div class="cut-line mx-auto"></div>
         </div>
     </div>
-    <div>
+    <div class="mt-32">
         <Splide :options="splideTwoOptions" aria-label="Topics" class="mx-6">
             <SplideSlide v-for="topic in topics" :key="topic.id">
-                <div class="m-6 py-20 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                    <Link :href="route('user.topics.show', { topic: topic.id })"
-                        class="block">
-                        <h5 class="mb-2 text-2xl text-center font-bold tracking-tight text-gray-900 dark:text-white">
-                            {{ topic.name }}
-                        </h5>                     
+                <div class="slide2 m-6 py-20">
+                    <Link :href="route('user.topics.show', { topic: topic.id })" class="block">
+                    <h5 class="mb-2 text-2xl text-center font-bold tracking-tight ">
+                        {{ topic.name }}
+                    </h5>
                     </Link>
-                </div>        
+                </div>
             </SplideSlide>
         </Splide>
     </div>
+    <LevelOptions :showModal="showModal" :chooseLessonLink="chooseLessonLink" :from0Link="from0Link"
+        @closeModal="closeModal" />
 </template>
 
 <script>
-    import { defineComponent } from 'vue';
-    import { Head, Link } from '@inertiajs/vue3';
-    import FrontendLayout from '@/Layouts/FrontendLayout.vue';
-    import { Splide, SplideSlide } from '@splidejs/vue-splide';
-    import '@splidejs/vue-splide/css';
+import { defineComponent } from 'vue';
+import { Head, Link } from '@inertiajs/vue3';
+import FrontendLayout from '@/Layouts/FrontendLayout.vue';
+import { Splide, SplideSlide } from '@splidejs/vue-splide';
+import '@splidejs/vue-splide/css';
+import LevelOptions from '../Components/LevelOptions.vue';
 
-    export default defineComponent({
+export default defineComponent({
     name: 'Welcome',
     components: {
-        Head, Link, Splide, SplideSlide,
+        Head, Link, Splide, SplideSlide, LevelOptions
     },
     props: {
         sliders: Array,
         wordOfDay: Object,
         topics: Array,
     },
+    data() {
+        return {
+            showModal: false,
+            from0Link: '',
+            chooseLessonLink: ''
+        };
+    },
+    methods: {
+        openModal(levelLink) {
+            this.from0Link = '/lessons/from0/' + levelLink;
+            this.chooseLessonLink = '/lessons/level/' + levelLink;
+            this.showModal = true;
+        },
+        closeModal() {
+            this.showModal = false;
+        }
+    },
     setup() {
         const splideOptions = {
             rewind: true,
-            perPage: 1,
+            perPage: 2,
             width: '100%',
-        };  
+            pagination: false,
+            drag: false,
+        };
 
         const splideTwoOptions = {
             rewind: true,
@@ -80,7 +166,7 @@
 
         return { splideOptions, splideTwoOptions };
     },
-    
+
     layout: FrontendLayout,
-    });
+});
 </script>

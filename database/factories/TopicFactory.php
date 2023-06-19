@@ -20,11 +20,12 @@ class TopicFactory extends Factory
     {
 
         return [
+            'lesson_id' => '8',
             'name' => $this->faker->word,
             'category' => $this->faker->randomElement(['grammar', 'vocabulary']),
             'order' => $this->faker->unique()->numberBetween(1, 100),
             'points' => $this->faker->numberBetween(1, 5),
-            'visible' => $this->faker->boolean(),
+            'status' => $this->faker->boolean(),
             'explanation1' => $this->faker->paragraph,
             'explanation2' => $this->faker->paragraph,
             'explanation3' => $this->faker->paragraph,
