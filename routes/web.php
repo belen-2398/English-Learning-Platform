@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\Admin\TopicController as AdminTopicController;
+use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\WordOfDayController;
 
 Route::get('/', [FrontendController::class, 'index'])->name('welcome');
@@ -21,9 +22,7 @@ Route::controller(LessonController::class)->group(function () {
 });
 
 Route::controller(TopicController::class)->group(function () {
-    Route::get('/topics', 'usersIndex');
     Route::get('/topics/{topic}', 'usersShow')->name('user.topics.show');
-    Route::get('/topics/from0/{level}', 'from0Index');
 });
 
 Route::get('/wordsOfDay', [WordOfDayController::class, 'usersIndex']);

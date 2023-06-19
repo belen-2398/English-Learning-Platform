@@ -35,7 +35,7 @@
             </ul>
         </div>
 
-        <div class="ml-8 mb-6">
+        <div class="mx-8 mb-6">
             <h4 class="mx-auto">Extra exercises</h4>
             <ul class="solid-border border-2 overflow-y-scroll h-96">
                 <li v-for="mixedExercise in mixedExercises" :key="mixedExercise.id">

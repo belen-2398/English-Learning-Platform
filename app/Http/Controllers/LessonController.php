@@ -14,7 +14,6 @@ class LessonController extends Controller
         $levelsOrder = "'A1', 'A2', 'B1', 'B2', 'C1', 'C2'";
 
         $lessons = Lesson::where('status', '1')
-            ->with('topics')
             ->orderByRaw("FIELD(level, $levelsOrder) ASC")
             ->orderBy('order', 'asc')
             ->get()
@@ -38,17 +37,40 @@ class LessonController extends Controller
         ]);
     }
 
+    // TODO: add completed property to topics, lessons and exercises and modify controllers accordingly
+
     public function from0Index($level)
     {
         $lessons = Lesson::where('status', '1')
             ->where('level', $level)
-            ->with('topics')
             ->orderBy('order', 'asc')
+            ->with(['topics' => function ($query) {
+                $query->orderBy('order', 'asc')
+                    ->where('status', '1');
+            }])
             ->get();
+
+        // $firstTopic = null;
+
+        // foreach ($lessons as $lesson) {
+        //     $firstTopic = $lesson->topics->first(function ($topic) {
+        //         return !$topic->completed;
+        //     });
+
+        //     if ($firstTopic) {
+        //         break;
+        //     }
+        // }
+
+        $firstTopicId = $lessons[0]->topics[0]->id;
+
+        // $firstTopicId = $firstTopic ? $firstTopic->id : $lessons[0]->topics[0]->id;
+
 
         return Inertia::render('Lessons/From0', [
             'lessons' => $lessons,
             'level' => $level,
+            'firstTopicId' => $firstTopicId,
         ]);
     }
 

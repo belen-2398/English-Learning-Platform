@@ -3,35 +3,43 @@
 namespace App\Http\Controllers;
 
 use App\Models\Topic;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class TopicController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-
-
-    public function usersIndex()
-    {
-        $topics = Topic::where('status', '1')->get();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-
-
     public function usersShow(Topic $topic)
     {
+        $lesson = $topic->with('lesson');
+
+        $exercises = $this->getExercises($topic);
+        $nextTopic = $this->getNextTopic($topic);
+
         return Inertia::render('Topics/Show', [
-            'topic' => $topic
+            'topic' => $topic,
+            'exercises' => $exercises,
+            'nextTopic' => $nextTopic,
+            'lesson' => $lesson
         ]);
     }
 
-    public function from0Index()
+    private function getExercises($topic)
     {
-        $topics = Topic::where('status', '1')->get();
+        $exercises = $topic->with(['exercises' => function ($query) {
+            $query->orderBy('order', 'asc')
+                ->where('status', '1');
+        }])->get();
+
+        return $exercises;
+    }
+
+    private function getNextTopic(Topic $topic)
+    {
+        $nextTopic = Topic::where('lesson_id', $topic->lesson_id)
+            ->where('status', '1')
+            ->where('order', '>', $topic->order)
+            ->orderBy('order')
+            ->first();
+
+        return $nextTopic;
     }
 }

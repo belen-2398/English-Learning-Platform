@@ -45,7 +45,6 @@ export default {
     lessons: Object,
     lessonsByLevel: Array,
     level: String,
-    topics: Array,
   },
   layout: FrontendLayout,
 }
