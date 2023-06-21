@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Completed extends Model
+{
+    use HasFactory;
+
+    protected $table = 'completeds';
+
+    protected $fillable = [
+        'user_id',
+        'exercise_id',
+        'topic_id',
+        'lesson_id'
+    ];
+}

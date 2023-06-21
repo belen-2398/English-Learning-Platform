@@ -1,5 +1,5 @@
 <template>
-    <!-- TODO: change exercises, add progress bar, add next topic button -->
+    <!-- TODO: change exercises, add progress bar -->
     <div class="mb-10">
 
         <Head :title="topic.name" />
@@ -91,44 +91,57 @@
                         </p>
                     </div>
                 </SplideSlide>
-                <SplideSlide v-if="exercises[4]" class="mx-10">
-
+                <SplideSlide class="mx-10">
                     <div class="slide1 bg-[var(--color-medium2)] mx-auto items-center h-96 hover:bg-[var(--color-medium2)]">
                         <p class="my-auto text-3xl text-center mx-10 leading-10" v-if="nextTopic">
                             Great job! <br>
                             You finished this topic. <br>
                         <div>
-                            <Link :href="route('user.topics.show', { topic: nextTopic.id })"
+                            <Link as="button" :href="route('user.topics.show', { topic: nextTopic.id })" type="submit"
                                 class="color-button hover:underline">
                             Go to the next topic ({{ nextTopic.name }})</Link>
                             <br> or <br>
-                            <Link :href="`/lessons/from0/${lesson.level}`" class="color-button hover:underline">Return
-                            to the progress menu.</Link>
+                            <Link as="button" :href="`/lessons/from0/${lesson.level}`" type="submit"
+                                class="color-button hover:underline">
+                            Return to the progress menu.</Link>
                         </div>
                         </p>
                         <p v-else class="my-auto text-3xl text-center mx-10 leading-10">
                             Great job! <br>
                             You finished all the topics in this lesson. <br>
                         <div>
-                            <Link href="/" class="color-button hover:underline">
+                            <Link as="button" href="/" class="color-button hover:underline" type="submit">
                             Go back home
                             </Link>
                         </div>
                         </p>
-
+                        <template v-if="$page.props.auth.user">
+                            <form class="mb-10">
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" class="sr-only peer" :checked="completed !== null"
+                                        :disabled="loading" @change="submitForm">
+                                    <div
+                                        class="w-11 h-6 bg-[var(--color-lightest)] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--color-medium1)]">
+                                    </div>
+                                    <span class="ml-3 text-sm font-medium text-[var(--color-darkest)]" v-if="!loading">
+                                        Mark as completed
+                                    </span>
+                                    <span class="ml-3 text-sm font-medium text-[var(--color-darkest)]" v-else>
+                                        Wait a second...
+                                    </span>
+                                </label>
+                            </form>
+                        </template>
                     </div>
-
                 </SplideSlide>
             </Splide>
-
         </div>
-
     </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import FrontendLayout from '@/Layouts/FrontendLayout.vue';
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
@@ -143,17 +156,52 @@ export default defineComponent({
         exercises: Array,
         nextTopic: Object,
         lesson: Object,
+        completed: Object,
     },
-    setup() {
+    data() {
+        return {
+            form: {
+                exercise_id: '',
+                topic_id: '',
+                lesson_id: '',
+            },
+            loading: false,
+        };
+    },
+    setup(props) {
         const splideOptions = {
-            rewind: true,
+            rewind: false,
             perPage: 1,
             width: '100%',
         };
 
-        return { splideOptions };
-    },
+        const form = useForm({
+            topic_id: props.topic.id,
+            exercise_id: null,
+            lesson_id: null,
+        })
 
+        return { splideOptions, form };
+    },
+    methods: {
+        submitForm() {
+
+            this.loading = true;
+
+            setTimeout(() => {
+                if (this.form.processing) {
+                    return;
+                }
+
+                if (!this.completed) {
+                    this.form.post('/completed')
+                } else {
+                    this.form.delete('/completed/' + this.completed.id)
+                }
+                this.loading = false;
+            }, 1000);
+        }
+    },
     layout: FrontendLayout,
 });
 </script>

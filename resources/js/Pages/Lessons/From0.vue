@@ -1,6 +1,6 @@
 <template>
   <!-- TODO: do lesson.completed -->
-  <!-- TODO: Start not working when coming back from the Topic.Show -->
+  <!-- TODO: show progress bar -->
 
   <Head :title="`${level}-From-0`" />
   <div class="short-line">

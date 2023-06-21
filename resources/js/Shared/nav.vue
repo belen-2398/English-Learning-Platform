@@ -15,6 +15,9 @@
                     <li class="mx-2">
                         <MyNavLink href="/dictionary" :active="$page.component === 'Dictionary'">Dictionary</MyNavLink>
                     </li>
+                    <li class="mx-2">
+                        <MyNavLink href="/completed" :active="$page.component === 'Completed'">Completed</MyNavLink>
+                    </li>
                 </template>
                 <li class="mx-2">
                     <MyNavLink href="/about" :active="$page.component === 'About'">About us</MyNavLink>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Completed;
 use App\Models\Topic;
 use Inertia\Inertia;
 
@@ -9,16 +10,21 @@ class TopicController extends Controller
 {
     public function usersShow(Topic $topic)
     {
-        $lesson = $topic->with('lesson');
+        $topic->with('lesson');
+
+        $lesson = $topic->lesson;
 
         $exercises = $this->getExercises($topic);
         $nextTopic = $this->getNextTopic($topic);
+
+        $completed = Completed::where('topic_id', $topic->id)->first();
 
         return Inertia::render('Topics/Show', [
             'topic' => $topic,
             'exercises' => $exercises,
             'nextTopic' => $nextTopic,
-            'lesson' => $lesson
+            'lesson' => $lesson,
+            'completed' => $completed
         ]);
     }
 

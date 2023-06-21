@@ -104,7 +104,6 @@ class WordOfDayController extends Controller
         }
 
         $validatedData['status'] = $request->status == true ? '1' : '0';
-        $validatedData['addToDictionary'] = $request->addToDictionary == true ? '1' : '0';
 
         WordOfDay::create([
             'word' => $validatedData['word'],
@@ -114,7 +113,6 @@ class WordOfDayController extends Controller
             'definition' => $validatedData['definition'],
             'examples' => $validatedData['examples'],
             'image' => $validatedData['image'],
-            'addToDictionary' => $validatedData['addToDictionary'],
             'status' => $validatedData['status']
         ]);
 

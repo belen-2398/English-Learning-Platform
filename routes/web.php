@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\Admin\TopicController as AdminTopicController;
+use App\Http\Controllers\Admin\WordOfDayController as AdminWordOfDayController;
+use App\Http\Controllers\CompletedController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\WordOfDayController;
 
@@ -17,7 +19,7 @@ Route::get('/', [FrontendController::class, 'index'])->name('welcome');
 Route::controller(LessonController::class)->group(function () {
     Route::get('/lessons', 'index');
     Route::get('/lessons/level/{level}', 'levelIndex');
-    Route::get('/lessons/from0/{level}', 'from0Index');
+    Route::get('/lessons/from0/{level}', 'from0Index')->name('user.lessons.from0');
     Route::get('/lessons/{lesson}', 'show')->name('user.lessons.show');
 });
 
@@ -45,6 +47,13 @@ Route::middleware([
     Route::get('/profile', function () {
         return Inertia::render('Profile.Show');
     })->name('profile');
+
+    Route::apiResource('/completed', CompletedController::class);
+
+
+    // Route::post('/completed', [CompletedController::class, 'store'])->name('completed.store');
+    // Route::put('/completed/{completed}', [CompletedController::class, 'store'])->name('completed.edit');
+    // Route::delete('/completed/{completed}', [CompletedController::class, 'destroy'])->name('completed.destroy');
 });
 
 Route::prefix('admin')->middleware([IsAdmin::class])->group(function () {
