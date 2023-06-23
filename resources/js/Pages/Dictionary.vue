@@ -1,9 +1,14 @@
 
 <template>
-    <div>
-        <Head title="Dictionary" />
-        <h1>Dictionary</h1>
+  <div>
+    <!-- TODO: eveything -->
+
+    <Head title="Dictionary" />
+    <div class="short-line">
+      <h1 class="pt-6 mb-4">Dictionary</h1>
+      <h2>All the words you have added to your personal dictionary.</h2>
     </div>
+  </div>
 </template>
 
 <script>

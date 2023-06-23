@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Topic extends Model
 {
@@ -25,23 +26,19 @@ class Topic extends Model
         'explanation5',
     ];
 
-    /**
-     * Get all of the comments for the Lesson
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
+
     public function exercises(): HasMany
     {
         return $this->hasMany(Exercise::class);
     }
 
-    /**
-     * Get the user that owns the Topic
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function lesson(): BelongsTo
     {
         return $this->belongsTo(Lesson::class);
+    }
+
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
     }
 }

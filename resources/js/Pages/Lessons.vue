@@ -1,5 +1,3 @@
-
-<!-- TODO: add big click on lessons already done -->
 <template>
   <Head title="Lessons" />
   <div class="short-line">
@@ -14,7 +12,8 @@
         <div class="level-container">
           <h3 class="bg-[var(--color-lightest)] w-1/2 mx-auto text-center text-4xl">{{ level }}</h3>
           <ul class="grid grid-cols-3 gap-4">
-            <li v-for="lesson in lessonsByLevel" :key="lesson.id" class="list-line">
+            <li v-for="lesson in lessonsByLevel" :key="lesson.id" class="list-line"
+              :class="{ 'completed-list-line': lesson.isCompleted }">
               <Link :href="'/lessons/' + lesson.id">
               <h4 class="text-xl mb-2 underline">
                 {{ lesson.name }}
@@ -43,8 +42,6 @@ export default {
   },
   props: {
     lessons: Object,
-    lessonsByLevel: Array,
-    level: String,
   },
   layout: FrontendLayout,
 }

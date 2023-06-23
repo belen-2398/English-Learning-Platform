@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Completed;
 use App\Models\Exercise;
 use App\Models\Lesson;
 use App\Models\Topic;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class LessonController extends Controller
@@ -19,6 +21,12 @@ class LessonController extends Controller
             ->get()
             ->groupBy('level');
 
+        foreach ($lessons as $level => $levelLessons) {
+            foreach ($levelLessons as $lesson) {
+                $this->checkLessonCompletion($lesson);
+            }
+        }
+
         return Inertia::render('Lessons', [
             'lessons' => $lessons,
         ]);
@@ -31,41 +39,44 @@ class LessonController extends Controller
             ->orderBy('order', 'asc')
             ->get();
 
+        foreach ($lessons as $lesson) {
+            $this->checkLessonCompletion($lesson);
+        }
+
+
+
         return Inertia::render('Lessons/Level', [
             'lessons' => $lessons,
             'level' => $level,
         ]);
     }
 
-    // TODO: add completed property to topics, lessons and exercises and modify controllers accordingly
-
     public function from0Index($level)
     {
-        $lessons = Lesson::where('status', '1')
-            ->where('level', $level)
+        $lessons = Lesson::where('level', $level)
+            ->where('status', '1')
             ->orderBy('order', 'asc')
             ->with(['topics' => function ($query) {
-                $query->orderBy('order', 'asc')
-                    ->where('status', '1');
-            }])
-            ->get();
+                $query->where('status', '1')
+                    ->orderBy('order', 'asc');
+            }])->get();
 
-        // $firstTopic = null;
+        $incompleteTopics = [];
 
-        // foreach ($lessons as $lesson) {
-        //     $firstTopic = $lesson->topics->first(function ($topic) {
-        //         return !$topic->completed;
-        //     });
+        foreach ($lessons as $lesson) {
+            $this->checkLessonCompletion($lesson);
+            $this->checkTopicCompletion($lesson);
 
-        //     if ($firstTopic) {
-        //         break;
-        //     }
-        // }
+            $incompleteTopics = array_merge($incompleteTopics, $lesson->topics->filter(function ($topic) {
+                return !$topic->isCompleted;
+            })->all());
+        }
 
-        $firstTopicId = $lessons[0]->topics[0]->id;
-
-        // $firstTopicId = $firstTopic ? $firstTopic->id : $lessons[0]->topics[0]->id;
-
+        if (!empty($incompleteTopics)) {
+            $firstTopicId = $incompleteTopics[0]->id;
+        } else {
+            $firstTopicId = $lessons[0]->topics[0]->id;
+        }
 
         return Inertia::render('Lessons/From0', [
             'lessons' => $lessons,
@@ -96,5 +107,32 @@ class LessonController extends Controller
             'vocabTopics' => $vocabTopics,
             'mixedExercises' => $mixedExercises,
         ]);
+    }
+
+    private function checkLessonCompletion($lesson)
+    {
+        $lesson->isCompleted = false;
+
+        $topicsCount = $lesson->topics()->where('status', '1')->count();
+
+        $completedTopicsCount = $lesson->topics()
+            ->whereHas('users', function ($query) {
+                $query->where('id', optional(Auth::user())->id);
+            })->count();
+
+        if ($topicsCount === $completedTopicsCount) {
+            $lesson->isCompleted = true;
+        }
+    }
+
+    private function checkTopicCompletion($lesson)
+    {
+        foreach ($lesson->topics as $topic) {
+            $topic->isCompleted = false;
+
+            if ($topic->users()->where('id', optional(Auth::user())->id)->exists()) {
+                $topic->isCompleted = true;
+            }
+        }
     }
 }

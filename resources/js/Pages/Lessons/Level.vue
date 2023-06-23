@@ -9,7 +9,8 @@
 
   <div class="mx-20 mt-20">
     <ul class="solid-border border-2 p-12 grid grid-cols-3 gap-4">
-      <li v-for="lesson in lessons" :key="lesson.id" class="hover:bg-[var(--color-medium2)] p-4">
+      <li v-for="lesson in lessons" :key="lesson.id" class="hover:bg-[var(--color-medium2)] p-4"
+        :class="{ 'completed-list-line': lesson.isCompleted }">
         <Link :href="'/lessons/' + lesson.id">
         <h4 class="font-small underline text-xl mb-2">
           {{ lesson.name }}

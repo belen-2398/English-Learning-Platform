@@ -108,6 +108,11 @@ p {
     background-color: var(--color-medium2);
 }
 
+.completed-list-line {
+    background-color: var(--color-medium1);
+    border: 2px solid rgb(11, 90, 53);
+}
+
 .main-sign {
     background-color: var(--color-lightest);
 }

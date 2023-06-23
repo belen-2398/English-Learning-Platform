@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->mediumText('description');
             $table->smallInteger('status')->default('0')->comment('0=not visible, 1=visible');
-            $table->smallInteger('order')->nullable();;
+            $table->smallInteger('order')->nullable();
             $table->timestamps();
         });
     }

@@ -1,6 +1,5 @@
 <template>
-  <!-- TODO: do lesson.completed -->
-  <!-- TODO: show progress bar -->
+  <!-- TODO: progress bar -->
 
   <Head :title="`${level}-From-0`" />
   <div class="short-line">
@@ -14,7 +13,7 @@
       <ol class="flex" v-for="lesson in lessons" :key="lesson.id">
         <li class="relative w-1 mx-20">
           <div class="inline-flex items-top">
-            <template v-if="lesson.completed">
+            <template v-if="lesson.isCompleted">
               <div class="flex items-top circle-connect">
                 <div class="z-10 flex items-center justify-center w-6 h-6
                   bg-[var(--color-medium1)] rounded-full ring-0 ring-white shrink-0">
@@ -43,8 +42,13 @@
             </template>
             <div>
               <h3 class="ml-2 text-xl mb-2 text-[var(--color-darkest)]">{{ lesson.name }}</h3>
-              <div>
-                <h6 class="ml-6" v-for="topic in lesson.topics" :key="topic.id">{{ topic.name }}</h6>
+              <div v-for="topic in lesson.topics" :key="topic.id">
+                <h6 v-if="topic.isCompleted" class="ml-6 line-through">
+                  {{ topic.name }}
+                </h6>
+                <h6 v-else class="ml-6">
+                  {{ topic.name }}
+                </h6>
               </div>
             </div>
           </div>
@@ -66,7 +70,6 @@ export default {
   props: {
     lessons: Array,
     level: String,
-    topics: Array,
     firstTopicId: Number,
   },
   layout: FrontendLayout,

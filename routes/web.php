@@ -48,12 +48,9 @@ Route::middleware([
         return Inertia::render('Profile.Show');
     })->name('profile');
 
-    Route::apiResource('/completed', CompletedController::class);
-
-
-    // Route::post('/completed', [CompletedController::class, 'store'])->name('completed.store');
-    // Route::put('/completed/{completed}', [CompletedController::class, 'store'])->name('completed.edit');
-    // Route::delete('/completed/{completed}', [CompletedController::class, 'destroy'])->name('completed.destroy');
+    Route::get('/completed', [TopicController::class, 'completedIndex']);
+    Route::post('/topics/markAsCompleted/{topic}', [TopicController::class, 'markAsCompleted']);
+    Route::delete('/topics/deleteAsCompleted/{topic}', [TopicController::class, 'deleteAsCompleted']);
 });
 
 Route::prefix('admin')->middleware([IsAdmin::class])->group(function () {
