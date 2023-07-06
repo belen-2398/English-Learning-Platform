@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\MarkAsCompleted;
-use App\Models\Completed;
-use App\Models\Lesson;
 use App\Models\Topic;
-use App\Models\TopicUser;
-use App\Models\User;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
 
 class TopicController extends Controller
@@ -29,7 +26,7 @@ class TopicController extends Controller
             'exercises' => $exercises,
             'nextTopic' => $nextTopic,
             'lesson' => $lesson,
-            'completed' => $completed
+            'completed' => $completed,
         ]);
     }
 
@@ -69,7 +66,7 @@ class TopicController extends Controller
     {
         $exercises = $topic->with(['exercises' => function ($query) {
             $query->where('status', '1')
-            ->orderBy('order', 'asc');
+                ->orderBy('order', 'asc');
         }])->get();
 
         return $exercises;
@@ -84,5 +81,19 @@ class TopicController extends Controller
             ->first();
 
         return $nextTopic;
+    }
+
+    public function getDefinition($word)
+    {
+        $url = "https://api.dictionaryapi.dev/api/v2/entries/en/" . $word;
+        $response = Http::get($url);
+
+        if ($response->failed()) {
+            $data = null;
+        } else {
+            $data = $response->json();
+        }
+
+        return response()->json(['data' => $data], Response::HTTP_OK);
     }
 }

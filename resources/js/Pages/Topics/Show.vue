@@ -1,5 +1,5 @@
 <template>
-    <!-- TODO: change exercises, add progress bar -->
+    <!-- TODO: change exercises, add translation button -->
     <div class="mb-10">
 
         <Head :title="topic.name" />
@@ -12,7 +12,18 @@
         </div>
     </div>
     <div class="flex flex-col">
-        <div class="my-16">
+        <div class="mt-10 mb-4">
+            <div class="mb-8 mx-20 flex justify-between items-center">
+                <template v-if="$page.props.auth.user">
+                    <button class="color-button rounded" @click="openAddToDictionaryModal()">Add word to dictionary</button>
+                </template>
+                <div class="flex justify-end">
+                    <input type="text" v-model="inputWord" placeholder="Enter a word.">
+                    <button class="color-button ml-2 rounded" @click="openDefinitionModal(inputWord)">Look up in the
+                        dictionary</button>
+                </div>
+
+            </div>
             <Splide :options="splideOptions" aria-label="Topic">
                 <SplideSlide class="mx-10">
                     <div class="slide1 bg-[var(--color-medium1)] mx-auto items-center h-96 hover:bg-[var(--color-medium1)]">
@@ -99,11 +110,13 @@
                         <div>
                             <Link as="button" :href="route('user.topics.show', { topic: nextTopic.id })" type="submit"
                                 class="color-button hover:underline">
-                            Go to the next topic ({{ nextTopic.name }})</Link>
+                            Go to the next topic ({{ nextTopic.name }})
+                            </Link>
                             <br> or <br>
                             <Link as="button" :href="`/lessons/from0/${lesson.level}`" type="submit"
                                 class="color-button hover:underline">
-                            Return to the progress menu.</Link>
+                            Return to the progress menu.
+                            </Link>
                         </div>
                         </p>
                         <p v-else class="my-auto text-3xl text-center mx-10 leading-10">
@@ -116,40 +129,42 @@
                         </div>
                         </p>
                         <template v-if="$page.props.auth.user">
-                            <form class="mb-10">
-                                <label class="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" class="sr-only peer" :checked="completed" :disabled="loading"
-                                        @change="submitForm">
-                                    <div
-                                        class="w-11 h-6 bg-[var(--color-lightest)] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--color-medium1)]">
-                                    </div>
-                                    <span class="ml-3 text-sm font-medium text-[var(--color-darkest)]" v-if="!loading">
-                                        {{ completed !== false ? 'Marked as completed' : 'Mark as completed' }}
-                                    </span>
-                                    <span class="ml-3 text-sm font-medium text-[var(--color-darkest)]" v-else>
-                                        Wait a second...
-                                    </span>
-                                </label>
-                            </form>
+                            <CompletedForm :completed="completed" :topic="topic" :loading="loading">
+                            </CompletedForm>
                         </template>
                     </div>
                 </SplideSlide>
             </Splide>
         </div>
     </div>
+    <Definition :word="inputWord" :data="data" :showModal="showDefinitionModal" :loading="loading"
+        @closeModal="closeDefinitionModal">
+    </Definition>
+    <AddToDictionary :showModal="showAddToDictionaryModal" @closeModal="closeAddToDictionaryModal">
+    </AddToDictionary>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import FrontendLayout from '@/Layouts/FrontendLayout.vue';
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
+import axios from 'axios';
+import Definition from '../../Components/Definition.vue';
+import AddToDictionary from '../../Components/Modals/Dictionary/AddToDictionary.vue';
+import CompletedForm from '../../Components/CompletedForm.vue';
 
 export default defineComponent({
     name: 'Topic',
     components: {
-        Head, Link, Splide, SplideSlide,
+        Head,
+        Link,
+        Splide,
+        SplideSlide,
+        Definition,
+        AddToDictionary,
+        CompletedForm,
     },
     props: {
         topic: Object,
@@ -160,43 +175,53 @@ export default defineComponent({
     },
     data() {
         return {
-            form: {
-                topic_id: '',
-            },
             loading: false,
+            showDefinitionModal: false,
+            inputWord: '',
+            data: null,
+            showAddToDictionaryModal: false,
         };
     },
-    setup(props) {
+    setup() {
         const splideOptions = {
             rewind: false,
             perPage: 1,
             width: '100%',
         };
 
-        const form = useForm({
-            topic_id: props.topic.id,
-        })
-
-        return { splideOptions, form };
+        return {
+            splideOptions,
+        };
     },
     methods: {
-        submitForm() {
-
+        getDefinition() {
             this.loading = true;
-
             setTimeout(() => {
-                if (this.form.processing) {
-                    return;
-                }
+                axios.get('/get-definition/' + this.word)
+                    .then(response => {
+                        this.data = response.data.data;
+                        this.loading = false;
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            })
 
-                if (!this.completed) {
-                    this.form.post('/topics/markAsCompleted/' + this.topic.id)
-                } else {
-                    this.form.delete('/topics/deleteAsCompleted/' + this.topic.id)
-                }
-                this.loading = false;
-            }, 1000);
-        }
+        },
+        openDefinitionModal(inputWord) {
+            this.word = inputWord;
+            this.getDefinition();
+            this.showDefinitionModal = true;
+        },
+        closeDefinitionModal() {
+            this.showDefinitionModal = false;
+        },
+        openAddToDictionaryModal() {
+            this.showAddToDictionaryModal = true;
+        },
+        closeAddToDictionaryModal() {
+            this.showAddToDictionaryModal = false;
+        },
     },
     layout: FrontendLayout,
 });

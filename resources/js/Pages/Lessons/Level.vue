@@ -1,4 +1,3 @@
-<!-- TODO: add big click on lessons already done -->
 <template>
   <Head :title="`${level}-Lessons`" />
   <div class="short-line">

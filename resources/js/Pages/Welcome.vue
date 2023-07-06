@@ -2,8 +2,8 @@
     <div class="my-10">
 
         <Head title="Welcome Page" />
-        <div class="short-line">
-            <h1 class="pt-6 mb-8">Welcome <span v-if="$page.props.auth.user"> {{
+        <section class="my-48" id="title">
+            <h1 class="pt-6 font-bold">Welcome <span v-if="$page.props.auth.user"> {{
                 $page.props.auth.user.name
             }}</span>
             </h1>
@@ -11,17 +11,28 @@
                 <Link class="hover-underline text-xl" href="/lessons">LESSONS</Link> OR
                 <Link class="hover-underline text-xl" :href="route('login')">LOGIN</Link> FOR FULL ACCESS.
             </h2>
-        </div>
-
+            <h2 v-else class="pb-6 text-2xl">
+                START LEARNING
+            </h2>
+            <div class="flex justify-center mb-20">
+                <button @click="scrollToSection('slides')" class="scroll-button">
+                    <svg class="down-arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                        <path fill="currentColor"
+                            d="M49.5 206.1l141.1 141.1c4.7 4.7 12.3 4.7 17 0l141.1-141.1c9.4-9.4 2.7-25.4-10.6-25.4H60.1c-13.3 0-20 16-10.6 25.4z" />
+                    </svg>
+                </button>
+            </div>
+        </section>
     </div>
-    <div>
-        <div class="my-16">
+
+    <section id="slides" class="flex-col mt-10">
+        <div>
             <Splide :options="splideOptions" aria-label="English Levels">
                 <SplideSlide>
                     <div class="slide1 ml-24">
                         <div class="my-auto">
                             <button button @click="openModal('A1')" type="button">
-                                <h3>A1</h3>
+                                <h3 class="text-6xl">A1</h3>
                                 <h4>Beginner</h4>
                             </button>
                         </div>
@@ -31,7 +42,7 @@
                     <div class="slide1 ml-8">
                         <div class="my-auto">
                             <button button @click="openModal('A2')" type="button">
-                                <h3>A2</h3>
+                                <h3 class="text-6xl">A2</h3>
                                 <h4>Beginner</h4>
                             </button>
                         </div>
@@ -41,7 +52,7 @@
                     <div class="slide1 ml-24">
                         <div class="my-auto">
                             <button button @click="openModal('B1')" type="button">
-                                <h3>B1</h3>
+                                <h3 class="text-6xl">B1</h3>
                                 <h4>Intermediate</h4>
                             </button>
                         </div>
@@ -51,7 +62,7 @@
                     <div class="slide1 ml-8">
                         <div class="my-auto">
                             <button button @click="openModal('B2')" type="button">
-                                <h3>B2</h3>
+                                <h3 class="text-6xl">B2</h3>
                                 <h4>Intermediate</h4>
                             </button>
                         </div>
@@ -61,7 +72,7 @@
                     <div class="slide1 ml-24">
                         <div class="my-auto">
                             <button button @click="openModal('C1')" type="button">
-                                <h3>C1</h3>
+                                <h3 class="text-6xl">C1</h3>
                                 <h4>Advanced</h4>
                             </button>
                         </div>
@@ -71,7 +82,7 @@
                     <div class="slide1 ml-8">
                         <div class="my-auto">
                             <button button @click="openModal('C2')" type="button">
-                                <h3>C2</h3>
+                                <h3 class="text-6xl">C2</h3>
                                 <h4>Advanced</h4>
                             </button>
                         </div>
@@ -79,38 +90,50 @@
                 </SplideSlide>
             </Splide>
         </div>
+        <div>
+            <Splide :options="splideTwoOptions" aria-label="Topics" class="mx-6 mt-10">
+                <SplideSlide v-for="topic in topics" :key="topic.id">
+                    <div class="slide2 m-6 py-20">
+                        <Link :href="route('user.topics.show', { topic: topic.id })" class="block">
+                        <h5 class="mb-2 text-2xl text-center font-bold tracking-tight ">
+                            {{ topic.name }}
+                        </h5>
+                        </Link>
+                    </div>
+                </SplideSlide>
+            </Splide>
+        </div>
 
-        <div class="block">
+        <div class="flex justify-center mt-2">
+            <button @click="scrollToSection('wordOfDay')" class="scroll-button">
+                <svg class="down-arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                    <path fill="currentColor"
+                        d="M49.5 206.1l141.1 141.1c4.7 4.7 12.3 4.7 17 0l141.1-141.1c9.4-9.4 2.7-25.4-10.6-25.4H60.1c-13.3 0-20 16-10.6 25.4z" />
+                </svg>
+            </button>
+        </div>
+    </section>
+    <section id="wordOfDay" class="my-56">
+        <div class="block mb-28 mt-6">
             <div class="small-sign mx-auto invisible-border" v-if="wordOfDay">
                 <Link :href="route('user.wordsOfDay.show', { wordOfDay: wordOfDay.id })"
                     class="flex flex-col items-center md:flex-row md:max-w-xl">
-                <img class="object-cover w-96 rounded-t-lg h-full md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
+                <img class="object-cover w-100 rounded-t-lg h-full md:h-auto md:w-52 md:rounded-none md:rounded-l-lg"
                     :src="wordOfDay.image" :alt="wordOfDay.word">
                 <div class="flex flex-col justify-between p-4 leading-normal">
                     <h5 class="font-bold tracking-tight underline">Word of the Day</h5>
                     <h6 class="mb-3">{{ wordOfDay.word }}</h6>
+                    <p class="text-justify">{{ wordOfDay.definition }}</p>
                 </div>
                 </Link>
             </div>
             <div class="cut-line mx-auto"></div>
         </div>
-    </div>
-    <div class="mt-32">
-        <Splide :options="splideTwoOptions" aria-label="Topics" class="mx-6">
-            <SplideSlide v-for="topic in topics" :key="topic.id">
-                <div class="slide2 m-6 py-20">
-                    <Link :href="route('user.topics.show', { topic: topic.id })" class="block">
-                    <h5 class="mb-2 text-2xl text-center font-bold tracking-tight ">
-                        {{ topic.name }}
-                    </h5>
-                    </Link>
-                </div>
-            </SplideSlide>
-        </Splide>
-    </div>
+    </section>
     <LevelOptions :showModal="showModal" :chooseLessonLink="chooseLessonLink" :from0Link="from0Link"
         @closeModal="closeModal" />
 </template>
+<!-- TODO: return to top arrow -->
 
 <script>
 import { defineComponent } from 'vue';
@@ -138,6 +161,14 @@ export default defineComponent({
         };
     },
     methods: {
+        scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                const topOffset = 20;
+                const sectionTop = section.offsetTop - topOffset;
+                window.scrollTo({ top: sectionTop, behavior: 'smooth' });
+            }
+        },
         openModal(levelLink) {
             this.from0Link = '/lessons/from0/' + levelLink;
             this.chooseLessonLink = '/lessons/level/' + levelLink;

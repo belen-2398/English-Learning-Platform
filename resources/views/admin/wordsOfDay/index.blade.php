@@ -17,8 +17,7 @@
                 <option value="examples" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Examples</option>
             </x-search>
     
-            <x-status :actionUrl='$wordsOfDayIndex' /> 
-            <x-dictionary :actionUrl='$wordsOfDayIndex' />            
+            <x-status :actionUrl='$wordsOfDayIndex' />            
         </div>
                     
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -30,8 +29,7 @@
                                 ['sort' => request('sort') == 'asc' ? 'desc' : 'asc', 'sort_by' => 'word',
                                 'query_parameter' => request('query_parameter'),
                                 'query' => request('query'),
-                                'status_parameter' => request('status_parameter'),
-                                'dictionary_parameter' => request('dictionary_parameter')]) }}">
+                                'status_parameter' => request('status_parameter')]) }}">
                                 <div class="flex justify-between">
                                     <span>Word</span>
                                     <x-tableOrderBy sortBy="word" />
@@ -43,8 +41,7 @@
                                 ['sort' => request('sort') == 'asc' ? 'desc' : 'asc', 'sort_by' => 'type',
                                 'query_parameter' => request('query_parameter'),
                                 'query' => request('query'),
-                                'status_parameter' => request('status_parameter'),
-                                'dictionary_parameter' => request('dictionary_parameter')]) }}">
+                                'status_parameter' => request('status_parameter')]) }}">
                                 <div class="flex justify-between">
                                     <span>Type</span>
                                     <x-tableOrderBy sortBy="type" />
@@ -65,9 +62,6 @@
                         </th>
                         <th scope="col" class="px-4 py-3">
                             Image
-                        </th>
-                        <th scope="col" class="px-4 py-3">
-                            In dictionary?
                         </th>
                         <th scope="col" class="px-4 py-3">
                             Status
@@ -123,9 +117,6 @@
                             <td class="px-4 py-4">
                                 <img src="{{ $wordOfDay->image ? asset($wordOfDay->image) : 'No image uploaded.' }}" class="table-image"
                                     alt="{{ $wordOfDay->description }}"> 
-                            </td>
-                            <td class="px-4 py-4">
-                                {{ $wordOfDay->addToDictionary == 0 ? 'N' : 'Y' }}
                             </td>
                             <td class="px-4 py-4">
                                 {{ $wordOfDay->status == 0 ? '' : 'V' }}

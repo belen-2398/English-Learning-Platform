@@ -10,7 +10,7 @@ use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\Admin\TopicController as AdminTopicController;
 use App\Http\Controllers\Admin\WordOfDayController as AdminWordOfDayController;
-use App\Http\Controllers\CompletedController;
+use App\Http\Controllers\DictionaryWordController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\WordOfDayController;
 
@@ -25,6 +25,7 @@ Route::controller(LessonController::class)->group(function () {
 
 Route::controller(TopicController::class)->group(function () {
     Route::get('/topics/{topic}', 'usersShow')->name('user.topics.show');
+    Route::get('/get-definition/{word}', 'getDefinition');
 });
 
 Route::get('/wordsOfDay', [WordOfDayController::class, 'usersIndex']);
@@ -41,13 +42,11 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dictionary', function () {
-        return Inertia::render('Dictionary');
-    })->name('dictionary');
+
     Route::get('/profile', function () {
         return Inertia::render('Profile.Show');
     })->name('profile');
-
+    Route::apiResource('/dictionary', DictionaryWordController::class)->except('show');
     Route::get('/completed', [TopicController::class, 'completedIndex']);
     Route::post('/topics/markAsCompleted/{topic}', [TopicController::class, 'markAsCompleted']);
     Route::delete('/topics/deleteAsCompleted/{topic}', [TopicController::class, 'deleteAsCompleted']);
@@ -55,8 +54,9 @@ Route::middleware([
 
 Route::prefix('admin')->middleware([IsAdmin::class])->group(function () {
     Route::view('/dashboard', 'admin/dashboard')->name('admin.dashboard');
+    // TODO: ver si sliders sirve
     Route::resource('/sliders', SliderController::class)->except('show');
     Route::resource('/lessons', AdminLessonController::class);
-    Route::resource('/topics', AdminTopicController::class);
-    Route::resource('/word-of-day', AdminWordOfDayController::class);
+    Route::resource('/topics', AdminTopicController::class)->except('show');
+    Route::resource('/word-of-day', AdminWordOfDayController::class)->except('show');
 });

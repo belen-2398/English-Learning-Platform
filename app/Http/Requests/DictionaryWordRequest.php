@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class WordOfDayRequest extends FormRequest
+class DictionaryWordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,47 +14,51 @@ class WordOfDayRequest extends FormRequest
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
-     */
     public function rules(): array
     {
         return [
+            'user_id' => [
+                'nullable'
+            ],
             'word' => [
                 'required',
                 'string',
-                'max:255'
+                'max:75'
             ],
-            'type' => [
+            'notes' => [
                 'nullable',
                 'string',
-                'max:255'
+                'max:800'
+            ],
+            'definition' => [
+                'nullable',
+                'string',
+                'max:800'
             ],
             'pronunciation' => [
                 'nullable',
                 'string',
-                'max:255'
+                'max:77'
             ],
-            'audio' => [
+            'example1' => [
                 'nullable',
-            ],
-            'definition' => [
-                'required',
                 'string',
-                'max:800'
+                'max:600'
             ],
-            'examples' => [
-                'required',
+            'example2' => [
+                'nullable',
                 'string',
-                'max:800'
+                'max:600'
             ],
-            'image' => [
+            'example3' => [
                 'nullable',
+                'string',
+                'max:600'
             ],
-            'status' => [
+            'translation' => [
                 'nullable',
+                'string',
+                'max:75'
             ],
         ];
     }

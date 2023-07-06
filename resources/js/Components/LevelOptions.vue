@@ -16,7 +16,6 @@
                 Start level from 0
                 </Link>
             </div>
-
         </div>
     </div>
 </template>

@@ -8,8 +8,6 @@ use App\Models\WordOfDay;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
-// TODO: ver si necesito show, InDictionary seguro no funcione para distintos usuarios
-
 class WordOfDayController extends Controller
 {
     public function index(Request $request)
@@ -31,7 +29,6 @@ class WordOfDayController extends Controller
         $searchParameter = $request->input('query_parameter');
         $searchText = $request->input('query');
         $statusParameter = $request->input('status_parameter');
-        $dictionaryParameter = $request->input('dictionary_parameter');
 
         if ($searchParameter) {
             $query->where($searchParameter, 'LIKE', "%{$searchText}%");
@@ -40,12 +37,6 @@ class WordOfDayController extends Controller
                 $query->where('status', 1);
             } elseif ($statusParameter === 'not-visible') {
                 $query->where('status', 0);
-            }
-        } elseif ($dictionaryParameter) {
-            if ($dictionaryParameter === 'added') {
-                $query->where('addToDictionary', 1);
-            } elseif ($dictionaryParameter === 'not-added') {
-                $query->where('addToDictionary', 0);
             }
         } else {
             $query->where('word', 'LIKE', "%{$searchText}%")
@@ -172,8 +163,7 @@ class WordOfDayController extends Controller
         }
 
         $validatedData['status'] = $request->status == true ? '1' : '0';
-        $validatedData['addToDictionary'] = $request->addToDictionary == true ? '1' : '0';
-
+       
         WordOfDay::where('id', $wordOfDay->id)->update([
             'word' => $validatedData['word'],
             'type' => $validatedData['type'],
@@ -182,7 +172,6 @@ class WordOfDayController extends Controller
             'definition' => $validatedData['definition'],
             'examples' => $validatedData['examples'],
             'image' => $validatedData['image'] ?? $wordOfDay->image,
-            'addToDictionary' => $validatedData['addToDictionary'],
             'status' => $validatedData['status']
         ]);
 

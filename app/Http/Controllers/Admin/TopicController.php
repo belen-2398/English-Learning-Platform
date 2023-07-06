@@ -1,6 +1,4 @@
 <?php
-// TODO: ver si show sirve
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -98,11 +96,6 @@ class TopicController extends Controller
 
 
         return redirect()->route('topics.index')->with('message', 'Topic created successfully');
-    }
-
-
-    public function show(Topic $topic)
-    {
     }
 
     public function edit(Topic $topic)

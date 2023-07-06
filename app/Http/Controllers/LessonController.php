@@ -43,8 +43,6 @@ class LessonController extends Controller
             $this->checkLessonCompletion($lesson);
         }
 
-
-
         return Inertia::render('Lessons/Level', [
             'lessons' => $lessons,
             'level' => $level,
@@ -61,7 +59,10 @@ class LessonController extends Controller
                     ->orderBy('order', 'asc');
             }])->get();
 
+        $totalLessonCount = $lessons->count();
+
         $incompleteTopics = [];
+
 
         foreach ($lessons as $lesson) {
             $this->checkLessonCompletion($lesson);
@@ -78,10 +79,15 @@ class LessonController extends Controller
             $firstTopicId = $lessons[0]->topics[0]->id;
         }
 
+        $completedLessonCount = $lessons->where('isCompleted', 'true')->count();
+
+        $completedLessonPercentage = ($completedLessonCount / $totalLessonCount) * 100;
+
         return Inertia::render('Lessons/From0', [
             'lessons' => $lessons,
             'level' => $level,
             'firstTopicId' => $firstTopicId,
+            'completedLessonPercentage' => $completedLessonPercentage,
         ]);
     }
 

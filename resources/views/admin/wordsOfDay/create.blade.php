@@ -91,17 +91,6 @@
         </div>
         <div class="md:flex md:items-center mb-6">
             <div class="md:w-1/3"></div>
-            <label class="md:w-2/3 block text-gray-500 font-bold" for="addToDictionary">
-                Add to dictionary?
-                <br />
-                <input type="checkbox" name="addToDictionary" id="addToDictionary" class="mr-2 leading-tight">
-                <span class="text-sm"> <br />
-                    Unchecked = don't add, checked = add
-                </span>
-            </label>
-        </div>
-        <div class="md:flex md:items-center mb-6">
-            <div class="md:w-1/3"></div>
             <label class="md:w-2/3 block text-gray-500 font-bold" for="status">
                 Status
                 <br />

@@ -1,6 +1,4 @@
 <template>
-  <!-- TODO: progress bar -->
-
   <Head :title="`${level}-From-0`" />
   <div class="short-line">
     <h1 class="pt-6 mb-6">{{ level }} From 0</h1>
@@ -8,6 +6,14 @@
       <Link class="color-button text-xl mx-auto mb-6" :href="'/topics/' + firstTopicId">START</Link>
     </h2>
   </div>
+  <!-- Progress bar -->
+  <div class="flex" v-if="$page.props.auth.user">
+    <div class="w-2/3 mx-auto mt-8 bg-[var(--color-light)] rounded-full dark:bg-gray-700">
+      <div class="bg-[var(--color-medium1)] text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+        :style="{ width: completedLessonPercentage + '%' }"> {{ completedLessonPercentage }}%</div>
+    </div>
+  </div>
+  <!-- End progress bar -->
   <div class="mt-8 flex flex-col">
     <div class="columns-4 mb-6">
       <ol class="flex" v-for="lesson in lessons" :key="lesson.id">
@@ -71,6 +77,7 @@ export default {
     lessons: Array,
     level: String,
     firstTopicId: Number,
+    completedLessonPercentage: Number
   },
   layout: FrontendLayout,
 }
