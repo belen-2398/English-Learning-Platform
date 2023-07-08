@@ -53,10 +53,9 @@ h2 {
 }
 
 h3 {
-    font-weight: 300;
     font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
         "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-    color: var(--color-medium2);
+    color: var(--color-dark);
     /* text-shadow: 1px 1px 1px var(--color-darkest); */
 }
 
@@ -87,12 +86,17 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--color-medium2);
+    color: var(--color-light);
     font-size: 60px;
     cursor: pointer;
 }
 
-.down-arrow-icon {
+.scroll-button:hover {
+    color: var(--color-medium2);
+}
+
+.down-arrow-icon,
+.up-arrow-icon {
     width: 60px;
     height: 60px;
 }
@@ -146,8 +150,6 @@ p {
     background-color: var(--color-medium2);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
     position: relative;
     z-index: 2;
 }
@@ -225,13 +227,13 @@ p {
 }
 
 .slide2 {
-    background-color: var(--color-light);
+    background-color: var(--color-lighter);
     color: var(--color-lightest) !important;
-    text-shadow: 1px 1px 1px var(--color-darkest);
+    /* text-shadow: 1px 1px 1px var(--color-darkest); */
 }
 
 .slide2:hover {
-    background-color: var(--color-light);
+    background-color: var(--color-medium2);
 }
 
 .level-container {

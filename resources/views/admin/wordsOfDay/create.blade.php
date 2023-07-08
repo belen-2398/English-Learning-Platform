@@ -69,14 +69,25 @@
         </div>
         <div class="md:flex md:items-center mb-6">
             <div class="md:w-1/3">
-                <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="examples">
+                <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="example1">
                     Examples
                 </label>
             </div>
-            <div class="md:w-2/3">
-                <textarea type="text" name="examples" id="examples" rows="3"
-                    class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('examples') }}</textarea>
+            <div class="flex-cols">
+                <div class="mb-2">
+                    <input type="text" id="example1" name="example1" value="{{ old('example1') }}"
+                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+                </div>
+                <div class="mb-2">
+                    <input type="text" id="example2" name="example2" value="{{ old('example2') }}"
+                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+                </div>
+                <div class="">
+                    <input type="text" id="example3" name="example3" value="{{ old('example3') }}"
+                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+                </div>
             </div>
+            
         </div>
         <div class="md:flex md:items-center mb-6">
             <div class="md:w-1/3">
@@ -113,7 +124,7 @@
     </form>  
 </div>
 
-{{-- TODO: if page is refreshed with data still there, button appears as disabled --}}
+{{-- TODO: if page is refreshed with data still there, button appears as disabled, add autocomplete from dictionary --}}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const submitBtn = document.getElementById('submitBtn');
@@ -122,9 +133,9 @@
         function checkRequiredFields() {
             const word = document.getElementById('word').value;
             const definition = document.getElementById('definition').value;
-            const examples = document.getElementById('examples').value;
+            const example1 = document.getElementById('example1').value;
 
-            if (word && definition && examples) {
+            if (word && definition && example1) {
                 submitBtn.disabled = false;
             } else {
                 
@@ -132,7 +143,7 @@
             }
         }
 
-        const requiredFields = document.querySelectorAll('#word, #definition, #examples');
+        const requiredFields = document.querySelectorAll('#word, #definition, #example1');
         requiredFields.forEach(function (field) {
             field.addEventListener('input', checkRequiredFields);
         });

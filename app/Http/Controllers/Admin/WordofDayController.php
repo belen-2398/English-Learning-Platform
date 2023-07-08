@@ -42,7 +42,9 @@ class WordOfDayController extends Controller
             $query->where('word', 'LIKE', "%{$searchText}%")
                 ->orWhere('type', 'LIKE', "%{$searchText}%")
                 ->orWhere('definition', 'LIKE', "%{$searchText}%")
-                ->orWhere('examples', 'LIKE', "%{$searchText}%");
+                ->orWhere('example1', 'LIKE', "%{$searchText}%")
+                ->orWhere('example2', 'LIKE', "%{$searchText}%")
+                ->orWhere('example3', 'LIKE', "%{$searchText}%");
         }
     }
 
@@ -82,8 +84,6 @@ class WordOfDayController extends Controller
             $validatedData['image'] = null;
         }
 
-
-
         if ($request->hasFile('audio')) {
             $file = $request->file('audio');
             $extension = $file->getClientOriginalExtension();
@@ -102,7 +102,9 @@ class WordOfDayController extends Controller
             'pronunciation' => $validatedData['pronunciation'],
             'audio' => $validatedData['audio'],
             'definition' => $validatedData['definition'],
-            'examples' => $validatedData['examples'],
+            'example1' => $validatedData['example1'],
+            'example2' => $validatedData['example2'],
+            'example3' => $validatedData['example3'],
             'image' => $validatedData['image'],
             'status' => $validatedData['status']
         ]);
@@ -110,12 +112,9 @@ class WordOfDayController extends Controller
         return redirect()->route('word-of-day.index')->with('message', 'Word of the Day created successfully');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(WordOfDay $wordOfDay)
     {
-        //
+    // TODO: ver si sirve
     }
 
     public function edit(WordOfDay $wordOfDay)
@@ -163,14 +162,16 @@ class WordOfDayController extends Controller
         }
 
         $validatedData['status'] = $request->status == true ? '1' : '0';
-       
+
         WordOfDay::where('id', $wordOfDay->id)->update([
             'word' => $validatedData['word'],
             'type' => $validatedData['type'],
             'pronunciation' => $validatedData['pronunciation'],
             'audio' => $validatedData['audio']  ?? $wordOfDay->audio,
             'definition' => $validatedData['definition'],
-            'examples' => $validatedData['examples'],
+            'example1' => $validatedData['example1'],
+            'example2' => $validatedData['example2'],
+            'example3' => $validatedData['example3'],
             'image' => $validatedData['image'] ?? $wordOfDay->image,
             'status' => $validatedData['status']
         ]);

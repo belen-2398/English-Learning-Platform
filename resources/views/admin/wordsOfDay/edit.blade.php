@@ -76,14 +76,25 @@
         </div>
         <div class="md:flex md:items-center mb-6">
             <div class="md:w-1/3">
-                <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="examples">
+                <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="example1">
                     Examples
                 </label>
             </div>
-            <div class="md:w-2/3">
-                <textarea type="text" name="examples" id="examples" rows="3"
-                    class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $wordOfDay->examples }}</textarea>
+            <div class="flex-cols">
+                <div class="mb-2">
+                    <textarea type="text" name="example1" id="example1" rows="3"
+                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $wordOfDay->example1 }}</textarea>
+                </div>
+                <div class="mb-2">
+                    <textarea type="text" name="example2" id="example2" rows="3"
+                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $wordOfDay->example2 }}</textarea>
+                </div>
+                <div class="mb-2">
+                    <textarea type="text" name="example3" id="example3" rows="3"
+                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $wordOfDay->example3 }}</textarea>
+                </div>
             </div>
+
         </div>
         <div class="md:flex md:items-center mb-6">
             <div class="md:w-1/3">

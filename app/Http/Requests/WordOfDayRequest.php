@@ -45,10 +45,20 @@ class WordOfDayRequest extends FormRequest
                 'string',
                 'max:800'
             ],
-            'examples' => [
+            'example1' => [
                 'required',
                 'string',
-                'max:800'
+                'max:250'
+            ],
+            'example2' => [
+                'nullable',
+                'string',
+                'max:250'
+            ],
+            'example3' => [
+                'nullable',
+                'string',
+                'max:250'
             ],
             'image' => [
                 'nullable',

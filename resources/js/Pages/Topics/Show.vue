@@ -151,7 +151,7 @@ import FrontendLayout from '@/Layouts/FrontendLayout.vue';
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
 import axios from 'axios';
-import Definition from '../../Components/Definition.vue';
+import Definition from '../../Components/Modals/Dictionary/Definition.vue';
 import AddToDictionary from '../../Components/Modals/Dictionary/AddToDictionary.vue';
 import CompletedForm from '../../Components/CompletedForm.vue';
 

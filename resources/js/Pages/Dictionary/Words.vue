@@ -3,8 +3,8 @@
   <div>
     <Head title="Dictionary" />
     <div class="short-line">
-      <h1 class="pt-6 mb-4">Dictionary</h1>
-      <h2>All the words you have added to your personal dictionary.</h2>
+      <h1 class="pt-6">Dictionary</h1>
+      <h2 class="uppercase">Words added to your dictionary</h2>
     </div>
     <div class="flex justify-between mt-4">
       <button class="color-button hover:text-[var(--color-darker)] m-6 rounded" @click="openAddToDictionaryModal()">Add

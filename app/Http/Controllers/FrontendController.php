@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Slider;
 use App\Models\Topic;
 use App\Models\WordofDay;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class FrontendController extends Controller

@@ -2,15 +2,17 @@
   <Head title="Lessons" />
   <div class="short-line">
     <h1 class="pt-6 mb-6">Lessons</h1>
-    <h2 class="pb-4">SELECT A LESSON BASED ON YOUR LEVEL
+    <h2 class="pb-4 uppercase">SELECT A LESSON BASED ON YOUR LEVEL
     </h2>
   </div>
 
   <div class="mx-20 mt-20">
     <ul class="solid-border border-2 p-12">
       <li v-for="(lessonsByLevel, level) in lessons" :key="level">
-        <div class="level-container">
-          <h3 class="bg-[var(--color-lightest)] w-1/2 mx-auto text-center text-4xl">{{ level }}</h3>
+        <div class="level-container mb-6">
+          <h3
+            class="mx-60 border-b-2 border-[var(--color-medium2)] pb-2 text-center text-6xl text-[var(--color-medium2)]">
+            {{ level }}</h3>
           <ul class="grid grid-cols-3 gap-4">
             <li v-for="lesson in lessonsByLevel" :key="lesson.id" class="list-line"
               :class="{ 'completed-list-line': lesson.isCompleted }">

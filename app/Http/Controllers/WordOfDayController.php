@@ -24,8 +24,15 @@ class WordOfDayController extends Controller
 
     public function usersShow(WordOfDay $wordOfDay)
     {
+        $previousWordsOfDay = WordOfDay::where('status', '1')
+            ->where('id', '!=', $wordOfDay->id)
+            ->latest()
+            ->take(10)
+            ->get();
+
         return Inertia::render('WordsOfDay/Show', [
-            'wordOfDay' => $wordOfDay
+            'wordOfDay' => $wordOfDay,
+            'previousWordsOfDay' => $previousWordsOfDay,
         ]);
     }
 }

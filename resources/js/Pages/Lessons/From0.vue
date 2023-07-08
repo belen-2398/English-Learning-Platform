@@ -2,9 +2,13 @@
   <Head :title="`${level}-From-0`" />
   <div class="short-line">
     <h1 class="pt-6 mb-6">{{ level }} From 0</h1>
-    <h2 class="pb-6 text-xl">CLICK ON
-      <Link class="color-button text-xl mx-auto mb-6" :href="'/topics/' + firstTopicId">START</Link>
+    <h2 class="pb-6 text-xl">
+      <Link v-if="lessons[0].topics[0].isCompleted" class="color-button text-xl mx-auto mb-6"
+        :href="'/topics/' + firstTopicId">
+      CONTINUE</Link>
+      <Link v-else class="color-button text-xl mx-auto mb-6" :href="'/topics/' + firstTopicId">START</Link>
     </h2>
+    <!-- TODO: change from start to continue when the first lesson is completed -->
   </div>
   <!-- Progress bar -->
   <div class="flex" v-if="$page.props.auth.user">

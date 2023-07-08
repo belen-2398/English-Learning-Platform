@@ -2,7 +2,7 @@
   <Head :title="`${level}-Lessons`" />
   <div class="short-line">
     <h1 class="pt-6 mb-8">{{ level }} Lessons</h1>
-    <h2 class="pb-6 text-xl">SELECT A LESSON
+    <h2 class="pb-6 text-xl uppercase">SELECT A LESSON
     </h2>
   </div>
 
