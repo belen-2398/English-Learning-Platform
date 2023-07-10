@@ -23,7 +23,7 @@ class SliderController extends Controller
         $this->applySearch($sliders, $request);
         $this->applySort($sliders, $request);
 
-        $sliders = $sliders->paginate(10);
+        $sliders = $sliders->paginate(10)->appends($request->query());
 
         return view('admin.sliders.index', compact('sliders', 'slidersIndex'));
     }

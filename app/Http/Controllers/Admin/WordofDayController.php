@@ -19,7 +19,7 @@ class WordOfDayController extends Controller
         $this->applySearch($wordsOfDay, $request);
         $this->applySort($wordsOfDay, $request);
 
-        $wordsOfDay = $wordsOfDay->paginate(10);
+        $wordsOfDay = $wordsOfDay->paginate(10)->appends($request->query());
 
         return view('admin.wordsOfDay.index', compact('wordsOfDay', 'wordsOfDayIndex'));
     }
@@ -114,7 +114,7 @@ class WordOfDayController extends Controller
 
     public function show(WordOfDay $wordOfDay)
     {
-    // TODO: ver si sirve
+        // TODO: ver si sirve
     }
 
     public function edit(WordOfDay $wordOfDay)

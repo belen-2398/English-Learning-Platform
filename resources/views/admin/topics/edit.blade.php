@@ -88,7 +88,8 @@
             <label class="md:w-2/3 block text-gray-500 font-bold" for="status">
                 Status
                 <br />
-                <input type="checkbox" name="status" id="status" class="mr-2 leading-tight">
+                <input type="checkbox" name="status" id="status" class="mr-2 leading-tight"
+                {{ $topic->status === 1 ? 'checked' : '' }}>
                 <span class="text-sm"> <br />
                     Unchecked = Hidden, checked = visible
                 </span>

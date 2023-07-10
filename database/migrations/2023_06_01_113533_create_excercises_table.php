@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+    // TODO: ver si necesito level
     public function up(): void
     {
         Schema::create('exercises', function (Blueprint $table) {

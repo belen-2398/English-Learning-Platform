@@ -18,7 +18,7 @@ class LessonController extends Controller
         $this->applySearch($lessons, $request);
         $this->applySort($lessons, $request);
 
-        $lessons = $lessons->paginate(10);
+        $lessons = $lessons->paginate(10)->appends($request->query());
 
         return view('admin.lessons.index', compact('lessons', 'lessonsIndex'));
     }

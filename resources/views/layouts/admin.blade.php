@@ -15,9 +15,6 @@
 
 </head>
 <body>
-    @if (session('message'))
-        <h6 class="alert alert-success">{{ session('message') }}</h6>          
-    @endif
 
     @include('layouts.partials.admin.navbar')
     <div class="container-scroller">
@@ -28,6 +25,11 @@
                 <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
                     <div class="main-panel">
                         <div class="content-wrapper">
+                            @if (session('message'))
+                            <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+                             <h6 class="alert alert-success">{{ session('message') }}</h6>          
+                            </div>
+                             @endif
                             @yield('content')
                         </div>
                     </div>

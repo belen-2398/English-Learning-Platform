@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -18,7 +19,7 @@ class TopicController extends Controller
         $this->applySearch($topics, $request);
         $this->applySort($topics, $request);
 
-        $topics = $topics->paginate(10);
+        $topics = $topics->paginate(10)->appends($request->query());
 
         return view('admin.topics.index', compact('topics', 'topicsIndex'));
     }
@@ -47,11 +48,13 @@ class TopicController extends Controller
             $query->where('topics.name', 'LIKE', "%{$searchText}%")
                 ->orWhere('topics.category', 'LIKE', "%{$searchText}%")
                 ->orWhere('topics.points', 'LIKE', "%{$searchText}%")
+                ->orWhere('topics.order', 'LIKE', "%{$searchText}%")
                 ->orWhereHas('lesson', function ($query) use ($searchText) {
                     $query->where('lessons.name', 'LIKE', "%{$searchText}%");
                 });
         }
     }
+
 
     private function applySort($query, Request $request)
     {

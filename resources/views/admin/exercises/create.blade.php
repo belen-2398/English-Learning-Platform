@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Lesson Create')
+@section('title', 'Exercise Create')
 @section('content')
 <div>
     @if ($errors->any())
@@ -12,10 +12,10 @@
         </div>
     @endif
     <div class="m-6 p-4 flex justify-between">
-        <h2 class="head-title">Create lesson</h2>
-        <a href="{{ route('lessons.index') }}" class="color-button float-end p-3">Back</a>
+        <h2 class="head-title">Create exercise</h2>
+        <a href="{{ route('exercises.index') }}" class="color-button float-end p-3">Back</a>
     </div>
-    <form action="{{ route('lessons.store') }}" method="POST"
+    <form action="{{ route('exercises.store') }}" method="POST"
         class="w-full max-w-sm m-auto justify-center pb-10">
         @csrf
         <div class="md:flex md:items-center mb-6">
@@ -39,6 +39,42 @@
         </div>
         <div class="md:flex md:items-center mb-6">
             <div class="md:w-1/3">
+                <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="lesson_id">
+                    Lesson
+                </label>
+            </div>
+            <div class="md:w-2/3">
+                <select name="lesson_id" id="lesson_id"
+                class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+                <option value="">Choose a lesson</option>
+                @foreach ($lessons as $lesson)
+                    <option value="{{ $lesson->id }}" {{ old('lesson_id') === $lesson->id ? 'selected' : '' }}>
+                        {{ $lesson->name }}
+                    </option>
+                @endforeach
+            </select>
+            </div>
+        </div>
+        <div class="md:flex md:items-center mb-6">
+            <div class="md:w-1/3">
+                <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="lesson_id">
+                    topic
+                </label>
+            </div>
+            <div class="md:w-2/3">
+                <select name="topic_id" id="topic_id"
+                class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+                <option value="">Choose a topic</option>
+                @foreach ($topics as $topic)
+                    <option value="{{ $topic->id }}" {{ old('topic_id') === $topic->id ? 'selected' : '' }}>
+                        {{ $topic->name }}
+                    </option>
+                @endforeach
+            </select>
+            </div>
+        </div>
+        <div class="md:flex md:items-center mb-6">
+            <div class="md:w-1/3">
                 <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="name">
                     Name
                 </label>
@@ -50,13 +86,35 @@
         </div>
         <div class="md:flex md:items-center mb-6">
             <div class="md:w-1/3">
-                <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="description">
-                    Description
+                <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="category">
+                    Category
                 </label>
             </div>
             <div class="md:w-2/3">
-                <textarea type="text" name="description" id="description" rows="3"
-                    class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('description') }}</textarea>
+                <select name="category" id="category"
+                class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+                <option value="">Choose a category</option>
+                <option value="grammar" {{ old('category') === 'grammar' ? 'selected' : '' }}>Grammar</option>
+                <option value="vocabulary" {{ old('category') === 'vocabulary' ? 'selected' : '' }}>Vocabulary</option>
+                <option value="mixed" {{ old('category') === 'mixed' ? 'selected' : '' }}>Mixed</option>
+            </select>
+            </div>
+        </div>
+        <div class="md:flex md:items-center mb-6">
+            <div class="md:w-1/3">
+                <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="type">
+                    Type
+                </label>
+            </div>
+            <div class="md:w-2/3">
+                <select name="type" id="type"
+                class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+                <option value="">Choose a type</option>
+                <option value="match" {{ old('type') === 'match' ? 'selected' : '' }}>Match</option>
+                <option value="fill" {{ old('type') === 'fill' ? 'selected' : '' }}>Fill</option>
+                <option value="select" {{ old('type') === 'select' ? 'selected' : '' }}>Select</option>
+                <option value="order" {{ old('type') === 'order' ? 'selected' : '' }}>Order</option>
+            </select>
             </div>
         </div>
         <div class="md:flex md:items-center mb-6">
@@ -100,19 +158,16 @@
         submitBtn.disabled = true;
 
         function checkRequiredFields() {
-            const level = document.getElementById('level').value;
             const name = document.getElementById('name').value;
-            const description = document.getElementById('description').value;
-            const order = document.getElementById('order').value;
 
-            if (level && name && description && order) {
+            if (name) {
                 submitBtn.disabled = false;
             } else {
                 submitBtn.disabled = true;
             }
         }
 
-        const requiredFields = document.querySelectorAll('#level, #name, #description, #order');
+        const requiredFields = document.querySelectorAll('#name');
         requiredFields.forEach(function (field) {
             field.addEventListener('input', checkRequiredFields);
         });

@@ -28,6 +28,11 @@ class Exercise extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
+    public function lesson(): BelongsTo
+    {
+        return $this->belongsTo(Lesson::class);
+    }
+
     public function topic(): BelongsTo
     {
         return $this->belongsTo(Topic::class);

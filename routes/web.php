@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\Admin\TopicController as AdminTopicController;
 use App\Http\Controllers\Admin\WordOfDayController as AdminWordOfDayController;
+use App\Http\Controllers\Admin\ExerciseController as AdminExerciseController;
 use App\Http\Controllers\DictionaryWordController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\WordOfDayController;
@@ -58,5 +59,6 @@ Route::prefix('admin')->middleware([IsAdmin::class])->group(function () {
     Route::resource('/sliders', SliderController::class)->except('show');
     Route::resource('/lessons', AdminLessonController::class);
     Route::resource('/topics', AdminTopicController::class)->except('show');
+    Route::resource('/exercises', AdminExerciseController::class)->except('show');
     Route::resource('/word-of-day', AdminWordOfDayController::class)->except('show');
 });
