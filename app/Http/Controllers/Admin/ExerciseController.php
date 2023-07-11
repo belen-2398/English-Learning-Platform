@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ExerciseRequest;
 use App\Models\Exercise;
 use App\Models\Lesson;
+use App\Models\MatchExercise;
 use App\Models\Topic;
 use Illuminate\Http\Request;
 
@@ -99,7 +100,32 @@ class ExerciseController extends Controller
 
         $validatedData['status'] = $request->status == true ? '1' : '0';
 
-        Exercise::create([
+        if ($validatedData['type'] === 'match') {
+            $matchExercise = MatchExercise::create([
+                'left1' => $validatedData['left1'],
+                'right1' => $validatedData['right1'],
+                'left2' => $validatedData['left2'],
+                'right2' => $validatedData['right2'],
+                'left3' => $validatedData['left3'],
+                'right3' => $validatedData['right3'],
+                'left4' => $validatedData['left4'],
+                'right4' => $validatedData['right4'],
+                'left5' => $validatedData['left5'],
+                'right5' => $validatedData['right5'],
+                'left6' => $validatedData['left6'],
+                'right6' => $validatedData['right6'],
+                'left7' => $validatedData['left7'],
+                'right7' => $validatedData['right7'],
+                'left8' => $validatedData['left8'],
+                'right8' => $validatedData['right8'],
+                'left9' => $validatedData['left9'],
+                'right9' => $validatedData['right9'],
+                'left10' => $validatedData['left10'],
+                'right10' => $validatedData['right10'],
+            ]);
+        }
+
+        $matchExercise->exercise()->create([
             'lesson_id' => $validatedData['lesson_id'],
             'topic_id' => $validatedData['topic_id'],
             'name' => $validatedData['name'],
@@ -113,14 +139,13 @@ class ExerciseController extends Controller
         return redirect()->route('exercises.index')->with('message', 'Exercise created successfully');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(Exercise $exercise)
     {
         $lessons = Lesson::all();
         $topics = Topic::all();
-        return view('admin.exercises.edit', compact('lessons', 'topics', 'exercise'));
+        $matchExercise = $exercise->exerciseable;
+        return view('admin.exercises.edit', compact('lessons', 'topics', 'exercise', 'matchExercise'));
     }
 
     /**
@@ -129,10 +154,35 @@ class ExerciseController extends Controller
     public function update(ExerciseRequest $request, Exercise $exercise)
     {
         $validatedData = $request->validated();
-
         $validatedData['status'] = $request->status == true ? '1' : '0';
 
-        $exercise = Exercise::findOrFail($exercise->id)->update([
+        if ($validatedData['type'] === 'match') {
+            $matchExercise = $exercise->exerciseable;
+            $matchExercise->update([
+                'left1' => $validatedData['left1'],
+                'right1' => $validatedData['right1'],
+                'left2' => $validatedData['left2'],
+                'right2' => $validatedData['right2'],
+                'left3' => $validatedData['left3'],
+                'right3' => $validatedData['right3'],
+                'left4' => $validatedData['left4'],
+                'right4' => $validatedData['right4'],
+                'left5' => $validatedData['left5'],
+                'right5' => $validatedData['right5'],
+                'left6' => $validatedData['left6'],
+                'right6' => $validatedData['right6'],
+                'left7' => $validatedData['left7'],
+                'right7' => $validatedData['right7'],
+                'left8' => $validatedData['left8'],
+                'right8' => $validatedData['right8'],
+                'left9' => $validatedData['left9'],
+                'right9' => $validatedData['right9'],
+                'left10' => $validatedData['left10'],
+                'right10' => $validatedData['right10'],
+            ]);
+        }
+
+        $matchExercise->exercise()->update([
             'lesson_id' => $validatedData['lesson_id'],
             'topic_id' => $validatedData['topic_id'],
             'name' => $validatedData['name'],
@@ -146,12 +196,11 @@ class ExerciseController extends Controller
         return redirect()->route('exercises.index')->with('message', 'Exercise updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Exercise $exercise)
     {
-        Exercise::findOrFail($exercise->id)->delete();
+        $exercise->exerciseable->delete();
+        $exercise->delete();
+
         return redirect()->back()->with('message', 'Exercise deleted successfully');
     }
 }

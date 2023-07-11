@@ -9,10 +9,13 @@ return new class extends Migration
     // TODO: ver si necesito level
     public function up(): void
     {
+        // TODO: ver si necesito exercisable_id/type for morph
         Schema::create('exercises', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('lesson_id')->nullable();
             $table->unsignedBigInteger('topic_id')->nullable();
+            $table->unsignedBigInteger('exerciseable_id')->nullable();
+            $table->string('exerciseable_type')->nullable();
             $table->string('name');
             $table->enum('level', ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
             $table->enum('category', ['grammar', 'vocabulary', 'mixed']);

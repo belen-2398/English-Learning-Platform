@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Exercise extends Model
 {
@@ -13,6 +14,8 @@ class Exercise extends Model
     protected $fillable = [
         'lesson_id',
         'topic_id',
+        'exerciseable_id',
+        'exerciseable_type',
         'name',
         'level',
         'category',
@@ -20,9 +23,6 @@ class Exercise extends Model
         'type',
         'status'
     ];
-
-    // TODO: Morph?
-
     /**
      * Get the user that owns the Exercise
      *
@@ -36,5 +36,10 @@ class Exercise extends Model
     public function topic(): BelongsTo
     {
         return $this->belongsTo(Topic::class);
+    }
+
+    public function exerciseable(): MorphTo
+    {
+        return $this->morphTo();
     }
 }
