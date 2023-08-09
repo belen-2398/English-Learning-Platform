@@ -83,22 +83,16 @@ class TopicController extends Controller
         $validatedData = $request->validated();
         $validatedData['status'] = $request->status == true ? '1' : '0';
 
-        Topic::create([
+        $topic = Topic::create([
             'lesson_id' => $validatedData['lesson_id'],
             'name' => $validatedData['name'],
             'category' => $validatedData['category'],
             'order' => $validatedData['order'],
             'points' => $validatedData['points'],
             'status' => $validatedData['status'],
-            'explanation1' => $validatedData['explanation1'],
-            'explanation2' => $validatedData['explanation2'],
-            'explanation3' => $validatedData['explanation3'],
-            'explanation4' => $validatedData['explanation4'],
-            'explanation5' => $validatedData['explanation5'],
         ]);
 
-
-        return redirect()->route('topics.index')->with('message', 'Topic created successfully');
+        return redirect()->route('topic-slides.index', ['topicId' => $topic->id])->with('message', 'Topic created successfully');
     }
 
     public function edit(Topic $topic)
@@ -112,21 +106,16 @@ class TopicController extends Controller
         $validatedData = $request->validated();
         $validatedData['status'] = $request->status == true ? '1' : '0';
 
-        $topic = Topic::findOrFail($topic->id)->update([
+        $topic->update([
             'lesson_id' => $validatedData['lesson_id'],
             'name' => $validatedData['name'],
             'category' => $validatedData['category'],
             'order' => $validatedData['order'],
             'points' => $validatedData['points'],
             'status' => $validatedData['status'] == true ? '1' : '0',
-            'explanation1' => $validatedData['explanation1'],
-            'explanation2' => $validatedData['explanation2'],
-            'explanation3' => $validatedData['explanation3'],
-            'explanation4' => $validatedData['explanation4'],
-            'explanation5' => $validatedData['explanation5'],
         ]);
 
-        return redirect()->route('topics.index', compact('topic'))->with('message', 'Topic updated successfully');
+        return redirect()->route('topic-slides.index', ['topicId' => $topic->id])->with('message', 'Topic updated successfully');
     }
 
     public function destroy(Topic $topic)

@@ -49,31 +49,6 @@ class TopicRequest extends FormRequest
             'status' => [
                 'nullable'
             ],
-            'explanation1' => [
-                'required',
-                'string',
-                'max:800'
-            ],
-            'explanation2' => [
-                'nullable',
-                'string',
-                'max:800'
-            ],
-            'explanation3' => [
-                'nullable',
-                'string',
-                'max:800'
-            ],
-            'explanation4' => [
-                'nullable',
-                'string',
-                'max:800'
-            ],
-            'explanation5' => [
-                'nullable',
-                'string',
-                'max:800'
-            ],
         ];
     }
 }

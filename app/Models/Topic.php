@@ -19,22 +19,16 @@ class Topic extends Model
         'order',
         'points',
         'status',
-        'explanation1',
-        'explanation2',
-        'explanation3',
-        'explanation4',
-        'explanation5',
     ];
-
-
-    public function exercises(): HasMany
-    {
-        return $this->hasMany(Exercise::class);
-    }
 
     public function lesson(): BelongsTo
     {
         return $this->belongsTo(Lesson::class);
+    }
+
+    public function topicSlides(): HasMany
+    {
+        return $this->hasMany(TopicSlide::class);
     }
 
     public function users(): BelongsToMany

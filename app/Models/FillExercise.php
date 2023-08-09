@@ -6,19 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
-class MatchExercise extends Model
+class FillExercise extends Model
 {
     use HasFactory;
-
-    protected $table = 'match_exercises';
+    protected $table = 'fill_exercises';
     protected $fillable = [
-        'left',
-        'right'
-    ];
-
-    protected $casts = [
-        'left' => 'array',
-        'right' => 'array',
+        'text',
+        'words_to_fill'
     ];
 
     public function exercise(): MorphOne

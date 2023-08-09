@@ -18,18 +18,13 @@ class Lesson extends Model
         'order',
     ];
 
-    /**
-     * Get all of the comments for the Lesson
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function topics(): HasMany
     {
         return $this->hasMany(Topic::class);
     }
 
-    public function exercises(): HasMany
+    public function mixedExercises(): HasMany
     {
-        return $this->hasMany(Exercise::class);
+        return $this->hasMany(MixedExercise::class);
     }
 }

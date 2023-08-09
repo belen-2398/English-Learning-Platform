@@ -16,14 +16,19 @@ class TopicController extends Controller
 
         $lesson = $topic->lesson;
 
-        $exercises = $this->getExercises($topic);
+        $topicSlides = $topic->topicSlides()
+            ->where('status', '1')
+            ->orderBy('order', 'asc')
+            ->with(['explanation', 'exercise.exerciseable'])
+            ->get();
+
         $nextTopic = $this->getNextTopic($topic);
 
         $completed = $this->completedTopics()->where('id', $topic->id)->exists();
 
         return Inertia::render('Topics/Show', [
             'topic' => $topic,
-            'exercises' => $exercises,
+            'topicSlides' => $topicSlides,
             'nextTopic' => $nextTopic,
             'lesson' => $lesson,
             'completed' => $completed,
@@ -60,16 +65,6 @@ class TopicController extends Controller
     {
         $userId = Auth::user()->id;
         $topic->users()->detach($userId);
-    }
-
-    private function getExercises($topic)
-    {
-        $exercises = $topic->with(['exercises' => function ($query) {
-            $query->where('status', '1')
-                ->orderBy('order', 'asc');
-        }])->get();
-
-        return $exercises;
     }
 
     private function getNextTopic(Topic $topic)

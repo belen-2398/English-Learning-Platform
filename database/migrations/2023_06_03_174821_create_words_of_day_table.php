@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('wordof_days');
+        Schema::dropIfExists('words_of_day');
     }
 };

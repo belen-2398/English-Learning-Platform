@@ -5,152 +5,169 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExerciseRequest;
 use App\Models\Exercise;
-use App\Models\Lesson;
+use App\Models\FillExercise;
 use App\Models\MatchExercise;
-use App\Models\Topic;
-use Illuminate\Http\Request;
+use App\Models\OrderExercise;
+use App\Models\SelectExercise;
 
 class ExerciseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request)
+    // public function index(Request $request)
+    // {
+    //     $exercisesIndex = 'exercises.index';
+    //     $exercises = Exercise::query()
+    //         ->with('lesson', 'topic');
+
+    //     $this->applySearch($exercises, $request);
+    //     $this->applySort($exercises, $request);
+
+    //     $exercises = $exercises->paginate(10)->appends($request->query());
+
+    //     return view('admin.exercises.index', compact('exercises', 'exercisesIndex'));
+    // }
+
+    // private function applySearch($query, Request $request)
+    // {
+    //     $searchParameter = $request->input('query_parameter');
+    //     $searchText = $request->input('query');
+    //     $statusParameter = $request->input('status_parameter');
+    //     if ($searchParameter) {
+    //         if ($searchParameter === 'lesson') {
+    //             $query->whereHas('lesson', function ($query) use ($searchText) {
+    //                 $query->where('name', 'LIKE', "%{$searchText}%");
+    //             });
+    //         } elseif ($searchParameter === 'topic') {
+    //             $query->whereHas('topic', function ($query) use ($searchText) {
+    //                 $query->where('name', 'LIKE', "%{$searchText}%");
+    //             });
+    //         } else {
+    //             $query->where($searchParameter, 'LIKE', "%{$searchText}%");
+    //         }
+    //     } elseif ($statusParameter) {
+    //         if ($statusParameter === 'visible') {
+    //             $query->where('exercises.status', 1);
+    //         } elseif ($statusParameter === 'not-visible') {
+    //             $query->where('exercises.status', 0);
+    //         }
+    //     } else {
+    //         $query->where('exercises.level', 'LIKE', "%{$searchText}%")
+    //             ->orWhere('exercises.name', 'LIKE', "%{$searchText}%")
+    //             ->orWhere('exercises.category', 'LIKE', "%{$searchText}%")
+    //             ->orWhereHas('lesson', function ($query) use ($searchText) {
+    //                 $query->where('lessons.name', 'LIKE', "%{$searchText}%");
+    //             })
+    //             ->orWhereHas('topic', function ($query) use ($searchText) {
+    //                 $query->where('topics.name', 'LIKE', "%{$searchText}%");
+    //             })
+    //             ->orWhere('exercises.type', 'LIKE', "%{$searchText}%");
+    //     }
+    // }
+
+    // private function applySort($query, Request $request)
+    // {
+    //     $sort = $request->input('sort');
+    //     $sortBy = $request->input('sort_by');
+
+    //     if ($sort && $sortBy) {
+    //         if ($sortBy === 'name') {
+    //             $query->orderBy('exercises.name', $sort);
+    //         } elseif ($sortBy === 'order') {
+    //             $query->orderBy('exercises.order', $sort);
+    //         } elseif ($sortBy === 'level') {
+    //             $query->orderBy('exercises.level', $sort);
+    //         } else {
+    //             $query->orderBy('exercises.order', 'asc');
+    //         }
+    //     }
+    // }
+
+    public function create($topicSlideId)
     {
-        $exercisesIndex = 'exercises.index';
-        $exercises = Exercise::query()
-            ->with('lesson', 'topic');
-
-        $this->applySearch($exercises, $request);
-        $this->applySort($exercises, $request);
-
-        $exercises = $exercises->paginate(10)->appends($request->query());
-
-        return view('admin.exercises.index', compact('exercises', 'exercisesIndex'));
+        return view('admin.exercises.create', compact('topicSlideId'));
     }
 
-    private function applySearch($query, Request $request)
-    {
-        $searchParameter = $request->input('query_parameter');
-        $searchText = $request->input('query');
-        $statusParameter = $request->input('status_parameter');
-        if ($searchParameter) {
-            if ($searchParameter === 'lesson') {
-                $query->whereHas('lesson', function ($query) use ($searchText) {
-                    $query->where('name', 'LIKE', "%{$searchText}%");
-                });
-            } elseif ($searchParameter === 'topic') {
-                $query->whereHas('topic', function ($query) use ($searchText) {
-                    $query->where('name', 'LIKE', "%{$searchText}%");
-                });
-            } else {
-                $query->where($searchParameter, 'LIKE', "%{$searchText}%");
-            }
-        } elseif ($statusParameter) {
-            if ($statusParameter === 'visible') {
-                $query->where('exercises.status', 1);
-            } elseif ($statusParameter === 'not-visible') {
-                $query->where('exercises.status', 0);
-            }
-        } else {
-            $query->where('exercises.level', 'LIKE', "%{$searchText}%")
-                ->orWhere('exercises.name', 'LIKE', "%{$searchText}%")
-                ->orWhere('exercises.category', 'LIKE', "%{$searchText}%")
-                ->orWhereHas('lesson', function ($query) use ($searchText) {
-                    $query->where('lessons.name', 'LIKE', "%{$searchText}%");
-                })
-                ->orWhereHas('topic', function ($query) use ($searchText) {
-                    $query->where('topics.name', 'LIKE', "%{$searchText}%");
-                })
-                ->orWhere('exercises.type', 'LIKE', "%{$searchText}%");
-        }
-    }
-
-    private function applySort($query, Request $request)
-    {
-        $sort = $request->input('sort');
-        $sortBy = $request->input('sort_by');
-
-        if ($sort && $sortBy) {
-            if ($sortBy === 'name') {
-                $query->orderBy('exercises.name', $sort);
-            } elseif ($sortBy === 'order') {
-                $query->orderBy('exercises.order', $sort);
-            } elseif ($sortBy === 'level') {
-                $query->orderBy('exercises.level', $sort);
-            } else {
-                $query->orderBy('exercises.order', 'asc');
-            }
-        }
-    }
-
-    public function create()
-    {
-        $lessons = Lesson::all();
-        $topics = Topic::all();
-        return view('admin.exercises.create', compact('lessons', 'topics'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(ExerciseRequest $request)
     {
         $validatedData = $request->validated();
 
-        $validatedData['status'] = $request->status == true ? '1' : '0';
-
         if ($validatedData['type'] === 'match') {
-            $matchExercise = MatchExercise::create([
-                'left1' => $validatedData['left1'],
-                'right1' => $validatedData['right1'],
-                'left2' => $validatedData['left2'],
-                'right2' => $validatedData['right2'],
-                'left3' => $validatedData['left3'],
-                'right3' => $validatedData['right3'],
-                'left4' => $validatedData['left4'],
-                'right4' => $validatedData['right4'],
-                'left5' => $validatedData['left5'],
-                'right5' => $validatedData['right5'],
-                'left6' => $validatedData['left6'],
-                'right6' => $validatedData['right6'],
-                'left7' => $validatedData['left7'],
-                'right7' => $validatedData['right7'],
-                'left8' => $validatedData['left8'],
-                'right8' => $validatedData['right8'],
-                'left9' => $validatedData['left9'],
-                'right9' => $validatedData['right9'],
-                'left10' => $validatedData['left10'],
-                'right10' => $validatedData['right10'],
+            $finalExercise = MatchExercise::create([
+                'left' => [
+                    $validatedData['left1'],
+                    $validatedData['left2'],
+                    $validatedData['left3'],
+                    $validatedData['left4'],
+                    $validatedData['left5'],
+                    $validatedData['left6'],
+                    $validatedData['left7'],
+                    $validatedData['left8'],
+                    $validatedData['left9'],
+                    $validatedData['left10'],
+                ],
+                'right' => [
+                    $validatedData['right1'],
+                    $validatedData['right2'],
+                    $validatedData['right3'],
+                    $validatedData['right4'],
+                    $validatedData['right5'],
+                    $validatedData['right6'],
+                    $validatedData['right7'],
+                    $validatedData['right8'],
+                    $validatedData['right9'],
+                    $validatedData['right10'],
+                ],
+            ]);
+        } elseif ($validatedData['type'] === 'fill') {
+            $finalExercise = FillExercise::create([
+                'text' => $validatedData['fillText'],
+                'words_to_fill' => $validatedData['words_to_fill'],
+            ]);
+        } elseif ($validatedData['type'] === 'order') {
+            $finalExercise = OrderExercise::create([
+                'sentences' => [
+                    $validatedData['orSentence1'],
+                    $validatedData['orSentence2'],
+                    $validatedData['orSentence3'],
+                    $validatedData['orSentence4'],
+                    $validatedData['orSentence5'],
+                    $validatedData['orSentence6'],
+                    $validatedData['orSentence7'],
+                    $validatedData['orSentence8'],
+                    $validatedData['orSentence9'],
+                    $validatedData['orSentence10'],
+                ],
+            ]);
+        } elseif ($validatedData['type'] === 'select') {
+            $finalExercise = SelectExercise::create([
+                'text' => $validatedData['selectText'],
+                'answers' => $validatedData['selectAnswers'],
             ]);
         }
 
-        $matchExercise->exercise()->create([
-            'lesson_id' => $validatedData['lesson_id'],
-            'topic_id' => $validatedData['topic_id'],
-            'name' => $validatedData['name'],
-            'level' => $validatedData['level'],
-            'category' => $validatedData['category'],
-            'order' =>  $validatedData['order'],
+        $exercise = $finalExercise->exercise()->create([
+            'topic_slide_id' => $validatedData['topic_slide_id'],
             'type' => $validatedData['type'],
-            'status' => $validatedData['status'],
         ]);
 
-        return redirect()->route('exercises.index')->with('message', 'Exercise created successfully');
+        $topicSlide = $exercise->topicSlide;
+        $topic = $topicSlide->topic;
+
+        return redirect()->route('topic-slides.index', ['topicId' => $topic->id])->with('message', 'Exercise slide created successfully');
+    }
+
+    public function show(Exercise $exercise)
+    {
+        return view('admin.exercises.show', compact('exercise'));
     }
 
 
     public function edit(Exercise $exercise)
     {
-        $lessons = Lesson::all();
-        $topics = Topic::all();
-        $matchExercise = $exercise->exerciseable;
-        return view('admin.exercises.edit', compact('lessons', 'topics', 'exercise', 'matchExercise'));
+        $finalExercise = $exercise->exerciseable;
+        $topicSlideId = $exercise->topicSlide->id;
+        return view('admin.exercises.edit', compact('exercise', 'finalExercise', 'topicSlideId'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(ExerciseRequest $request, Exercise $exercise)
     {
         $validatedData = $request->validated();
@@ -158,42 +175,68 @@ class ExerciseController extends Controller
 
         if ($validatedData['type'] === 'match') {
             $matchExercise = $exercise->exerciseable;
-            $matchExercise->update([
-                'left1' => $validatedData['left1'],
-                'right1' => $validatedData['right1'],
-                'left2' => $validatedData['left2'],
-                'right2' => $validatedData['right2'],
-                'left3' => $validatedData['left3'],
-                'right3' => $validatedData['right3'],
-                'left4' => $validatedData['left4'],
-                'right4' => $validatedData['right4'],
-                'left5' => $validatedData['left5'],
-                'right5' => $validatedData['right5'],
-                'left6' => $validatedData['left6'],
-                'right6' => $validatedData['right6'],
-                'left7' => $validatedData['left7'],
-                'right7' => $validatedData['right7'],
-                'left8' => $validatedData['left8'],
-                'right8' => $validatedData['right8'],
-                'left9' => $validatedData['left9'],
-                'right9' => $validatedData['right9'],
-                'left10' => $validatedData['left10'],
-                'right10' => $validatedData['right10'],
+            $finalExercise = $matchExercise->update([
+                'left' => [
+                    $validatedData['left1'],
+                    $validatedData['left2'],
+                    $validatedData['left3'],
+                    $validatedData['left4'],
+                    $validatedData['left5'],
+                    $validatedData['left6'],
+                    $validatedData['left7'],
+                    $validatedData['left8'],
+                    $validatedData['left9'],
+                    $validatedData['left10'],
+                ],
+                'right' => [
+                    $validatedData['right1'],
+                    $validatedData['right2'],
+                    $validatedData['right3'],
+                    $validatedData['right4'],
+                    $validatedData['right5'],
+                    $validatedData['right6'],
+                    $validatedData['right7'],
+                    $validatedData['right8'],
+                    $validatedData['right9'],
+                    $validatedData['right10'],
+                ],
+            ]);
+        } elseif ($validatedData['type'] === 'fill') {
+            $fillExercise = $exercise->exerciseable;
+            $finalExercise = $fillExercise->update([
+                'text' => $validatedData['fillText'],
+                'words_to_fill' => $validatedData['words_to_fill'],
+            ]);
+        } elseif ($validatedData['type'] === 'order') {
+            $orderExercise = $exercise->exerciseable;
+            $finalExercise = $orderExercise->update([
+                'sentences' => [
+                    $validatedData['orSentence1'],
+                    $validatedData['orSentence2'],
+                    $validatedData['orSentence3'],
+                    $validatedData['orSentence4'],
+                    $validatedData['orSentence5'],
+                    $validatedData['orSentence6'],
+                    $validatedData['orSentence7'],
+                    $validatedData['orSentence8'],
+                    $validatedData['orSentence9'],
+                    $validatedData['orSentence10'],
+                ],
+            ]);
+        } elseif ($validatedData['type'] === 'select') {
+            $selectExercise = $exercise->exerciseable;
+            $finalExercise = $selectExercise->update([
+                'text' => $validatedData['selectText'],
+                'answers' => $validatedData['selectAnswers'],
             ]);
         }
 
-        $matchExercise->exercise()->update([
-            'lesson_id' => $validatedData['lesson_id'],
-            'topic_id' => $validatedData['topic_id'],
-            'name' => $validatedData['name'],
-            'level' => $validatedData['level'],
-            'category' => $validatedData['category'],
-            'order' =>  $validatedData['order'],
+        $exercise->update([
+            'topic_slide_id' => $validatedData['topic_slide_id'],
             'type' => $validatedData['type'],
-            'status' => $validatedData['status'],
         ]);
 
-        return redirect()->route('exercises.index')->with('message', 'Exercise updated successfully');
+        return redirect()->route('topic-slides.index', ['topicId' => $exercise->topicSlide->topic->id])->with('message', 'Exercise slide updated successfully');
     }
 
     public function destroy(Exercise $exercise)
@@ -201,6 +244,6 @@ class ExerciseController extends Controller
         $exercise->exerciseable->delete();
         $exercise->delete();
 
-        return redirect()->back()->with('message', 'Exercise deleted successfully');
+        return redirect()->back()->with('message', 'Exercise slide deleted successfully');
     }
 }

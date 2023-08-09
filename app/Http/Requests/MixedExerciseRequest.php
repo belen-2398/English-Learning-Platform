@@ -3,22 +3,22 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class ExerciseRequest extends FormRequest
+class MixedExerciseRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-
+    // TODO: update with exercise types
     public function rules(): array
     {
+        $ignoreRule = $this->method() === 'PUT' ? $this->mixedExercise->id : '';
+
         return [
-            'topic_slide_id' => [
+            'lesson_id' => [
                 'nullable',
             ],
             'exerciseable_id' => [
@@ -27,29 +27,45 @@ class ExerciseRequest extends FormRequest
             'exerciseable_type' => [
                 'nullable',
             ],
+            'name' => [
+                'required',
+                'string',
+                'max:255'
+            ],
+            'order' => [
+                'required',
+                'integer',
+                Rule::unique('mixed_exercises', 'order')->ignore($ignoreRule),
+            ],
+            'lesson_id' => [
+                'nullable',
+            ],
             'type'  => [
                 'required',
                 'in:match,fill,order,select'
             ],
+            'status' => [
+                'nullable'
+            ],
 
             // match validation
             'left1' => [
-                'nullable',
+                'required_if:type,match',
                 'string',
                 'max:255',
             ],
             'right1' => [
-                'nullable',
+                'required_if:type,match',
                 'string',
                 'max:255',
             ],
             'left2' => [
-                'nullable',
+                'required_if:type,match',
                 'string',
                 'max:255',
             ],
             'right2' => [
-                'nullable',
+                'required_if:type,match',
                 'string',
                 'max:255',
             ],
@@ -132,82 +148,6 @@ class ExerciseRequest extends FormRequest
                 'nullable',
                 'string',
                 'max:255',
-            ],
-
-            // fill validation
-            'fillText' => [
-                'nullable',
-                'string',
-                'max:4000',
-            ],
-            'words_to_fill' => [
-                'nullable',
-                'string',
-                'max:255',
-            ],
-
-             // order validation
-             'orSentence1' => [
-                'nullable',
-                'string',
-                'max:400',
-            ],
-            'orSentence2' => [
-                'nullable',
-                'string',
-                'max:400',
-            ],
-            'orSentence3' => [
-                'nullable',
-                'string',
-                'max:400',
-            ],
-            'orSentence4' => [
-                'nullable',
-                'string',
-                'max:400',
-            ],
-            'orSentence5' => [
-                'nullable',
-                'string',
-                'max:400',
-            ],
-            'orSentence6' => [
-                'nullable',
-                'string',
-                'max:400',
-            ],
-            'orSentence7' => [
-                'nullable',
-                'string',
-                'max:400',
-            ],
-            'orSentence8' => [
-                'nullable',
-                'string',
-                'max:400',
-            ],
-            'orSentence9' => [
-                'nullable',
-                'string',
-                'max:400',
-            ],
-            'orSentence10' => [
-                'nullable',
-                'string',
-                'max:400',
-            ],
-
-            // select validation
-            'selectText' => [
-                'nullable',
-                'string',
-                'max:4000',
-            ],
-            'selectAnswers' => [
-                'nullable',
-                'string',
-                'max:1000',
             ],
         ];
     }

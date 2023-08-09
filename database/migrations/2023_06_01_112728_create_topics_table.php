@@ -19,11 +19,6 @@ return new class extends Migration
             $table->smallInteger('order')->nullable();
             $table->smallInteger('points')->default('1');
             $table->smallInteger('status')->default('0')->comment('0=not visible, 1=visible');
-            $table->text('explanation1');
-            $table->text('explanation2')->nullable();
-            $table->text('explanation3')->nullable();
-            $table->text('explanation4')->nullable();
-            $table->text('explanation5')->nullable();
             $table->foreign('lesson_id')->references('id')->on('lessons')->nullOnDelete();
             $table->timestamps();
         });

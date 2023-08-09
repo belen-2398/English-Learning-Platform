@@ -9,16 +9,16 @@ return new class extends Migration
 
     public function up(): void
     {
-        Schema::create('match_exercises', function (Blueprint $table) {
+        Schema::create('fill_exercises', function (Blueprint $table) {
             $table->id();
-            $table->text('left');
-            $table->text('right');
+            $table->text('text');
+            $table->text('words_to_fill')->nullable();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('match_exercises');
+        Schema::dropIfExists('fill_exercises');
     }
 };

@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Completed;
-use App\Models\Exercise;
 use App\Models\Lesson;
+use App\Models\MixedExercise;
 use App\Models\Topic;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -101,9 +100,8 @@ class LessonController extends Controller
         $grmTopics = $topics->where('category', 'grammar')->all();
         $vocabTopics = $topics->where('category', 'vocabulary')->all();
 
-        $mixedExercises = Exercise::where('lesson_id', $lesson->id)
+        $mixedExercises = MixedExercise::where('lesson_id', $lesson->id)
             ->where('status', '1')
-            ->where('category', 'mixed')
             ->orderBy('order', 'asc')
             ->get();
 
