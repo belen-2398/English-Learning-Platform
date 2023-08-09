@@ -1,6 +1,8 @@
 @extends('layouts.admin')
 @section('title', 'Exercise Create')
 @section('content')
+        {{-- TODO: add link to dashboard in navbar --}}
+        {{-- TODO: other types of exercises and mixedexercises in another template --}}
 <div>
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -13,96 +15,12 @@
     @endif
     <div class="m-6 p-4 flex justify-between">
         <h2 class="head-title">Create exercise</h2>
-        <a href="{{ route('exercises.index') }}" class="color-button float-end p-3">Back</a>
+        <a href="{{ route('topics.index') }}" class="color-button float-end p-3">Back</a>
     </div>
     <form action="{{ route('exercises.store') }}" method="POST"
         class="flex-cols justify-center pb-10">
         @csrf
-        <div class="flex justify-between gap-1 mx-12 mt-4">
-            <div class="flex items-center mb-6 w-1/4 justify-between">
-                <div class="">
-                    <label class="block text-gray-500 font-bold text-right mb-1 pr-2" for="level">
-                        Level
-                    </label>
-                </div>
-                <div class="w-3/4">
-                    <select name="level" id="level"
-                    class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
-                        <option value="">Choose a level</option>
-                        <option value="A1" {{ old('level') === 'A1' ? 'selected' : '' }}>A1</option>
-                        <option value="A2" {{ old('level') === 'A2' ? 'selected' : '' }}>A2</option>
-                        <option value="B1" {{ old('level') === 'B1' ? 'selected' : '' }}>B1</option>
-                        <option value="B2" {{ old('level') === 'B2' ? 'selected' : '' }}>B2</option>
-                        <option value="C1" {{ old('level') === 'C1' ? 'selected' : '' }}>C1</option>
-                        <option value="C2" {{ old('level') === 'C2' ? 'selected' : '' }}>C2</option>
-                    </select>
-                </div>
-            </div>
-            <div class="flex items-center mb-6 w-1/4 justify-between">
-                <div class="">
-                    <label class="block text-gray-500 font-bold text-right mb-1 pr-2" for="lesson_id">
-                        Lesson
-                    </label>
-                </div>
-                <div class="w-3/4">
-                    <select name="lesson_id" id="lesson_id"
-                    class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
-                    <option value="">Choose a lesson</option>
-                    @foreach ($lessons as $lesson)
-                        <option value="{{ $lesson->id }}" {{ old('lesson_id') === $lesson->id ? 'selected' : '' }}>
-                            {{ $lesson->name }}
-                        </option>
-                    @endforeach
-                </select>
-                </div>
-            </div>
-            <div class="flex items-center mb-6 w-1/4 justify-between">
-                <div class="">
-                    <label class="block text-gray-500 font-bold text-right mb-1 pr-2" for="lesson_id">
-                        Topic
-                    </label>
-                </div>
-                <div class="w-3/4">
-                    <select name="topic_id" id="topic_id"
-                    class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
-                    <option value="">Choose a topic</option>
-                    @foreach ($topics as $topic)
-                        <option value="{{ $topic->id }}" {{ old('topic_id') === $topic->id ? 'selected' : '' }}>
-                            {{ $topic->name }}
-                        </option>
-                    @endforeach
-                </select>
-                </div>
-            </div>
-        </div>
-        <div class="flex justify-between gap-1 mx-12 mt-4">
-            <div class="flex items-center mb-6 w-1/4 justify-between">
-                <div class="">
-                    <label class="block text-gray-500 font-bold text-right mb-1 pr-2" for="name">
-                        Name
-                    </label>
-                </div>
-                <div class="md:w-3/4">
-                    <input type="text" id="name" name="name" value="{{ old('name') }}"
-                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
-                </div>
-            </div>
-            <div class="md:flex md:items-center mb-6 w-1/4 justify-between">
-                <div class="">
-                    <label class="block text-gray-500 font-bold md:text-right mb-1 md pr-2" for="category">
-                        Category
-                    </label>
-                </div>
-                <div class="md:w-3/4">
-                    <select name="category" id="category"
-                    class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
-                    <option value="">Choose a category</option>
-                    <option value="grammar" {{ old('category') === 'grammar' ? 'selected' : '' }}>Grammar</option>
-                    <option value="vocabulary" {{ old('category') === 'vocabulary' ? 'selected' : '' }}>Vocabulary</option>
-                    <option value="mixed" {{ old('category') === 'mixed' ? 'selected' : '' }}>Mixed</option>
-                </select>
-                </div>
-            </div>
+        <div class="flex justify-center mx-12 mt-4">
             <div class="md:flex md:items-center mb-6 w-1/4 justify-between">
                 <div class="">
                     <label class="block text-gray-500 font-bold md:text-right mb-1 md pr-2" for="type">
@@ -120,9 +38,10 @@
                 </select>
                 </div>
             </div>
+            <input type="hidden" name="topic_slide_id" id="topic_slide_id" value="{{ $topicSlideId }}">
         </div>
         
-        {{-- TODO: add link to dashboard in navbar --}}
+        {{-- Match exercises --}}
         <div class="flex-cols justify-center">
             <div id="match-section" class="flex-col justify-center my-8 border-dashed border-2 w-2/3 mx-auto py-2 px-8">
                 <p class="text-center text-gray-500 underline my-3">Add 3 to 10 pairs for the user to match. <br> Put them in order.</p>
@@ -190,28 +109,90 @@
                 </div>
             </div>
         </div>
-        <div class="flex justify-between mx-12">
-            <div class="flex items-center mb-6">
-                <label class="text-gray-500 font-bold text-right pr-4" for="order">
-                    Exercise order
-                </label>
-                <input type="number" name="order" id="order" value="{{ old('order') }}"
-                    class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
-            </div>
-            <div class="flex items-center mb-6">
-                <label class="text-gray-500 font-bold pr-4" for="status">
-                    Status
-                </label>
-                <input type="checkbox" name="status" id="status" class="mx-2">
-                <br>
-                <span class="text-sm text-gray-500">
-                    Unchecked = Hidden, checked = visible
-                </span>   
+        {{-- Fill exercises --}}
+        <div class="flex-cols justify-center">
+            {{-- TODO: let user add breaks --}}
+            <div id="fill-section" class="flex-col justify-center my-8 border-dashed border-2 w-2/3 mx-auto py-2 px-8">
+                <p class="text-center text-gray-500 my-3">Add the text or sentences for the user to complete.
+                    <br> Write the words to be completed in between two lower dashes on each side ("__bark__").</p>
+                <div class="flex justify-center gap-12 mt-4">
+                    <div class="flex-col">
+                        <div class="" id="fillText">
+                            <textarea type="text" cols="50" rows="20" id="fillText" name="fillText" placeholder="The dog is an animal that __barks__, whereas the cow __moos__ and the cat __meows__."
+                            class="bg-gray-200 my-2 whitespace-pre-wrap appearance-none border-2 border-gray-200 rounded py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('fillText') }}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="uppercase text-gray-500 font-bold my-2 flex justify-center" for="words_to_fill">Words for the user (put a - in between)</label>
+                    <input type="text" name="words_to_fill" id="words_to_fill" value="{{ old('words_to_fill') }}"
+                    class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+                </div>
             </div>
         </div>
+        {{-- Order exercises --}}
+        <div class="flex-cols justify-center">
+            <div id="order-section" class="flex-col justify-center my-8 border-dashed border-2 w-2/3 mx-auto py-2 px-8">
+                <p class="text-center text-gray-500 underline my-3">Add up to 10 sentences for the user to order. <br> Put them in order, but add "--" to separate the sentence sections.</p>
+                <div class="flex justify-center gap-12 mt-4">
+                    <div class="flex-col">
+                        <label class="uppercase text-gray-500 font-bold my-2 flex justify-center" for="sentences">
+                            Sentences
+                        </label>
+                            <textarea type="text" id="orSentence1" name="orSentence1" placeholder="The dog -- is -- a great friend -- to man."
+                            class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('orSentence1') }}</textarea>
+                            <textarea type="text" id="orSentence2" name="orSentence2"
+                            class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('orSentence2') }}</textarea>
+                            <textarea type="text" id="orSentence3" name="orSentence3" hidden
+                            class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('orSentence3') }}</textarea>
+                            <textarea type="text" id="orSentence4" name="orSentence4" hidden
+                            class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('orSentence4') }}</textarea>
+                            <textarea type="text" id="orSentence5" name="orSentence5" hidden
+                            class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('orSentence5') }}</textarea>
+                            <textarea type="text" id="orSentence6" name="orSentence6" hidden
+                            class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('orSentence6') }}</textarea>
+                            <textarea type="text" id="orSentence7" name="orSentence7" hidden
+                            class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('orSentence7') }}</textarea>
+                            <textarea type="text" id="orSentence8" name="orSentence8" hidden
+                            class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('orSentence8') }}</textarea>
+                            <textarea type="text" id="orSentence9" name="orSentence9" hidden
+                            class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('orSentence9') }}</textarea>
+                            <textarea type="text" id="orSentence10" name="orSentence10" hidden
+                            class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('orSentence10') }}</textarea>
+                    </div>
+                </div>
+                <div id="additional-order-sentences" class="flex-col justify-center my-4">
+                    <button type="button" id="addOrderSentenceBtn" class="uppercase text-white bg-gray-500 p-2 rounded font-semibold my-2 mx-auto flex justify-center">Add Sentence</button>
+                    <p id="maxOrderSentencesMessage" class="text-red-500 p-2 text-center hidden">The maximum number of sentences is 10.</p>
+                </div>
+            </div>
+        </div>
+        {{-- Select exercises --}}
+        <div class="flex-cols justify-center">
+            {{-- TODO: let user add breaks --}}
+            <div id="select-section" class="flex-col justify-center my-8 border-dashed border-2 w-2/3 mx-auto py-2 px-8">
+                <p class="text-center text-gray-500 my-3">Add the text or sentences from which the user will have to select.
+                    <br> Write the words to be selected in between two lower dashes on each side and a vertical dash in the middle ("__bark / meow / moo__").</p>
+                <div class="flex justify-center gap-12 mt-4">
+                    <div class="flex-col">
+                        <div class="" id="selectText">
+                            <textarea type="text" cols="50" rows="20" id="selectText" name="selectText" placeholder="The dog is an animal that __barks / meows__, whereas the cow __purrs / moos__ and the cat __meows / talks__."
+                            class="bg-gray-200 my-2 whitespace-pre-wrap appearance-none border-2 border-gray-200 rounded py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('fillText') }}</textarea>
+                        </div>
+                        <label for="selectAnswers">Answers (write them separated by one dash and in order):</label>
+                        <div class="" id="selectAnswers">
+                            <textarea type="text" cols="50" rows="5" id="selectAnswers" name="selectAnswers" placeholder="barks - moos - meows"
+                            class="bg-gray-200 my-2 whitespace-pre-wrap appearance-none border-2 border-gray-200 rounded py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('fillAnswers') }}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Submit btn --}}
         <div class="flex items-center">
             <div class="color-button font-semibold text-center flex items-center">
-                <button type="submit" id="submitBtn" disabled>
+                <button type="submit" id="submitBtn">
                     Create
                 </button>
             </div>
@@ -222,15 +203,41 @@
 <script>
      document.getElementById('type').addEventListener('change', function() {
         var matchSection = document.getElementById('match-section');
+
         if (this.value === 'match') {
             matchSection.style.display = 'block';
         } else {
             matchSection.style.display = 'none';
         }
+
+        var fillSection = document.getElementById('fill-section');
+        
+        if (this.value === 'fill') {
+            fillSection.style.display = 'block';
+        } else {
+            fillSection.style.display = 'none';
+        }
+
+        var orderSection = document.getElementById('order-section');
+        
+        if (this.value === 'order') {
+            orderSection.style.display = 'block';
+        } else {
+            orderSection.style.display = 'none';
+        }
+
+        var selectSection = document.getElementById('select-section');
+        
+        if (this.value === 'select') {
+            selectSection.style.display = 'block';
+        } else {
+            selectSection.style.display = 'none';
+        }
     });
+
     document.getElementById('addPairBtn').addEventListener('click', function () {
         const leftColumnCount = document.querySelectorAll('textarea[id^="left"]:not([hidden])').length;
-    const rightColumnCount = document.querySelectorAll('textarea[id^="right"]:not([hidden])').length;
+        const rightColumnCount = document.querySelectorAll('textarea[id^="right"]:not([hidden])').length;
 
 
         if (leftColumnCount >= 10 || rightColumnCount >= 10) {
@@ -246,46 +253,28 @@
 
         leftTextarea.removeAttribute('hidden');
         rightTextarea.removeAttribute('hidden');
-        // Create new left and right textareas
-        // const newLeftTextarea = document.createElement('textarea');
-        // newLeftTextarea.type = 'text';
-        // newLeftTextarea.id = `left${nextPairIndex}`;
-        // newLeftTextarea.name = `left${nextPairIndex}`;
-        // newLeftTextarea.classList.add('bg-gray-200', 'my-2', 'appearance-none', 'border-2', 'border-gray-200', 'rounded', 'w-full', 'py-2', 'text-gray-700', 'leading-tight', 'focus:outline-none', 'focus:bg-white', 'focus:border-purple-500');
-
-        // const newRightTextarea = document.createElement('textarea');
-        // newRightTextarea.type = 'text';
-        // newRightTextarea.id = `right${nextPairIndex}`;
-        // newRightTextarea.name = `right${nextPairIndex}`;
-        // newRightTextarea.classList.add('bg-gray-200', 'my-2', 'appearance-none', 'border-2', 'border-gray-200', 'rounded', 'w-full', 'py-2', 'text-gray-700', 'leading-tight', 'focus:outline-none', 'focus:bg-white', 'focus:border-purple-500');
-
-        // // Append new textareas to the respective columns
-        // const leftColumn = document.getElementById('column_l');
-        // const rightColumn = document.getElementById('column_r');
-        // leftColumn.appendChild(newLeftTextarea);
-        // rightColumn.appendChild(newRightTextarea);
     });
-    document.addEventListener('DOMContentLoaded', function () {
-        const submitBtn = document.getElementById('submitBtn');
-        submitBtn.disabled = true;
 
-        function checkRequiredFields() {
-            const name = document.getElementById('name').value;
+    document.getElementById('addOrderSentenceBtn').addEventListener('click', function () {
+        const orSentenceCount = document.querySelectorAll('textarea[id^="orSentence"]:not([hidden])').length;
 
-            if (name) {
-                submitBtn.disabled = false;
-            } else {
-                submitBtn.disabled = true;
-            }
+        if (orSentenceCount >= 10) {
+            this.disabled = true;
+            document.getElementById('maxOrderSentencesMessage').style.display = 'block';
+            return;
         }
 
-        const requiredFields = document.querySelectorAll('#name');
-        requiredFields.forEach(function (field) {
-            field.addEventListener('input', checkRequiredFields);
-        });
+        const nextOrderSentenceIndex = orSentenceCount + 1;
+
+        const orSentenceTextarea = document.getElementById(`orSentence${nextOrderSentenceIndex}`);
+
+        orSentenceTextarea.removeAttribute('hidden');
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const submitBtn = document.getElementById('submitBtn');
 
         // Prevent double submission
-
         submitBtn.addEventListener('click', function() {
             submitBtn.disabled = true;
             this.form.submit();

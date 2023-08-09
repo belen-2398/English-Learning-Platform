@@ -11,6 +11,8 @@ use App\Http\Controllers\TopicController;
 use App\Http\Controllers\Admin\TopicController as AdminTopicController;
 use App\Http\Controllers\Admin\WordOfDayController as AdminWordOfDayController;
 use App\Http\Controllers\Admin\ExerciseController as AdminExerciseController;
+use App\Http\Controllers\Admin\ExplanationController;
+use App\Http\Controllers\Admin\TopicSlideController;
 use App\Http\Controllers\DictionaryWordController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\WordOfDayController;
@@ -29,8 +31,15 @@ Route::controller(TopicController::class)->group(function () {
     Route::get('/get-definition/{word}', 'getDefinition');
 });
 
-Route::get('/wordsOfDay', [WordOfDayController::class, 'usersIndex']);
-Route::get('/wordsOfDay/{wordOfDay}', [WordOfDayController::class, 'usersShow'])->name('user.wordsOfDay.show');
+Route::controller(WordOfDayController::class)->group(function () {
+    Route::get('/wordsOfDay', 'usersIndex');
+    Route::get('/wordsOfDay/{wordOfDay}', 'usersShow')->name('user.wordsOfDay.show');
+});
+
+// Route::controller(ExerciseController::class)->group(function () {
+//     Route::get('/exercises', 'usersIndex');
+//     Route::get('/wordsOfDay/{wordOfDay}', 'usersShow')->name('user.wordsOfDay.show');
+// });
 
 Route::get('/about', function () {
     return Inertia::render('About', [
@@ -47,7 +56,9 @@ Route::middleware([
     Route::get('/profile', function () {
         return Inertia::render('Profile.Show');
     })->name('profile');
+
     Route::apiResource('/dictionary', DictionaryWordController::class)->except('show');
+
     Route::get('/completed', [TopicController::class, 'completedIndex']);
     Route::post('/topics/markAsCompleted/{topic}', [TopicController::class, 'markAsCompleted']);
     Route::delete('/topics/deleteAsCompleted/{topic}', [TopicController::class, 'deleteAsCompleted']);
@@ -55,10 +66,16 @@ Route::middleware([
 
 Route::prefix('admin')->middleware([IsAdmin::class])->group(function () {
     Route::view('/dashboard', 'admin/dashboard')->name('admin.dashboard');
-    // TODO: ver si sliders sirve
+    // TODO: ver si sliders sirve y si para topics, topic-slides y exercises necesito todo el CRUD
     Route::resource('/sliders', SliderController::class)->except('show');
     Route::resource('/lessons', AdminLessonController::class);
     Route::resource('/topics', AdminTopicController::class)->except('show');
-    Route::resource('/exercises', AdminExerciseController::class)->except('show');
+    Route::resource('/topic-slides', TopicSlideController::class)->except('index', 'create');
+    Route::get('/topic-slides-index/{topicId}', [TopicSlideController::class, 'index'])->name('topic-slides.index');
+    Route::get('/topic-slides-create/{topicId}', [TopicSlideController::class, 'create'])->name('topic-slides.create');
+    Route::resource('/exercises', AdminExerciseController::class)->except('create');
+    Route::get('/exercises-create/{topicSlideId}', [AdminExerciseController::class, 'create'])->name('exercises.create');
+    Route::resource('/explanations', ExplanationController::class);
+    Route::get('/explanations-create/{topicSlideId}', [ExplanationController::class, 'create'])->name('explanations.create');
     Route::resource('/word-of-day', AdminWordOfDayController::class)->except('show');
 });

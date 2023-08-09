@@ -1,5 +1,5 @@
 <template>
-    <div v-if="showModal" class="fixed inset-0 w-full h-full bg-gray-900 opacity-50 z-10" @click.self="closeModal"></div>
+    <div v-if="showModal" class="fixed inset-0 w-full h-full bg-gray-900 opacity-70 z-10" @click.self="closeModal"></div>
     <!-- <div v-if="showModal" class="fixed inset-0 w-full h-full z-15" @click.self="closeModal"></div> -->
     <div v-if="showModal" id="popup-modal" tabindex="-1" class="fixed inset-0 flex items-center justify-center z-20">
         <div class="flex">

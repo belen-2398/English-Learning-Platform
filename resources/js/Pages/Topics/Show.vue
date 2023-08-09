@@ -26,84 +26,45 @@
             </div>
             <Splide :options="splideOptions" aria-label="Topic">
                 <SplideSlide class="mx-10">
-                    <div class="slide1 bg-[var(--color-medium1)] mx-auto items-center h-96 hover:bg-[var(--color-medium1)]">
-                        <p class="my-auto text-3xl">
+                    <div class="flex bg-[var(--color-medium1)] mx-auto items-center min-h-[450px]">
+                        <p class="my-auto mx-auto text-3xl">
                             Click on the right to start.
                         </p>
                     </div>
                 </SplideSlide>
-                <SplideSlide class="mx-10">
-                    <div class="slide1 mx-auto items-center h-96">
-                        <p class="my-auto text-3xl text-center mx-10">
-                            {{ topic.explanation1 }}
-                        </p>
-                    </div>
-                </SplideSlide>
-                <SplideSlide v-if="exercises[0]" class="mx-10">
-                    <div class="slide1 mx-auto items-center h-96">
-                        <p class="my-auto text-3xl text-center mx-10">
-                            {{ exercises[0].name }}
-                        </p>
-                    </div>
-                </SplideSlide>
-                <SplideSlide v-if="topic.explanation2" class="mx-10">
-                    <div class="slide1 mx-auto items-center h-96">
-                        <p class="my-auto text-3xl text-center mx-10">
-                            {{ topic.explanation2 }}
-                        </p>
-                    </div>
-                </SplideSlide>
-                <SplideSlide v-if="exercises[1]" class="mx-10">
-                    <div class="slide1 mx-auto items-center h-96">
-                        <p class="my-auto text-3xl text-center mx-10">
-                            {{ exercises[1].name }}
-                        </p>
-                    </div>
-                </SplideSlide>
-                <SplideSlide v-if="topic.explanation3" class="mx-10">
-                    <div class="slide1 mx-auto items-center h-96">
-                        <p class="my-auto text-3xl text-center mx-10">
-                            {{ topic.explanation3 }}
-                        </p>
-                    </div>
-                </SplideSlide>
-                <SplideSlide v-if="exercises[2]" class="mx-10">
-                    <div class="slide1 mx-auto items-center h-96">
-                        <p class="my-auto text-3xl text-center mx-10">
-                            {{ exercises[2].name }}
-                        </p>
-                    </div>
-                </SplideSlide>
-                <SplideSlide v-if="topic.explanation4" class="mx-10">
-                    <div class="slide1 mx-auto items-center h-96">
-                        <p class="my-auto text-3xl text-center mx-10">
-                            {{ topic.explanation4 }}
-                        </p>
-                    </div>
-                </SplideSlide>
-                <SplideSlide v-if="exercises[3]" class="mx-10">
-                    <div class="slide1 mx-auto items-center h-96">
-                        <p class="my-auto text-3xl text-center mx-10">
-                            {{ exercises[3].name }}
-                        </p>
-                    </div>
-                </SplideSlide>
-                <SplideSlide v-if="topic.explanation5" class="mx-10">
-                    <div class="slide1 mx-auto items-center h-96">
-                        <p class="my-auto text-3xl text-center mx-10">
-                            {{ topic.explanation5 }}
-                        </p>
-                    </div>
-                </SplideSlide>
-                <SplideSlide v-if="exercises[4]" class="mx-10">
-                    <div class="slide1 mx-auto items-center h-96">
-                        <p class="my-auto text-3xl text-center mx-10">
-                            {{ exercises[4].name }}
-                        </p>
+                <SplideSlide class="mx-10" v-for="topicSlide in topicSlides">
+                    <div class="flex-cols mx-auto items-center min-h-[500px] my-auto bg-[var(--color-medium1)] py-10">
+                        <h3 class="text-3xl text-center mx-auto pt-8">
+                            {{ topicSlide.name }}
+                        </h3>
+                        <template v-if="topicSlide.explanation">
+                            <div class="mx-auto text-center mt-8 border w-3/4 p-4"
+                                v-html="topicSlide.explanation.explanation">
+                            </div>
+                        </template>
+                        <template v-else-if="topicSlide.exercise">
+                            <div v-if="topicSlide.exercise.type === 'match'">
+                                <MatchExerciseComponent :exercise="topicSlide.exercise.exerciseable">
+                                </MatchExerciseComponent>
+                            </div>
+                            <div v-else-if="topicSlide.exercise.type === 'fill'">
+                                <FillExerciseComponent :exercise="topicSlide.exercise.exerciseable">
+                                </FillExerciseComponent>
+                            </div>
+                            <div v-else-if="topicSlide.exercise.type === 'order'">
+                                <OrderExerciseComponent :exercise="topicSlide.exercise.exerciseable">
+                                </OrderExerciseComponent>
+                            </div>
+                            <div v-else-if="topicSlide.exercise.type === 'select'">
+                                <SelectExerciseComponent :exercise="topicSlide.exercise.exerciseable">
+                                </SelectExerciseComponent>
+                            </div>
+                        </template>
                     </div>
                 </SplideSlide>
                 <SplideSlide class="mx-10">
-                    <div class="slide1 bg-[var(--color-medium2)] mx-auto items-center h-96 hover:bg-[var(--color-medium2)]">
+                    <div
+                        class="slide1 bg-[var(--color-medium2)] mx-auto items-center min-h-[450px] hover:bg-[var(--color-medium2)]">
                         <p class="my-auto text-3xl text-center mx-10 leading-10" v-if="nextTopic">
                             Great job! <br>
                             You finished this topic. <br>
@@ -154,6 +115,10 @@ import axios from 'axios';
 import Definition from '../../Components/Modals/Dictionary/Definition.vue';
 import AddToDictionary from '../../Components/Modals/Dictionary/AddToDictionary.vue';
 import CompletedForm from '../../Components/CompletedForm.vue';
+import MatchExerciseComponent from '../../Components/Exercises/MatchExerciseComponent.vue';
+import FillExerciseComponent from '../../Components/Exercises/FillExerciseComponent.vue';
+import OrderExerciseComponent from '../../Components/Exercises/OrderExerciseComponent.vue';
+import SelectExerciseComponent from '../../Components/Exercises/SelectExerciseComponent.vue';
 
 export default defineComponent({
     name: 'Topic',
@@ -165,10 +130,14 @@ export default defineComponent({
         Definition,
         AddToDictionary,
         CompletedForm,
+        MatchExerciseComponent,
+        FillExerciseComponent,
+        OrderExerciseComponent,
+        SelectExerciseComponent
     },
     props: {
         topic: Object,
-        exercises: Array,
+        topicSlides: Object,
         nextTopic: Object,
         lesson: Object,
         completed: Boolean,
@@ -187,6 +156,7 @@ export default defineComponent({
             rewind: false,
             perPage: 1,
             width: '100%',
+            drag: false,
         };
 
         return {
@@ -206,7 +176,6 @@ export default defineComponent({
                         console.error(error);
                     });
             })
-
         },
         openDefinitionModal(inputWord) {
             this.word = inputWord;

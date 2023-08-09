@@ -45,6 +45,9 @@
                         Category
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        Slides
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         <a href="{{ route('topics.index',
                         ['sort' => request('sort') == 'asc' ? 'desc' : 'asc', 'sort_by' => 'order',
                             'query_parameter' => request('query_parameter'),
@@ -61,9 +64,6 @@
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Status
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Explanation
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Action
@@ -83,6 +83,17 @@
                             {{ $topic->category }}
                         </td>
                         <td class="px-6 py-4">
+                            @if ($topic->topicSlides->count() > 0)
+                                <a href="{{ route('topic-slides.index', ['topicId' => $topic->id]) }}"
+                                    class="font-medium text-gray-600 dark:text-gray-500 hover:underline">
+                                    Show Slides
+                                </a>
+                            @else
+                                <p>No slides yet</p>
+                            @endif
+                            
+                        </td>
+                        <td class="px-6 py-4">
                             {{ $topic->order }}
                         </td>
                         <td class="px-6 py-4">
@@ -90,16 +101,6 @@
                         </td>
                         <td class="px-6 py-4">
                             {{ $topic->status == 0 ? '' : 'V' }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ Str::limit($topic->explanation1, 50, '...') }}
-                            @if (strlen($topic->explanation1) > 50)
-                                <button type="button" id="fullTextBtn" data-modal-target="fullTextModal{{ $topic->id }}"
-                                    data-modal-toggle="fullTextModal{{ $topic->id }}"
-                                    class="block text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded text-xs px-1 py-1 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                                    See more
-                                </button>
-                            @endif
                         </td>
                         <td class="px-6 py-4">
                             <div>
@@ -124,21 +125,4 @@
             {{ $topics->links() }}
         </div>
     </div>
-
-    @foreach ($topics as $topic)
-        <x-fullText element="{{ $topic->id }}">
-            <x-slot name="title">
-                {{ $topic->name }}
-            </x-slot>
-        
-            <x-slot name="description">
-                {{ $topic->explanation1  }} <br>
-                {{ $topic->explanation2  }} <br>
-                {{ $topic->explanation3  }} <br>
-                {{ $topic->explanation4  }} <br>
-                {{ $topic->explanation5  }} <br>
-            </x-slot>
-        </x-fullText>
-    @endforeach
-
 @endsection

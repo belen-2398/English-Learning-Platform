@@ -11,6 +11,7 @@
 
     <title>@yield('title') | {{ config('app.name', 'Learn English') }}</title>
   @vite(['resources/css/app.css','resources/js/app.js'])
+  <script src="{{ asset('vendor/tinymce/tinymce.min.js') }}"></script>
 
 
 </head>
@@ -37,5 +38,13 @@
             </div>
         </div>
     </div>
+    <script>
+        tinymce.init({
+            selector: 'textarea#explanation',
+            plugins: 'link lists code',
+            toolbar: 'undo redo | bold italic underline | bullist numlist | link | code',
+            menubar: false,
+        });
+    </script>
 </body>
 </html>
