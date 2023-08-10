@@ -8,7 +8,6 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // TODO: ver si necesito exercisable_id/type for morph
         Schema::create('exercises', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('topic_slide_id');

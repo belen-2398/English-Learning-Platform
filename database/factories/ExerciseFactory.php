@@ -18,8 +18,7 @@ class ExerciseFactory extends Factory
     public function definition(): array
     {
         return [
-            'lesson_id' => '5',
-            'topic_id' => '6',
+            'topic_slide_id' => '6',
             'name' => $this->faker->word,
             'level' => $this->faker->randomElement(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']),
             'category' => $this->faker->randomElement(['grammar', 'vocabulary', 'mixed']),

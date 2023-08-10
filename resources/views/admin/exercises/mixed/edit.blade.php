@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('title', 'Mixed Exercise Create')
 @section('content')
-        {{-- TODO: add link to dashboard in navbar --}}
+        {{-- TODO: change to edit--}}
 <div>
     @if ($errors->any())
         <div class="alert alert-danger">

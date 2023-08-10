@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class MixedExercise extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'mixed_exercises';
     protected $fillable = [
         'lesson_id',

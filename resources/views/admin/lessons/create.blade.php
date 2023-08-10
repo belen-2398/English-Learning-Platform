@@ -77,7 +77,7 @@
                 <br />
                 <input type="checkbox" name="status" id="status" class="mr-2 leading-tight">
                 <span class="text-sm"> <br />
-                    Unchecked = Hidden, checked = visible
+                    Unchecked = hidden <br> Checked = visible
                 </span>
             </label>
         </div>

@@ -54,6 +54,9 @@
                         Status
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        Mixed exercises
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         <a href="{{ route('lessons.index',
                         ['sort' => request('sort') == 'asc' ? 'desc' : 'asc', 'sort_by' => 'order',
                             'query_parameter' => request('query_parameter'),
@@ -91,6 +94,14 @@
                         </td>
                         <td class="px-6 py-4">
                             {{ $lesson->status == 0 ? '' : 'V' }}
+                        </td>
+                        <td class="px-6 py-4">
+                            @if ($lesson->mixedExercises()->count() > 0)
+                               <a href="{{ route('mixed-exercises.index', $lesson->id) }}">See mixed exercises.</a>
+                            @else
+                                <p>No mixed exercises.</p>
+                                <a href="{{ route('mixed-exercises.create', $lesson->id) }}" class="hover:underline">Add one.</a>
+                            @endif
                         </td>
                         <td class="px-6 py-4">
                             {{ $lesson->order }}

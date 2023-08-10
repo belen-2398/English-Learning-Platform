@@ -12,7 +12,6 @@ class MixedExerciseRequest extends FormRequest
         return true;
     }
 
-    // TODO: update with exercise types
     public function rules(): array
     {
         $ignoreRule = $this->method() === 'PUT' ? $this->mixedExercise->id : '';
@@ -37,9 +36,6 @@ class MixedExerciseRequest extends FormRequest
                 'integer',
                 Rule::unique('mixed_exercises', 'order')->ignore($ignoreRule),
             ],
-            'lesson_id' => [
-                'nullable',
-            ],
             'type'  => [
                 'required',
                 'in:match,fill,order,select'
@@ -48,24 +44,24 @@ class MixedExerciseRequest extends FormRequest
                 'nullable'
             ],
 
-            // match validation
-            'left1' => [
-                'required_if:type,match',
+             // match validation
+             'left1' => [
+                'nullable',
                 'string',
                 'max:255',
             ],
             'right1' => [
-                'required_if:type,match',
+                'nullable',
                 'string',
                 'max:255',
             ],
             'left2' => [
-                'required_if:type,match',
+                'nullable',
                 'string',
                 'max:255',
             ],
             'right2' => [
-                'required_if:type,match',
+                'nullable',
                 'string',
                 'max:255',
             ],
@@ -148,6 +144,82 @@ class MixedExerciseRequest extends FormRequest
                 'nullable',
                 'string',
                 'max:255',
+            ],
+
+            // fill validation
+            'fillText' => [
+                'nullable',
+                'string',
+                'max:4000',
+            ],
+            'words_to_fill' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+
+             // order validation
+             'orSentence1' => [
+                'nullable',
+                'string',
+                'max:400',
+            ],
+            'orSentence2' => [
+                'nullable',
+                'string',
+                'max:400',
+            ],
+            'orSentence3' => [
+                'nullable',
+                'string',
+                'max:400',
+            ],
+            'orSentence4' => [
+                'nullable',
+                'string',
+                'max:400',
+            ],
+            'orSentence5' => [
+                'nullable',
+                'string',
+                'max:400',
+            ],
+            'orSentence6' => [
+                'nullable',
+                'string',
+                'max:400',
+            ],
+            'orSentence7' => [
+                'nullable',
+                'string',
+                'max:400',
+            ],
+            'orSentence8' => [
+                'nullable',
+                'string',
+                'max:400',
+            ],
+            'orSentence9' => [
+                'nullable',
+                'string',
+                'max:400',
+            ],
+            'orSentence10' => [
+                'nullable',
+                'string',
+                'max:400',
+            ],
+
+            // select validation
+            'selectText' => [
+                'nullable',
+                'string',
+                'max:4000',
+            ],
+            'selectAnswers' => [
+                'nullable',
+                'string',
+                'max:1000',
             ],
         ];
     }
