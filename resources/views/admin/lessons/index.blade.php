@@ -74,59 +74,67 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($lessons as $lesson)
-                    <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $lesson->level }}
-                        </th>
-                        <td class="px-6 py-4">
-                            {{ $lesson->name }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ Str::limit($lesson->description, 50, '...') }}
-                            @if (strlen($lesson->description) > 50)
-                                <button type="button" id="fullTextBtn" data-modal-target="fullTextModal{{ $lesson->id }}"
-                                    data-modal-toggle="fullTextModal{{ $lesson->id }}"
-                                    class="block text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded text-xs px-1 py-1 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                                    See more
-                                </button>
-                            @endif
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $lesson->status == 0 ? '' : 'V' }}
-                        </td>
-                        <td class="px-6 py-4">
-                            @if ($lesson->mixedExercises()->count() > 0)
-                               <a href="{{ route('mixed-exercises.index', $lesson->id) }}">See mixed exercises.</a>
-                            @else
-                                <p>No mixed exercises.</p>
-                                <a href="{{ route('mixed-exercises.create', $lesson->id) }}" class="hover:underline">Add one.</a>
-                            @endif
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $lesson->order }}
-                        </td>
-                        <td class="px-6 py-4">
-                            <div>
-                                <a href="{{ route('lessons.edit', $lesson->id) }}"
-                                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                                    Edit
-                                </a>
-                                <form action="{{ route('lessons.destroy', $lesson->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type='submit' class="font-medium text-red-600 dark:text-red-500 hover:underline"
-                                    onclick="return confirm('Are you sure you want to delete this lesson?')">Delete</button>
-                                </form>
-                            </div>
-                        </td>
+                @if ($lessons->count() > 0)
+                    @foreach ($lessons as $lesson)
+                        <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ $lesson->level }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $lesson->name }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ Str::limit($lesson->description, 50, '...') }}
+                                @if (strlen($lesson->description) > 50)
+                                    <button type="button" id="fullTextBtn" data-modal-target="fullTextModal{{ $lesson->id }}"
+                                        data-modal-toggle="fullTextModal{{ $lesson->id }}"
+                                        class="block text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded text-xs px-1 py-1 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+                                        See more
+                                    </button>
+                                @endif
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $lesson->status == 0 ? '' : 'V' }}
+                            </td>
+                            <td class="px-6 py-4">
+                                @if ($lesson->mixedExercises()->count() > 0)
+                                <a href="{{ route('mixed-exercises.index', $lesson->id) }}">See mixed exercises.</a>
+                                @else
+                                    <p>No mixed exercises.</p>
+                                    <a href="{{ route('mixed-exercises.create', $lesson->id) }}" class="hover:underline">Add one.</a>
+                                @endif
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $lesson->order }}
+                            </td>
+                            <td class="px-6 py-4">
+                                <div>
+                                    <a href="{{ route('lessons.edit', $lesson->id) }}"
+                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                        Edit
+                                    </a>
+                                    <form action="{{ route('lessons.destroy', $lesson->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type='submit' class="font-medium text-red-600 dark:text-red-500 hover:underline"
+                                        onclick="return confirm('Are you sure you want to delete this lesson?')">Delete</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                @else
+                    <tr class="bg-white dark:bg-gray-900 font-semibold">
+                        <td id="noContentYetMsg" class="px-6 pt-4">No lessons yet.</td>
                     </tr>
-                @endforeach
+                @endif
             </tbody>
         </table>
-        <div class="m-6">
-            {{ $lessons->links() }}
-        </div>
+        @if ($lessons->count() > 0)
+            <div class="m-6">
+                {{ $lessons->links() }}
+            </div>
+        @endif
     </div>
     @foreach ($lessons as $lesson)
         <x-fullText element="{{ $lesson->id }}">

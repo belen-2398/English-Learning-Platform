@@ -68,7 +68,7 @@ Route::middleware([
 Route::prefix('admin')->middleware([IsAdmin::class])->group(function () {
     Route::view('/dashboard', 'admin/dashboard')->name('admin.dashboard');
     // TODO: ver si sliders sirve y si para topics, topic-slides y exercises necesito todo el CRUD
-    Route::resource('/sliders', SliderController::class)->except('show');
+    // Route::resource('/sliders', SliderController::class)->except('show');
     Route::resource('/lessons', AdminLessonController::class);
     Route::resource('/topics', AdminTopicController::class)->except('show');
     Route::resource('/topic-slides', TopicSlideController::class)->except('index', 'create');

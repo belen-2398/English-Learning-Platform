@@ -52,7 +52,8 @@
                 </span>   
             </div>
         </div>
-       <p class="font-bold justify-center mx-auto">This slide is an...</p>
+       <p class="font-bold justify-center mx-auto">Select the type of slide to save the data so far
+        <br>and move on to the exercise content:</p>
         <div class="flex items-center justify-center gap-28 mt-4">
             <div class="color-button font-semibold w-1/4 justify-center text-center flex items-center p-4 rounded">
                 <button type="submit" slideType="explanations">
