@@ -2,7 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\FillExercise;
 use App\Models\Lesson;
+use App\Models\MatchExercise;
+use App\Models\MixedExercise;
+use App\Models\OrderExercise;
+use App\Models\SelectExercise;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -11,21 +16,57 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class MixedExerciseFactory extends Factory
 {
     protected $model = MixedExercise::class;
+
     public function definition(): array
     {
+
+        $exerciseType = $this->faker->randomElement(
+            ['match', 'fill', 'select', 'order']
+        );
+
+        $mxableType = null;
+
+        if ($exerciseType === 'match') {
+            $mxableType = MatchExercise::class;
+        } elseif ($exerciseType === 'fill') {
+            $mxableType = FillExercise::class;
+        } elseif ($exerciseType === 'select') {
+            $mxableType = SelectExercise::class;
+        } elseif ($exerciseType === 'order') {
+            $mxableType = OrderExercise::class;
+        }
+
         return [
             'lesson_id' => Lesson::factory(),
-            'exerciseable_id' => $this->faker->randomNumber(),
-            'exerciseable_type' => $this->faker->randomElement([
-                MatchExercise::class,
-                FillExercise::class,
-                OrderExercise::class,
-                SelectExercise::class,
-            ]),
+            'mxexerciseable_id' => $this->faker->randomNumber(),
+            'mxexerciseable_type' => $mxableType,
             'name' => $this->faker->word,
             'order' => $this->faker->numberBetween(1, 100),
-            'type' => $this->faker->randomElement(['match', 'fill', 'order', 'select']),
+            'type' => $exerciseType,
             'status' => $this->faker->boolean,
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (MixedExercise $mixedExercise) {
+            if ($mixedExercise->mxexerciseable_type === MatchExercise::class) {
+                MatchExercise::factory()->create([
+                    'id' => $mixedExercise->mxexerciseable_id,
+                ]);
+            } elseif ($mixedExercise->mxexerciseable_type === FillExercise::class) {
+                FillExercise::factory()->create([
+                    'id' => $mixedExercise->mxexerciseable_id,
+                ]);
+            } elseif ($mixedExercise->mxexerciseable_type === OrderExercise::class) {
+                OrderExercise::factory()->create([
+                    'id' => $mixedExercise->mxexerciseable_id,
+                ]);
+            } elseif ($mixedExercise->mxexerciseable_type === SelectExercise::class) {
+                SelectExercise::factory()->create([
+                    'id' => $mixedExercise->mxexerciseable_id,
+                ]);
+            }
+        });
     }
 }

@@ -11,8 +11,8 @@ return new class extends Migration
         Schema::create('mixed_exercises', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('lesson_id');
-            $table->unsignedBigInteger('exerciseable_id');
-            $table->string('exerciseable_type');
+            $table->unsignedBigInteger('mxexerciseable_id');
+            $table->string('mxexerciseable_type');
             $table->string('name');
             $table->smallInteger('order');
             $table->enum('type', ['match', 'fill', 'select', 'order']);

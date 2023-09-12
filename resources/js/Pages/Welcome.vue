@@ -214,7 +214,6 @@ export default defineComponent({
 
         return { splideOptions, splideTwoOptions };
     },
-
     layout: FrontendLayout,
 });
 </script>

@@ -14,16 +14,14 @@ class MixedExerciseRequest extends FormRequest
 
     public function rules(): array
     {
-        $ignoreRule = $this->method() === 'PUT' ? $this->mixedExercise->id : '';
-
         return [
             'lesson_id' => [
                 'nullable',
             ],
-            'exerciseable_id' => [
+            'mxexerciseable_id' => [
                 'nullable',
             ],
-            'exerciseable_type' => [
+            'mxexerciseable_type' => [
                 'nullable',
             ],
             'name' => [
@@ -34,7 +32,6 @@ class MixedExerciseRequest extends FormRequest
             'order' => [
                 'required',
                 'integer',
-                Rule::unique('mixed_exercises', 'order')->ignore($ignoreRule),
             ],
             'type'  => [
                 'required',
@@ -44,8 +41,8 @@ class MixedExerciseRequest extends FormRequest
                 'nullable'
             ],
 
-             // match validation
-             'left1' => [
+            // match validation
+            'left1' => [
                 'nullable',
                 'string',
                 'max:255',
@@ -158,8 +155,8 @@ class MixedExerciseRequest extends FormRequest
                 'max:255',
             ],
 
-             // order validation
-             'orSentence1' => [
+            // order validation
+            'orSentence1' => [
                 'nullable',
                 'string',
                 'max:400',

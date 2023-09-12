@@ -14,8 +14,8 @@ class MixedExercise extends Model
     protected $table = 'mixed_exercises';
     protected $fillable = [
         'lesson_id',
-        'exerciseable_id',
-        'exerciseable_type',
+        'mxexerciseable_id',
+        'mxexerciseable_type',
         'name',
         'order',
         'type',
@@ -27,7 +27,7 @@ class MixedExercise extends Model
         return $this->belongsTo(Lesson::class);
     }
 
-    public function exerciseable(): MorphTo
+    public function mxexerciseable(): MorphTo
     {
         return $this->morphTo();
     }

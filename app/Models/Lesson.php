@@ -23,7 +23,7 @@ class Lesson extends Model
         return $this->hasMany(Topic::class);
     }
 
-    public function mixedExercises(): HasMany
+    public function mixedExercises()
     {
         return $this->hasMany(MixedExercise::class);
     }

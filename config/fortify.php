@@ -1,6 +1,7 @@
 <?php
 
 use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Features;
 
 return [
@@ -60,8 +61,22 @@ return [
     | and the user is authenticated. You are free to change this value.
     |
     */
-
-    'home' => RouteServiceProvider::HOME,
+    // TODO: add for the case of the teacher
+    'home' => function () {
+        if (Auth::user()->role_as === 2) {
+            return RouteServiceProvider::ADMINHOME;
+        } else {
+            return RouteServiceProvider::HOME;
+        }
+    },
+    // 'home' => function () {
+    //     if (Auth::user()->role_as === 2) {
+    //         return '/admin/dashboard';
+    //     } else {
+    //         return '/';
+    //     }
+    // },
+    // 'home' => RouteServiceProvider::HOME,
 
     /*
     |--------------------------------------------------------------------------

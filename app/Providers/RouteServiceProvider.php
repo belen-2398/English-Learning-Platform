@@ -18,6 +18,13 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/';
+    public const ADMINHOME = '/admin/dashboard';
+    // public const HOME = function () {
+    //     if (Auth::user()->role_as === 2) {
+    //       return route('admin.dashboard');
+    //   } else {
+    //       return '/';
+    //   };
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.

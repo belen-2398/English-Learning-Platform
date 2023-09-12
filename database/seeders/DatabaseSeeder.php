@@ -7,18 +7,20 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
+
     public function run(): void
     {
         // \App\Models\User::factory(10)->create();
-        \App\Models\Lesson::factory(10)->create();
-        \App\Models\Topic::factory(10)->create();
-        
-        // \App\Models\WordofDay::factory(10)->create();
-        //  \App\Models\Exercise::factory(10)->create();
+        // \App\Models\Lesson::factory(10)->create();
+        // \App\Models\Topic::factory(10)->create();
 
+        // \App\Models\WordofDay::factory(10)->create();
+        // \App\Models\Exercise::factory(10)->create();
+        \App\Models\MixedExercise::factory(10)->create([
+            'lesson_id' => 16,
+        ]);
+        //  \App\Models\OrderExercise::factory(1)->create([
+        //  ]);
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',

@@ -25,6 +25,6 @@ class OrderExercise extends Model
 
     public function mixedExercise(): MorphOne
     {
-        return $this->morphOne(MixedExercise::class, 'exerciseable');
+        return $this->morphOne(MixedExercise::class, 'mxexerciseable');
     }
 }
