@@ -28,6 +28,7 @@ const logout = () => {
 </script>
 
 <template>
+    <!-- TODO: ver si borrar o usarlo para pasar el blade -->
     <div>
         <Head :title="title" />
 

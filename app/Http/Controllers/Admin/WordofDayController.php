@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\File;
 
 class WordOfDayController extends Controller
 {
+    // TODO: sacarle info al index y dejarla en show
+    // TODO: reemplazar status por fecha en la que se debe mostrar
     public function index(Request $request)
     {
         $wordsOfDayIndex = 'word-of-day.index';
@@ -114,7 +116,7 @@ class WordOfDayController extends Controller
 
     public function show(WordOfDay $wordOfDay)
     {
-        // TODO: ver si sirve
+        // TODO: hacerlo para mostrar bien toda la data
     }
 
     public function edit(WordOfDay $wordOfDay)
@@ -122,9 +124,8 @@ class WordOfDayController extends Controller
         return view('admin.wordsOfDay.edit', compact('wordOfDay'));
     }
 
-    /**
-     * TODO: return to section in table where the word was afterwards (also for lessons, topics, etc)
-     */
+    //  TODO: return to section in table where the word was afterwards (also for lessons, topics, etc)
+
     public function update(WordOfDayRequest $request, WordOfDay $wordOfDay)
     {
         $validatedData = $request->validated();
@@ -179,9 +180,6 @@ class WordOfDayController extends Controller
         return redirect()->route('word-of-day.index')->with('message', 'Word of the Day updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(WordOfDay $wordOfDay)
     {
         if ($wordOfDay->count() > 0) {
@@ -198,7 +196,9 @@ class WordOfDayController extends Controller
             }
 
             $wordOfDay->delete();
-            return redirect()->back()->with('message', 'Word of the Day deleted successfully');
+
+               //    TODO: redireccionar a specific index
+            return redirect()->route('word-of-day.index')->with('message', 'Word of the Day deleted successfully');
         }
     }
 }

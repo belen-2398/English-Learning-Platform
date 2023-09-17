@@ -32,12 +32,16 @@
                 <ul>
                     <template v-if="$page.props.auth.user">
                         <div class="flex gap-2">
+                            <!-- TODO: fix it so that only admin can access it -->
                             <li class="color-button">
-                                <Link :href="route('logout')" method="post" as="button">Logout</Link>
+                                <a href="/admin/dashboard" target="_blank" :active="$page.component === 'Admin Dashboard'">Dashboard</a>
                             </li>
-                            <!-- TODO: replace it by profile icon round -->
+                            <!-- TODO: replace it with round profile icon -->
                             <li class="color-button">
                                 <Link href="/user/profile" :active="$page.component === 'Profile'">Profile</Link>
+                            </li>
+                            <li class="color-button">
+                                <Link :href="route('logout')" method="post" as="button">Logout</Link>
                             </li>
                         </div>
                     </template>

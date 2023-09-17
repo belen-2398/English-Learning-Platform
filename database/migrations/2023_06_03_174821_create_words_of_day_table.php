@@ -24,8 +24,9 @@ return new class extends Migration
             $table->mediumText('example4')->nullable();
             $table->mediumText('example5')->nullable();
             $table->string('image')->nullable();
-            $table->tinyInteger('status')->default('0')->comment('0=not visible, 1=visible');
+            $table->date('publish_date')->nullable();
             $table->timestamps();
+            // TODO: add publish date to views and controllers
         });
     }
 

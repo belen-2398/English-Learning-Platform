@@ -14,7 +14,7 @@ return new class extends Migration
             $table->unsignedBigInteger('mxexerciseable_id');
             $table->string('mxexerciseable_type');
             $table->string('name');
-            $table->smallInteger('order');
+            $table->smallInteger('order')->nullable();
             $table->enum('type', ['match', 'fill', 'select', 'order']);
             $table->smallInteger('status')->default('0')->comment('0=not visible, 1=visible');
             $table->foreign('lesson_id')->references('id')->on('lessons')->onDelete('cascade');

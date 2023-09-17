@@ -83,7 +83,6 @@
         </div>
 
         {{-- TODO: add unit tests to test if the button shows etc etc for this and exercises --}}
-        {{-- TODO: agregar isset a exercises --}}
         @if ($mixedExercise->type === 'match')
             <div class="flex-cols justify-center">
                 <div id="match-section" class="flex-col justify-center my-8 border-dashed border-2 w-2/3 mx-auto py-2 px-8">

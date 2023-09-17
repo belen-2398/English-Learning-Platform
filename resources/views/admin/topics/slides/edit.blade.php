@@ -2,6 +2,7 @@
 @section('title', 'Slide Edit')
 @section('content')
 <div>
+    {{-- TODO: edit this and all other edit views: format, status/visible, topics/lessons, etc --}}
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -19,7 +20,7 @@
         @csrf
         @method('PUT')
         <div class="flex justify-between gap-12 mt-4">
-            <input type="hidden" name="topic_id" id="topic_id" value="{{ $topic->id }}">
+            <input type="hidden" name="topic_id" id="topic_id" value="{{ $topicSlide->topic_id }}">
             <div class="flex items-center mb-6 w-1/4 justify-between">
                 <div class="">
                     <label class="block text-gray-500 font-bold text-right mb-1 pr-2" for="name">
@@ -44,7 +45,7 @@
             </div>
             <div class="flex items-center mb-6 w-1/4 justify-between">
                 <label class="block text-gray-500 font-bold text-right mb-1 pr-2" for="status">
-                    Status
+                    Visible?
                 </label>
                 <input type="checkbox" name="status" id="status" class="ml-2 mr-4" {{ $topicSlide->status === 1 ? 'checked' : '' }}>
                 <br>

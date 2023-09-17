@@ -12,75 +12,6 @@ use App\Models\SelectExercise;
 
 class ExerciseController extends Controller
 {
-    // public function index(Request $request)
-    // {
-    //     $exercisesIndex = 'exercises.index';
-    //     $exercises = Exercise::query()
-    //         ->with('lesson', 'topic');
-
-    //     $this->applySearch($exercises, $request);
-    //     $this->applySort($exercises, $request);
-
-    //     $exercises = $exercises->paginate(10)->appends($request->query());
-
-    //     return view('admin.exercises.index', compact('exercises', 'exercisesIndex'));
-    // }
-
-    // private function applySearch($query, Request $request)
-    // {
-    //     $searchParameter = $request->input('query_parameter');
-    //     $searchText = $request->input('query');
-    //     $statusParameter = $request->input('status_parameter');
-    //     if ($searchParameter) {
-    //         if ($searchParameter === 'lesson') {
-    //             $query->whereHas('lesson', function ($query) use ($searchText) {
-    //                 $query->where('name', 'LIKE', "%{$searchText}%");
-    //             });
-    //         } elseif ($searchParameter === 'topic') {
-    //             $query->whereHas('topic', function ($query) use ($searchText) {
-    //                 $query->where('name', 'LIKE', "%{$searchText}%");
-    //             });
-    //         } else {
-    //             $query->where($searchParameter, 'LIKE', "%{$searchText}%");
-    //         }
-    //     } elseif ($statusParameter) {
-    //         if ($statusParameter === 'visible') {
-    //             $query->where('exercises.status', 1);
-    //         } elseif ($statusParameter === 'not-visible') {
-    //             $query->where('exercises.status', 0);
-    //         }
-    //     } else {
-    //         $query->where('exercises.level', 'LIKE', "%{$searchText}%")
-    //             ->orWhere('exercises.name', 'LIKE', "%{$searchText}%")
-    //             ->orWhere('exercises.category', 'LIKE', "%{$searchText}%")
-    //             ->orWhereHas('lesson', function ($query) use ($searchText) {
-    //                 $query->where('lessons.name', 'LIKE', "%{$searchText}%");
-    //             })
-    //             ->orWhereHas('topic', function ($query) use ($searchText) {
-    //                 $query->where('topics.name', 'LIKE', "%{$searchText}%");
-    //             })
-    //             ->orWhere('exercises.type', 'LIKE', "%{$searchText}%");
-    //     }
-    // }
-
-    // private function applySort($query, Request $request)
-    // {
-    //     $sort = $request->input('sort');
-    //     $sortBy = $request->input('sort_by');
-
-    //     if ($sort && $sortBy) {
-    //         if ($sortBy === 'name') {
-    //             $query->orderBy('exercises.name', $sort);
-    //         } elseif ($sortBy === 'order') {
-    //             $query->orderBy('exercises.order', $sort);
-    //         } elseif ($sortBy === 'level') {
-    //             $query->orderBy('exercises.level', $sort);
-    //         } else {
-    //             $query->orderBy('exercises.order', 'asc');
-    //         }
-    //     }
-    // }
-
     public function create($topicSlideId)
     {
         return view('admin.exercises.create', compact('topicSlideId'));
@@ -152,7 +83,7 @@ class ExerciseController extends Controller
         $topicSlide = $exercise->topicSlide;
         $topic = $topicSlide->topic;
 
-        return redirect()->route('topic-slides.index', ['topicId' => $topic->id])->with('message', 'Exercise slide created successfully');
+        return redirect()->route('topic-slides.topic.index', ['topicId' => $topic->id])->with('message', 'Exercise slide created successfully');
     }
 
     public function show(Exercise $exercise)
@@ -236,14 +167,6 @@ class ExerciseController extends Controller
             'type' => $validatedData['type'],
         ]);
 
-        return redirect()->route('topic-slides.index', ['topicId' => $exercise->topicSlide->topic->id])->with('message', 'Exercise slide updated successfully');
-    }
-
-    public function destroy(Exercise $exercise)
-    {
-        $exercise->exerciseable->delete();
-        $exercise->delete();
-
-        return redirect()->back()->with('message', 'Exercise slide deleted successfully');
+        return redirect()->route('topic-slides.topic.index', ['topicId' => $exercise->topicSlide->topic->id])->with('message', 'Exercise slide updated successfully');
     }
 }

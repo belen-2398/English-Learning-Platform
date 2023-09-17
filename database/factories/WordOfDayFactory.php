@@ -28,7 +28,7 @@ class WordOfDayFactory extends Factory
             'example4' => $this->faker->sentence,
             'example5' => $this->faker->sentence,
             'image' => 'imgtest.jpg',
-            'status' => $this->faker->boolean(),
+            'publish_date' => $this->faker->date(),
         ];
     }
 }

@@ -17,7 +17,7 @@ return new class extends Migration
             // $table->unsignedBigInteger('slideable_id')->nullable();
             // $table->string('slideable_type')->nullable();
             $table->string('name');
-            $table->smallInteger('order');
+            $table->smallInteger('order')->nullable();
             $table->smallInteger('status')->default('0')->comment('0=not visible, 1=visible');
             $table->foreign('topic_id')->references('id')->on('topics')->onDelete('cascade');
             $table->timestamps();

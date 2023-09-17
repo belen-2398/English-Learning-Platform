@@ -34,10 +34,14 @@
                     <select name="lesson_id" id="lesson_id"
                         class="bg-gray-200 w-3/4 border-2 border-gray-200 rounded py-2 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-purple-500">
                         <option value="">Choose lesson</option>
-                        @foreach ($lessons as $lesson)
-                            <option value="{{ $lesson->id }}" {{  $topic->lesson_id === $lesson->id ? 'selected' : '' }}>
-                                {{ $lesson->name }}
-                            </option>
+                        @foreach ($lessons as $level => $levelLessons)
+                            <optgroup label="{{ $level }}"> 
+                                @foreach ($levelLessons as $lesson)
+                                    <option value="{{ $lesson->id }}" {{  $topic->lesson_id === $lesson->id ? 'selected' : '' }}>
+                                        {{ $lesson->name }}
+                                    </option>
+                                @endforeach
+                            </optgroup> 
                         @endforeach
                     </select>
                 </div>

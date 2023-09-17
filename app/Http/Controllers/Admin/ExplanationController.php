@@ -10,14 +10,8 @@ use Illuminate\Http\Request;
 
 class ExplanationController extends Controller
 {
-    // public function index()
-    // {
-    //     //
-    // }
-
     public function create($topicSlideId)
     {
-        // $topic = TopicSlide::firstOrFail($topicSlideId)->topic;
         return view('admin.explanations.create', compact('topicSlideId'));
     }
 
@@ -32,7 +26,7 @@ class ExplanationController extends Controller
 
         $topicSlide = $explanation->topicSlide;
         $topic = $topicSlide->topic;
-        return redirect()->route('topic-slides.index', ['topicId' => $topic->id])->with('message', 'Slide created successfully');
+        return redirect()->route('topic-slides.index', ['topicId' => $topic->id])->with('message', 'Explanation slide created successfully');
     }
 
 
@@ -61,12 +55,5 @@ class ExplanationController extends Controller
         $topic = $topicSlide->topic;
 
         return redirect()->route('topic-slides.index', ['topicId' => $topic->id])->with('message', 'Explanation updated successfully');
-    }
-
-    public function destroy(Explanation $explanation)
-    {
-        $topic = $explanation->topicSlide->topic;
-        $explanation->delete();
-        return redirect()->route('topic-slides.index', ['topicId' => $topic->id])->with('message', 'Explanation deleted successfully');
     }
 }

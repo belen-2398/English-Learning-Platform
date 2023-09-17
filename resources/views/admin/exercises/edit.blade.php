@@ -45,10 +45,9 @@
         </div>
         
         @if ($exercise->type === 'match')
-                    {{-- Match exercises --}}
             <div class="flex-cols justify-center">
                 <div id="match-section" class="flex-col justify-center my-8 border-dashed border-2 w-2/3 mx-auto py-2 px-8">
-                    <p class="text-center text-gray-500 underline my-3">Add 3 to 10 pairs for the user to match. <br> Put them in order.</p>
+                    <p class="text-center text-gray-500 my-3">Add 3 to 10 pairs for the user to match. <br> Put them in order.</p>
                     <div class="flex justify-center gap-12 mt-4">
                         <div class="flex-col">
                             <label class="uppercase text-gray-500 font-bold my-2 flex justify-center" for="left">
@@ -61,49 +60,49 @@
                                 class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->left[1] }}</textarea>
                                 <textarea type="text" id="left3" name="left3" placeholder="Cow"
                                 class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->left[2] }}</textarea>
-                                @if ($exercise->exerciseable->left[3])
+                                @if (isset($exercise->exerciseable->left[3]))
                                     <textarea type="text" id="left4" name="left4"
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->left[3] }}</textarea>
                                 @else
                                     <textarea type="text" id="left4" name="left4" hidden
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('left4') }}</textarea>
                                 @endif 
-                                @if ($exercise->exerciseable->left[4])
+                                @if (isset($exercise->exerciseable->left[4]))
                                     <textarea type="text" id="left5" name="left5"
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->left[4] }}</textarea>
                             @else
                                     <textarea type="text" id="left5" name="left5" hidden
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('left5') }}</textarea>
                             @endif 
-                            @if ($exercise->exerciseable->left[5])
+                            @if (isset($exercise->exerciseable->left[5]))
                                     <textarea type="text" id="left6" name="left6"
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->left[5] }}</textarea>
                             @else
                                     <textarea type="text" id="left6" name="left6" hidden
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('left6') }}</textarea>
                             @endif 
-                            @if ($exercise->exerciseable->left[6])
+                            @if (isset($exercise->exerciseable->left[6]))
                                     <textarea type="text" id="left7" name="left7"
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->left[6] }}</textarea>
                             @else
                                     <textarea type="text" id="left7" name="left7" hidden
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('left7') }}</textarea>
                             @endif 
-                            @if ($exercise->exerciseable->left[7])
+                            @if (isset($exercise->exerciseable->left[7]))
                                     <textarea type="text" id="left8" name="left8"
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->left[7] }}</textarea>
                                 @else
                                     <textarea type="text" id="left8" name="left8" hidden
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('left8') }}</textarea>
                                 @endif 
-                            @if ($exercise->exerciseable->left[8])
+                            @if (isset($exercise->exerciseable->left[8]))
                                     <textarea type="text" id="left9" name="left9"
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->left[8] }}</textarea>
                             @else
                                     <textarea type="text" id="left9" name="left9" hidden
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('left9') }}</textarea>
                             @endif 
-                            @if ($exercise->exerciseable->left[9])
+                            @if (isset($exercise->exerciseable->left[9]))
                                     <textarea type="text" id="left10" name="left10"
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->left[9] }}</textarea>
                             @else
@@ -125,49 +124,49 @@
                                 class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->right[1] }}</textarea>
                                 <textarea type="text" id="right3" name="right3" placeholder="Cow"
                                 class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->right[2] }}</textarea>
-                                @if ($exercise->exerciseable->right[3])
+                                @if (isset($exercise->exerciseable->right[3]))
                                     <textarea type="text" id="right4" name="right4"
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->right[3] }}</textarea>
                                 @else
                                     <textarea type="text" id="right4" name="right4" hidden
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('right4') }}</textarea>
                                 @endif 
-                                @if ($exercise->exerciseable->right[4])
+                                @if (isset($exercise->exerciseable->right[4]))
                                     <textarea type="text" id="right5" name="right5"
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->right[4] }}</textarea>
                             @else
                                     <textarea type="text" id="right5" name="right5" hidden
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('right5') }}</textarea>
                             @endif 
-                            @if ($exercise->exerciseable->right[5])
+                            @if (isset($exercise->exerciseable->right[5]))
                                     <textarea type="text" id="right6" name="right6"
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->right[5] }}</textarea>
                             @else
                                     <textarea type="text" id="right6" name="right6" hidden
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('right6') }}</textarea>
                             @endif 
-                            @if ($exercise->exerciseable->right[6])
+                            @if (isset($exercise->exerciseable->right[6]))
                                     <textarea type="text" id="right7" name="right7"
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->right[6] }}</textarea>
                             @else
                                     <textarea type="text" id="right7" name="right7" hidden
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('right7') }}</textarea>
                             @endif 
-                            @if ($exercise->exerciseable->right[7])
+                            @if (isset($exercise->exerciseable->right[7]))
                                     <textarea type="text" id="right8" name="right8"
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->right[7] }}</textarea>
                                 @else
                                     <textarea type="text" id="right8" name="right8" hidden
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('right8') }}</textarea>
                                 @endif 
-                            @if ($exercise->exerciseable->right[8])
+                            @if (isset($exercise->exerciseable->right[8]))
                                     <textarea type="text" id="right9" name="right9"
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->right[8] }}</textarea>
                             @else
                                     <textarea type="text" id="right9" name="right9" hidden
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('right9') }}</textarea>
                             @endif 
-                            @if ($exercise->exerciseable->right[9])
+                            @if (isset($exercise->exerciseable->right[9]))
                                     <textarea type="text" id="right10" name="right10"
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->right[9] }}</textarea>
                             @else
@@ -184,7 +183,6 @@
                 </div>
             </div>
         @elseif($exercise->type === 'fill')
-                {{-- Fill exercises --}}
                 <div class="flex-cols justify-center">
                     {{-- TODO: let user add breaks --}}
                     <div id="fill-section" class="flex-col justify-center my-8 border-dashed border-2 w-2/3 mx-auto py-2 px-8">
@@ -206,10 +204,9 @@
                     </div>
                 </div>
         @elseif($exercise->type === 'order')
-               {{-- Order exercises --}}
             <div class="flex-cols justify-center">
                 <div id="order-section" class="flex-col justify-center my-8 border-dashed border-2 w-2/3 mx-auto py-2 px-8">
-                    <p class="text-center text-gray-500 underline my-3">Add up to 10 sentences for the user to order. <br> Put them in order, but add "--" to separate the sentence sections.</p>
+                    <p class="text-center text-gray-500 my-3">Add up to 10 sentences for the user to order. <br> Put them in order, but add "--" to separate the sentence sections.</p>
                     <div class="flex justify-center gap-12 mt-4">
                         <div class="flex-col">
                             {{-- TODO: acá y en match, dar posibilidad de ocultar pares. Add pair no está funcionando para sentences --}}
@@ -220,56 +217,56 @@
                                 class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->sentences[0] }}</textarea>
                                 <textarea type="text" id="orSentence2" name="orSentence2"
                                 class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->sentences[1] }}</textarea>
-                                @if ($exercise->exerciseable->sentences[2])
+                                @if (isset($exercise->exerciseable->sentences[2]))
                                     <textarea type="text" id="orSentence3" name="orSentence3"
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->sentences[2] }}</textarea>
                                 @else
                                     <textarea type="text" id="orSentence3" name="orSentence3" hidden
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('right3') }}</textarea>
                                 @endif 
-                                @if ($exercise->exerciseable->sentences[3])
+                                @if (isset($exercise->exerciseable->sentences[3]))
                                     <textarea type="text" id="orSentence4" name="orSentence4"
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->sentences[3] }}</textarea>
                                @else
                                     <textarea type="text" id="orSentence4" name="orSentence4" hidden
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('right4') }}</textarea>
                                @endif 
-                               @if ($exercise->exerciseable->sentences[4])
+                               @if (isset($exercise->exerciseable->sentences[4]))
                                     <textarea type="text" id="orSentence5" name="orSentence5"
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->sentences[4] }}</textarea>
                                @else
                                     <textarea type="text" id="orSentence5" name="orSentence5" hidden
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('right5') }}</textarea>
                                @endif 
-                               @if ($exercise->exerciseable->sentences[5])
+                               @if (isset($exercise->exerciseable->sentences[5]))
                                     <textarea type="text" id="orSentence6" name="orSentence6"
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->sentences[5] }}</textarea>
                                @else
                                     <textarea type="text" id="orSentence6" name="orSentence6" hidden
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('right6') }}</textarea>
                                @endif 
-                               @if ($exercise->exerciseable->sentences[6])
+                               @if (isset($exercise->exerciseable->sentences[6]))
                                     <textarea type="text" id="orSentence7" name="orSentence7"
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->sentences[6] }}</textarea>
                                @else
                                     <textarea type="text" id="orSentence7" name="orSentence7" hidden
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('right7') }}</textarea>
                                @endif 
-                               @if ($exercise->exerciseable->sentences[7])
+                               @if (isset($exercise->exerciseable->sentences[7]))
                                     <textarea type="text" id="orSentence8" name="orSentence8"
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->sentences[7] }}</textarea>
                                 @else
                                     <textarea type="text" id="orSentence8" name="orSentence8" hidden
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('right8') }}</textarea>
                                 @endif 
-                               @if ($exercise->exerciseable->sentences[8])
+                               @if (isset($exercise->exerciseable->sentences[8]))
                                     <textarea type="text" id="orSentence9" name="orSentence9"
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->sentences[8] }}</textarea>
                                @else
                                     <textarea type="text" id="orSentence9" name="orSentence9" hidden
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('right9') }}</textarea>
                                @endif 
-                               @if ($exercise->exerciseable->sentences[9])
+                               @if (isset($exercise->exerciseable->sentences[9]))
                                     <textarea type="text" id="orSentence10" name="orSentence10"
                                     class="bg-gray-200 my-2 appearance-none border-2 border-gray-200 rounded w-full py-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $exercise->exerciseable->sentences[9] }}</textarea>
                                @else
@@ -285,7 +282,6 @@
                 </div>
             </div>
         @elseif($exercise->type === 'select')
-            {{-- Select exercises --}}
             <div class="flex-cols justify-center">
                 {{-- TODO: let user add breaks --}}
                 <div id="select-section" class="flex-col justify-center my-8 border-dashed border-2 w-2/3 mx-auto py-2 px-8">

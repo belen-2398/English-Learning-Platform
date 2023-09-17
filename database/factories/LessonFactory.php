@@ -18,7 +18,7 @@ class LessonFactory extends Factory
     {
         return [
             'level' => $this->faker->randomElement(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']),
-            'order' => $this->faker->unique()->numberBetween(1, 100),
+            'order' => $this->faker->randomNumber(3),
             'status' => $this->faker->boolean(),
             'description' => $this->faker->paragraph,
             'name' => $this->faker->word,

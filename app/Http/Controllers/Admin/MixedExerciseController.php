@@ -15,68 +15,45 @@ use Illuminate\Http\Request;
 
 class MixedExerciseController extends Controller
 {
-    public function index($lessonId, Request $request)
+    // TODO: ver si se puede mantener los resultados del search al aplicar status
+    public function index(Request $request)
     {
-        // $mixedExercisesIndex = 'mixed-exercises.index'; 
-        $lesson = Lesson::findOrFail($lessonId);
-        $mixedExercises = MixedExercise::where('lesson_id', $lessonId);
+        $mixedExercises = MixedExercise::search($request)
+            ->sort($request)
+            ->paginate(10)
+            ->appends($request->query());
 
-        $this->applySearch($mixedExercises, $request);
-        $this->applySort($mixedExercises, $request);
-
-        // where('lesson_id', $lessonId)->paginate();
-        $mixedExercises = $mixedExercises->paginate(10)->appends($request->query());
+        $actionUrl = 'mixed-exercises.index';
 
         return view('admin.exercises.mixed.index', compact(
             'mixedExercises',
-            'lesson',
-            // 'mixedExercisesIndex'
+            'actionUrl'
         ));
     }
 
-    private function applySearch($query, Request $request)
+    public function lessonIndex($lessonId, Request $request)
     {
-        $searchParameter = $request->input('query_parameter');
-        $searchText = $request->input('query');
-        // $statusParameter = $request->input('status_parameter');
+        $lesson = Lesson::findOrFail($lessonId);
+        $mixedExercises = MixedExercise::where('lesson_id', $lessonId)
+            ->search($request)
+            ->sort($request)
+            ->paginate(10)
+            ->appends($request->query());
 
-        if ($searchParameter) {
-            $query->where($searchParameter, 'LIKE', "%{$searchText}%");
-            // } elseif ($statusParameter) {
-            //     if ($statusParameter === 'visible') {
-            //         $query->where('mixed_exercises.status', 1);
-            //     } elseif ($statusParameter === 'not-visible') {
-            //         $query->where('mixed_exercises.status', 0);
-            //     }
-        } elseif ($searchText) {
-            $query->where(function ($query) use ($searchText) {
-                $query->where('mixed_exercises.name', 'LIKE', "%{$searchText}%")
-                    ->orWhere('mixed_exercises.type', 'LIKE', "%{$searchText}%");
-            });
-        }
+        $actionUrl = 'mixed-exercises.lesson.index';
+
+        return view('admin.exercises.mixed.lessonIndex', compact(
+            'mixedExercises',
+            'lesson',
+            'lessonId',
+            'actionUrl'
+        ));
     }
 
-    private function applySort($query, Request $request)
+    public function create($lessonId = null)
     {
-        $sort = $request->input('sort');
-        $sortBy = $request->input('sort_by');
-
-        if ($sort && $sortBy) {
-            if ($sortBy === 'name') {
-                $query->orderBy('mixed_exercises.name', $sort);
-            } elseif ($sortBy === 'order') {
-                $query->orderBy('mixed_exercises.order', $sort);
-            } elseif ($sortBy === 'type') {
-                $query->orderBy('mixed_exercises.type', $sort);
-            } else {
-                $query->orderBy('mixed_exercises.order', 'asc');
-            }
-        }
-    }
-
-    public function create($lessonId)
-    {
-        return view('admin.exercises.mixed.create', compact('lessonId'));
+        $lessons = Lesson::orderBy('level')->get()->groupBy('level');
+        return view('admin.exercises.mixed.create', compact('lessonId', 'lessons'));
     }
 
     public function store(MixedExerciseRequest $request)
@@ -148,7 +125,7 @@ class MixedExerciseController extends Controller
 
         $lesson = $mixedExercise->lesson;
 
-        return redirect()->route('mixed-exercises.index', ['lessonId' => $lesson->id])->with('message', 'Mixed exercise created successfully');
+        return redirect()->route('mixed-exercises.lesson.index', ['lessonId' => $lesson->id])->with('message', 'Mixed exercise created successfully');
     }
 
     public function show(MixedExercise $mixedExercise)
@@ -158,11 +135,11 @@ class MixedExerciseController extends Controller
 
     public function edit(MixedExercise $mixedExercise)
     {
+        $lessons = Lesson::orderBy('level')->get()->groupBy('level');
         $finalExercise = $mixedExercise->mxexerciseable;
         $lessonId = $mixedExercise->lesson->id;
-        return view('admin.exercises.mixed.edit', compact('mixedExercise', 'finalExercise', 'lessonId'));
+        return view('admin.exercises.mixed.edit', compact('mixedExercise', 'lessons', 'finalExercise', 'lessonId'));
     }
-    // TODO: modificar errores de exercise model, controller (index, redirect delete, ), factory y views
 
     public function update(MixedExerciseRequest $request, MixedExercise $mixedExercise)
     {
@@ -234,7 +211,7 @@ class MixedExerciseController extends Controller
 
         $lesson = $mixedExercise->lesson;
 
-        return redirect()->route('mixed-exercises.index', ['lessonId' => $lesson->id])->with('message', 'Mixed exercise updated successfully');
+        return redirect()->route('mixed-exercises.lesson.index', ['lessonId' => $lesson->id])->with('message', 'Mixed exercise updated successfully');
     }
 
     public function destroy(MixedExercise $mixedExercise)
@@ -243,6 +220,6 @@ class MixedExerciseController extends Controller
         $mixedExercise->mxexerciseable->delete();
         $mixedExercise->delete();
 
-        return redirect()->route('mixed-exercises.index', compact('lessonId'))->with('message', 'Mixed exercise deleted successfully');
+        return redirect()->route('mixed-exercises.lesson.index', compact('lessonId'))->with('message', 'Mixed exercise deleted successfully');
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-// TODO: ver si necesito show en todos
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -11,19 +10,35 @@ use Illuminate\Http\Request;
 
 class TopicSlideController extends Controller
 {
-    public function index($topicId, Request $request)
+    public function index(Request $request)
     {
-        $topic = Topic::where('id', $topicId)->first();
-        $topicSlides = $topic->topicSlides;
-        $topicSlides = $topicSlides->sortBy('order');
+        $topicSlides = TopicSlide::search($request)
+            ->sort($request)
+            ->paginate(10)
+            ->appends($request->query());
 
-        return view('admin.topics.slides.index', compact('topicSlides', 'topic'));
+        $actionUrl = 'topic-slides.index';
+        return view('admin.topics.slides.index', compact('topicSlides', 'actionUrl'));
     }
 
-    public function create($topicId)
+    public function topicIndex($topicId, Request $request)
     {
-        $topic = Topic::where('id', $topicId)->first();
-        return view('admin.topics.slides.create', compact('topic'));
+        $topic = Topic::findOrFail($topicId);
+        $topicSlides = TopicSlide::where('topic_id', $topicId)
+            ->search($request)
+            ->sort($request)
+            ->paginate(10)
+            ->appends($request->query());
+
+        $actionUrl = 'topic-slides.topic.index';
+
+        return view('admin.topics.slides.topicIndex', compact('topicSlides', 'topic', 'topicId', 'actionUrl'));
+    }
+
+    public function create($topicId = null)
+    {
+        $topics = Topic::orderBy('name')->get();
+        return view('admin.topics.slides.create', compact('topicId', 'topics'));
     }
 
     public function store(TopicSlideRequest $request)
@@ -44,22 +59,15 @@ class TopicSlideController extends Controller
             return redirect()->route('explanations.create', ['topicSlideId' => $topicSlide->id]);
         } elseif ($slideType === 'exercises') {
             return redirect()->route('exercises.create', ['topicSlideId' => $topicSlide->id]);
-        }else {
+        } else {
             return redirect()->back()->with('error', 'Invalid slide type');
         }
-        
     }
-
-    public function show(TopicSlide $topicSlide)
-    {
-        //
-    }
-
 
     public function edit(TopicSlide $topicSlide)
     {
-        $topic = Topic::where('id', $topicSlide->topic_id)->first();
-        return view('admin.topics.slides.edit', compact('topic', 'topicSlide'));
+        $topics = Topic::orderBy('name')->get();
+        return view('admin.topics.slides.edit', compact('topicSlide', 'topics'));
     }
 
     public function update(TopicSlideRequest $request, TopicSlide $topicSlide)
@@ -74,7 +82,7 @@ class TopicSlideController extends Controller
             'status' => $validatedData['status'],
         ]);
 
-        return redirect()->route('topic-slides.index', ['topicId' => $topicSlide->topic_id]);
+        return redirect()->route('topic-slides.topic.index', ['topicId' => $topicSlide->topic_id]);
     }
 
     public function destroy(TopicSlide $topicSlide)
@@ -82,6 +90,6 @@ class TopicSlideController extends Controller
         $topicId = $topicSlide->topic_id;
         $topicSlide->delete();
 
-        return redirect()->route('topic-slides.index', ['topicId' => $topicId]);
+        return redirect()->route('topic-slides.topic.index', ['topicId' => $topicId])->with('message', 'Topic Slide deleted successfully');
     }
 }

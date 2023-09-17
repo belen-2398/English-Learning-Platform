@@ -10,72 +10,38 @@ use Illuminate\Http\Request;
 
 class TopicController extends Controller
 {
+    // TODO: ver si se puede mantener los resultados del search al aplicar status
     public function index(Request $request)
     {
-        $topicsIndex = 'topics.index';
+        $topics = Topic::search($request)
+            ->sort($request)
+            ->paginate(10)
+            ->appends($request->query());
 
-        $topics = Topic::query();
+        $actionUrl = 'topics.index';
 
-        $this->applySearch($topics, $request);
-        $this->applySort($topics, $request);
-
-        $topics = $topics->paginate(10)->appends($request->query());
-
-        return view('admin.topics.index', compact('topics', 'topicsIndex'));
+        return view('admin.topics.index', compact('topics', 'actionUrl'));
     }
 
-    private function applySearch($query, Request $request)
+    public function lessonIndex($lessonId, Request $request)
     {
-        $searchParameter = $request->input('query_parameter');
-        $searchText = $request->input('query');
-        $statusParameter = $request->input('status_parameter');
+        $lesson = Lesson::findOrFail($lessonId);
+        $topics = Topic::where('lesson_id', $lessonId)
+            ->search($request)
+            ->sort($request)
+            ->paginate(10)
+            ->appends($request->query());
 
-        if ($searchParameter) {
-            if ($searchParameter === 'lesson') {
-                $query->whereHas('lesson', function ($query) use ($searchText) {
-                    $query->where('name', 'LIKE', "%{$searchText}%");
-                });
-            } else {
-                $query->where($searchParameter, 'LIKE', "%{$searchText}%");
-            }
-        } elseif ($statusParameter) {
-            if ($statusParameter === 'visible') {
-                $query->where('topics.status', 1);
-            } elseif ($statusParameter === 'not-visible') {
-                $query->where('topics.status', 0);
-            }
-        } else {
-            $query->where('topics.name', 'LIKE', "%{$searchText}%")
-                ->orWhere('topics.category', 'LIKE', "%{$searchText}%")
-                ->orWhere('topics.points', 'LIKE', "%{$searchText}%")
-                ->orWhere('topics.order', 'LIKE', "%{$searchText}%")
-                ->orWhereHas('lesson', function ($query) use ($searchText) {
-                    $query->where('lessons.name', 'LIKE', "%{$searchText}%");
-                });
-        }
+        $actionUrl = 'topics.lesson.index';
+
+        return view('admin.topics.lessonIndex', compact('topics', 'lessonId', 'lesson', 'actionUrl'));
     }
 
-
-    private function applySort($query, Request $request)
+    public function create($lessonId = null)
     {
-        $sort = $request->input('sort');
-        $sortBy = $request->input('sort_by');
-
-        if ($sort && $sortBy) {
-            if ($sortBy === 'name') {
-                $query->orderBy('topics.name', $sort);
-            } elseif ($sortBy === 'order') {
-                $query->orderBy('topics.order', $sort);
-            } else {
-                $query->orderBy('topics.order', 'asc');
-            }
-        }
-    }
-
-    public function create()
-    {
-        $lessons = Lesson::all();
-        return view('admin.topics.create', compact('lessons'));
+        $lessonId = (int)$lessonId;
+        $lessons = Lesson::orderBy('level')->get()->groupBy('level');
+        return view('admin.topics.create', compact('lessons', 'lessonId'));
     }
 
     public function store(TopicRequest $request)
@@ -92,12 +58,12 @@ class TopicController extends Controller
             'status' => $validatedData['status'],
         ]);
 
-        return redirect()->route('topic-slides.index', ['topicId' => $topic->id])->with('message', 'Topic created successfully');
+        return redirect()->route('topics.lesson.index', ['lessonId' => $topic->lesson_id])->with('message', 'Topic created successfully');
     }
 
     public function edit(Topic $topic)
     {
-        $lessons = Lesson::all();
+        $lessons = Lesson::orderBy('level')->get()->groupBy('level');
         return view('admin.topics.edit', compact('lessons', 'topic'));
     }
 
@@ -115,12 +81,13 @@ class TopicController extends Controller
             'status' => $validatedData['status'] == true ? '1' : '0',
         ]);
 
-        return redirect()->route('topic-slides.index', ['topicId' => $topic->id])->with('message', 'Topic updated successfully');
+        return redirect()->route('topics.lesson.index', ['lessonId' => $topic->lesson_id])->with('message', 'Topic updated successfully');
     }
 
     public function destroy(Topic $topic)
     {
-        $topic = Topic::findOrFail($topic->id)->delete();
-        return redirect()->back()->with('message', 'Topic deleted successfully');
+        $lessonId = $topic->lesson_id;
+        $topic->delete();
+        return redirect()->route('topics.lesson.index', ['lessonId' => $lessonId])->with('message', 'Topic deleted successfully');
     }
 }

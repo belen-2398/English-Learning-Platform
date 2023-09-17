@@ -1,9 +1,8 @@
 @extends('layouts.admin')
 @section('title', 'Exercise Create')
 @section('content')
-        {{-- TODO: add link to dashboard in navbar --}}
-        {{-- TODO: other types of exercises and mixedexercises in another template --}}
 <div>
+    {{-- TODO: all exercise variations hidden at first --}}
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -15,7 +14,7 @@
     @endif
     <div class="m-6 p-4 flex justify-between">
         <h2 class="head-title">Create exercise</h2>
-        <a href="{{ route('topics.index') }}" class="color-button float-end p-3">Back</a>
+        <a href="{{ url()->previous() }}" class="color-button float-end p-3">Back</a>
     </div>
     <form action="{{ route('exercises.store') }}" method="POST"
         class="flex-cols justify-center pb-10">

@@ -18,6 +18,8 @@ use App\Http\Controllers\DictionaryWordController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\WordOfDayController;
 
+// TODO: ver si lo comentado sirve
+
 Route::get('/', [FrontendController::class, 'index'])->name('welcome');
 
 Route::controller(LessonController::class)->group(function () {
@@ -67,19 +69,30 @@ Route::middleware([
 
 Route::prefix('admin')->middleware([IsAdmin::class])->group(function () {
     Route::view('/dashboard', 'admin/dashboard')->name('admin.dashboard');
-    // TODO: ver si sliders sirve y si para topics, topic-slides y exercises necesito todo el CRUD
+    Route::view('/levels', 'admin/levels')->name('admin.levels');
+
     // Route::resource('/sliders', SliderController::class)->except('show');
-    Route::resource('/lessons', AdminLessonController::class);
-    Route::resource('/topics', AdminTopicController::class)->except('show');
-    Route::resource('/topic-slides', TopicSlideController::class)->except('index', 'create');
-    Route::get('/topic-slides-index/{topicId}', [TopicSlideController::class, 'index'])->name('topic-slides.index');
-    Route::get('/topic-slides-create/{topicId}', [TopicSlideController::class, 'create'])->name('topic-slides.create');
-    Route::resource('/exercises', AdminExerciseController::class)->except('create');
-    Route::get('/exercises-create/{topicSlideId}', [AdminExerciseController::class, 'create'])->name('exercises.create');
-    Route::resource('/explanations', ExplanationController::class);
+    Route::resource('/lessons', AdminLessonController::class)->except('show', 'create');
+    Route::get('/lessons-level-index/{level}', [AdminLessonController::class, 'levelIndex'])->name('lessons.level.index');
+    Route::get('/lessons-create/{level?}', [AdminLessonController::class, 'create'])->name('lessons.create');
+
+    Route::resource('/topics', AdminTopicController::class)->except('show', 'create');
+    Route::get('/topics-lesson-index/{lessonId}', [AdminTopicController::class, 'lessonIndex'])->name('topics.lesson.index');
+    Route::get('/topics-create/{lessonId?}', [AdminTopicController::class, 'create'])->name('topics.create');
+
+    Route::resource('/topic-slides', TopicSlideController::class)->except('create', 'show');
+    Route::get('/topic-slides-topic-index/{topicId}', [TopicSlideController::class, 'topicIndex'])->name('topic-slides.topic.index');
+    Route::get('/topic-slides-create/{topicId?}', [TopicSlideController::class, 'create'])->name('topic-slides.create');
+
+    Route::resource('/explanations', ExplanationController::class)->except('create', 'destroy', 'index');
     Route::get('/explanations-create/{topicSlideId}', [ExplanationController::class, 'create'])->name('explanations.create');
-    Route::resource('/mixed-exercises', MixedExerciseController::class)->except('index', 'create');
-    Route::get('/mixed-exercises-index/{lessonId}', [MixedExerciseController::class, 'index'])->name('mixed-exercises.index');
-    Route::get('/mixed-exercises-create/{lessonId}', [MixedExerciseController::class, 'create'])->name('mixed-exercises.create');
-    Route::resource('/word-of-day', AdminWordOfDayController::class)->except('show');
+
+    Route::resource('/exercises', AdminExerciseController::class)->except('create', 'destroy', 'index');
+    Route::get('/exercises-create/{topicSlideId}', [AdminExerciseController::class, 'create'])->name('exercises.create');
+
+    Route::resource('/mixed-exercises', MixedExerciseController::class)->except('create');
+    Route::get('/mixed-exercises-lesson-index/{lessonId}', [MixedExerciseController::class, 'lessonIndex'])->name('mixed-exercises.lesson.index');
+    Route::get('/mixed-exercises-create/{lessonId?}', [MixedExerciseController::class, 'create'])->name('mixed-exercises.create');
+
+    Route::resource('/word-of-day', AdminWordOfDayController::class);
 });

@@ -1,6 +1,7 @@
 <?php
 
 namespace Tests\Feature;
+
 use App\Models\Lesson;
 use App\Models\MatchExercise;
 use App\Models\MixedExercise;
@@ -11,6 +12,8 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Symfony\Component\Mime\Part\Multipart\MixedPart;
 use Tests\TestCase;
 
+// TODO: rerun after fixing gral index page and specific index page
+// TODO: eliminate repetitions similar to exerciseTest
 class MixedExerciseTest extends TestCase
 {
     use RefreshDatabase;
@@ -26,22 +29,217 @@ class MixedExerciseTest extends TestCase
         $this->actingAs($admin);
     }
 
-    public function test_mixed_exercise_empty_index_page()
+    public function test_mixed_exercise_empty_gral_index_page()
     {
+        $response = $this->get(route('mixed-exercises.index'));
 
-        $lesson = Lesson::factory()->create();
+        $response->assertStatus(200);
+        $response->assertViewIs('admin.exercises.mixed.index');
+        $response->assertSee('No mixed exercises');
+    }
+
+    public function test_mixed_exercise_not_empty_gral_index_page_with_different_lesson_ids()
+    {
+        $lesson1 = Lesson::factory()->create();
+        $lesson2 = Lesson::factory()->create();
+
+        $lesson1MixedExercise = MixedExercise::factory()->create(['lesson_id' => $lesson1->id]);
+        $lesson2MixedExercise = MixedExercise::factory()->create(['lesson_id' => $lesson2->id]);
+
+        $response = $this->get(route('mixed-exercises.index'));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('admin.exercises.mixed.index');
+        $response->assertViewHas('mixedExercises', function ($collection) use ($lesson1MixedExercise) {
+            return $collection->contains($lesson1MixedExercise);
+        });
+        $response->assertViewHas('mixedExercises', function ($collection) use ($lesson2MixedExercise) {
+            return $collection->contains($lesson2MixedExercise);
+        });
+    }
+
+    public function test_mixed_exercise_paginated_gral_index_page()
+    {
+        $mixedExercises = MixedExercise::factory(11)->create();
+        $lastMixedExercise = $mixedExercises->last();
+
+        $response = $this->get(route('mixed-exercises.index'));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('admin.exercises.mixed.index');
+        $response->assertViewHas('mixedExercises', function ($collection) use ($lastMixedExercise) {
+            return !$collection->contains($lastMixedExercise);
+        });
+    }
+
+    /**
+     * @dataProvider gralSortDataProvider
+     */
+    public function test_mixed_exercise_gral_index_page_with_sort($sortField, $sortOrder)
+    {
+        $mixedExercise1 = MixedExercise::factory()->create([
+            'name' => 'Exercise A',
+            'order' => 2,
+            'type' => 'match'
+        ]);
+
+        $mixedExercise2 = MixedExercise::factory()->create([
+            'name' => 'Exercise B',
+            'order' => 1,
+            'type' => 'select'
+        ]);
 
         $response = $this->get(route('mixed-exercises.index', [
-            'lessonId' => $lesson->id,
+            'sort_by' => $sortField,
+            'sort' => $sortOrder,
         ]));
 
         $response->assertStatus(200);
         $response->assertViewIs('admin.exercises.mixed.index');
-        $response->assertViewHas(['mixedExercises', 'lesson']);
+        $response->assertViewHas(['mixedExercises']);
+
+        if ($sortField === 'name') {
+            if ($sortOrder === 'asc') {
+                $response->assertSeeInOrder(['Exercise A', 'Exercise B']);
+            } elseif ($sortOrder === 'desc') {
+                $response->assertSeeInOrder(['Exercise B', 'Exercise A']);
+            }
+        } elseif ($sortField === 'order') {
+            if ($sortOrder === 'asc') {
+                $response->assertSeeInOrder(['Exercise B', 'Exercise A']);
+            } elseif ($sortOrder === 'desc') {
+                $response->assertSeeInOrder(['Exercise A', 'Exercise B']);
+            }
+        } elseif ($sortField === 'type') {
+            if ($sortOrder === 'asc') {
+                $response->assertSeeInOrder(['Exercise A', 'Exercise B']);
+            } elseif ($sortOrder === 'desc') {
+                $response->assertSeeInOrder(['Exercise B', 'Exercise A']);
+            }
+        } else {
+            $response->assertSeeInOrder(['Exercise B', 'Exercise A']);
+        }
+    }
+
+    public static function gralSortDataProvider()
+    {
+        return [
+            ['name', 'asc'],
+            ['name', 'desc'],
+            ['order', 'asc'],
+            ['order', 'desc'],
+            ['type', 'asc'],
+            ['type', 'desc'],
+        ];
+    }
+
+    /**
+     * @dataProvider gralSearchDataProvider
+     */
+    public function test_mixed_exercise_gral_index_page_with_search($queryParameter, $query)
+    {
+        $mixedExercise1 = MixedExercise::factory()->create([
+            'name' => 'Exercise A',
+            'type' => 'match'
+        ]);
+
+        $mixedExercise2 = MixedExercise::factory()->create([
+            'name' => 'Exercise B',
+            'type' => 'select'
+        ]);
+
+        $response = $this->get(route('mixed-exercises.index', [
+            'query_parameter' => $queryParameter,
+            'query' => $query,
+        ]));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('admin.exercises.mixed.index');
+        $response->assertViewHas(['mixedExercises']);
+
+        if ($queryParameter === 'name') {
+            if ($query === 'Ex') {
+                $response->assertSee(['Exercise A', 'Exercise B']);
+            } elseif ($query === 'Lala') {
+                $response->assertDontSee(['Exercise A', 'Exercise B']);
+            } elseif ($query === 'Exercise A') {
+                $response->assertSee('Exercise A');
+                $response->assertDontSee('Exercise B');
+            }
+        } elseif ($queryParameter === 'type') {
+            if ($query === 'match') {
+                $response->assertSee('Exercise A');
+                $response->assertDontSee('Exercise B');
+            } elseif ($query === '1') {
+                $response->assertDontSee(['Exercise A', 'Exercise B']);
+            } elseif ($query === 'sel') {
+                $response->assertSee('Exercise B');
+                $response->assertDontSee('Exercise A');
+            }
+        } else {
+            $response->assertSeeInOrder(['Exercise B', 'Exercise A']);
+        }
+    }
+
+    public static function gralSearchDataProvider()
+    {
+        return [
+            ['name', 'Ex'],
+            ['name', 'Lala'],
+            ['name', 'Exercise A'],
+            ['type', 'match'],
+            ['type', 'Sel'],
+            ['type', '1'],
+        ];
+    }
+
+    public function test_mixed_exercise_gral_index_page_with_search_and_sort_after()
+    {
+        $mixedExercise1 = MixedExercise::factory()->create([
+            'name' => 'Exercises A',
+            'order' => 3
+        ]);
+
+        $mixedExercise2 = MixedExercise::factory()->create([
+            'name' => 'Exercises B',
+            'order' => 2
+        ]);
+
+        $mixedExercise3 = MixedExercise::factory()->create([
+            'name' => 'Exercise C',
+            'order' => 1
+        ]);
+
+        $response = $this->get(route('mixed-exercises.index', [
+            'query_parameter' => 'name',
+            'query' => 'Exercises',
+            'sort_by' => 'order',
+            'sort' => 'asc',
+        ]));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('admin.exercises.mixed.index');
+        $response->assertViewHas(['mixedExercises']);
+
+        $response->assertSeeInOrder(['Exercises B', 'Exercises A']);
+        $response->assertDontSee('Exercise C');
+    }
+
+    public function test_mixed_exercise_empty_lesson_index_page()
+    {
+        $lesson = Lesson::factory()->create();
+
+        $response = $this->get(route('mixed-exercises.lesson.index', [
+            'lessonId' => $lesson->id,
+        ]));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('admin.exercises.mixed.lessonIndex');
+        $response->assertViewHas(['lesson']);
         $response->assertSee('No mixed exercises');
     }
 
-    public function test_mixed_exercise_not_empty_index_page()
+    public function test_mixed_exercise_not_empty_lesson_index_page()
     {
 
         $lesson1 = Lesson::factory()->create();
@@ -50,12 +248,12 @@ class MixedExerciseTest extends TestCase
         $visibleMixedExercise = MixedExercise::factory()->create(['lesson_id' => $lesson1->id]);
         $notVisibleMixedExercise = MixedExercise::factory()->create(['lesson_id' => $lesson2->id]);
 
-        $response = $this->get(route('mixed-exercises.index', [
+        $response = $this->get(route('mixed-exercises.lesson.index', [
             'lessonId' => $lesson1->id,
         ]));
 
         $response->assertStatus(200);
-        $response->assertViewIs('admin.exercises.mixed.index');
+        $response->assertViewIs('admin.exercises.mixed.lessonIndex');
         $response->assertViewHas('mixedExercises', function ($collection) use ($visibleMixedExercise) {
             return $collection->contains($visibleMixedExercise);
         });
@@ -73,12 +271,12 @@ class MixedExerciseTest extends TestCase
         $newMixedExercises = MixedExercise::factory(11)->create(['lesson_id' => $lesson->id]);
         $lastMixedExercise = $newMixedExercises->last();
 
-        $response = $this->get(route('mixed-exercises.index', [
+        $response = $this->get(route('mixed-exercises.lesson.index', [
             'lessonId' => $lesson->id,
         ]));
 
         $response->assertStatus(200);
-        $response->assertViewIs('admin.exercises.mixed.index');
+        $response->assertViewIs('admin.exercises.mixed.lessonIndex');
         $response->assertViewHas('mixedExercises', function ($collection) use ($lastMixedExercise) {
             return !$collection->contains($lastMixedExercise);
         });
@@ -106,14 +304,14 @@ class MixedExerciseTest extends TestCase
             'type' => 'select'
         ]);
 
-        $response = $this->get(route('mixed-exercises.index', [
+        $response = $this->get(route('mixed-exercises.lesson.index', [
             'lessonId' => $lesson->id,
             'sort_by' => $sortField,
             'sort' => $sortOrder,
         ]));
 
         $response->assertStatus(200);
-        $response->assertViewIs('admin.exercises.mixed.index');
+        $response->assertViewIs('admin.exercises.mixed.lessonIndex');
         $response->assertViewHas(['mixedExercises', 'lesson']);
 
         if ($sortField === 'name') {
@@ -170,14 +368,14 @@ class MixedExerciseTest extends TestCase
             'type' => 'select'
         ]);
 
-        $response = $this->get(route('mixed-exercises.index', [
+        $response = $this->get(route('mixed-exercises.lesson.index', [
             'lessonId' => $lesson->id,
             'query_parameter' => $queryParameter,
             'query' => $query,
         ]));
 
         $response->assertStatus(200);
-        $response->assertViewIs('admin.exercises.mixed.index');
+        $response->assertViewIs('admin.exercises.mixed.lessonIndex');
         $response->assertViewHas(['mixedExercises', 'lesson']);
 
         if ($queryParameter === 'name') {
@@ -238,7 +436,7 @@ class MixedExerciseTest extends TestCase
             'order' => 1
         ]);
 
-        $response = $this->get(route('mixed-exercises.index', [
+        $response = $this->get(route('mixed-exercises.lesson.index', [
             'lessonId' => $lesson->id,
             'query_parameter' => 'name',
             'query' => 'Exercises',
@@ -247,7 +445,7 @@ class MixedExerciseTest extends TestCase
         ]));
 
         $response->assertStatus(200);
-        $response->assertViewIs('admin.exercises.mixed.index');
+        $response->assertViewIs('admin.exercises.mixed.lessonIndex');
         $response->assertViewHas(['mixedExercises', 'lesson']);
 
         $response->assertSeeInOrder(['Exercises B', 'Exercises A']);
@@ -304,7 +502,7 @@ class MixedExerciseTest extends TestCase
         $response = $this->post(route('mixed-exercises.store'), $mixedExercise);
 
         $response->assertStatus(302);
-        $response->assertRedirect(route('mixed-exercises.index', [
+        $response->assertRedirect(route('mixed-exercises.lesson.index', [
             'lessonId' => $lesson->id,
         ]));
         $response->assertSessionHas('message', 'Mixed exercise created successfully');
@@ -369,7 +567,7 @@ class MixedExerciseTest extends TestCase
         $response = $this->post(route('mixed-exercises.store'), $mixedExercise);
 
         $response->assertStatus(302);
-        $response->assertRedirect(route('mixed-exercises.index', [
+        $response->assertRedirect(route('mixed-exercises.lesson.index', [
             'lessonId' => $lesson->id,
         ]));
         $response->assertSessionHas('message', 'Mixed exercise created successfully');
@@ -420,7 +618,7 @@ class MixedExerciseTest extends TestCase
         $response = $this->post(route('mixed-exercises.store'), $mixedExercise);
 
         $response->assertStatus(302);
-        $response->assertRedirect(route('mixed-exercises.index', [
+        $response->assertRedirect(route('mixed-exercises.lesson.index', [
             'lessonId' => $lesson->id,
         ]));
         $response->assertSessionHas('message', 'Mixed exercise created successfully');
@@ -473,7 +671,7 @@ class MixedExerciseTest extends TestCase
         $response = $this->post(route('mixed-exercises.store'), $mixedExercise);
 
         $response->assertStatus(302);
-        $response->assertRedirect(route('mixed-exercises.index', [
+        $response->assertRedirect(route('mixed-exercises.lesson.index', [
             'lessonId' => $lesson->id,
         ]));
         $response->assertSessionHas('message', 'Mixed exercise created successfully');
@@ -570,11 +768,11 @@ class MixedExerciseTest extends TestCase
 
         $response = $this->delete(route('mixed-exercises.destroy', [
             'mixed_exercise' => $mixedExercise->id,
-           
+
         ]));
 
         $response->assertStatus(302);
-        $response->assertRedirect(route('mixed-exercises.index', [ 'lessonId'  => $lessonId]));
+        $response->assertRedirect(route('mixed-exercises.lesson.index', ['lessonId'  => $lessonId]));
         $this->assertDatabaseMissing('mixed_exercises', $mixedExercise->toArray());
         $this->assertDatabaseCount('mixed_exercises', 0);
     }

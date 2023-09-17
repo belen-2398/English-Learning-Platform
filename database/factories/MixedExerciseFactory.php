@@ -9,7 +9,6 @@ use App\Models\MixedExercise;
 use App\Models\OrderExercise;
 use App\Models\SelectExercise;
 use Illuminate\Database\Eloquent\Factories\Factory;
-
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\MixedExercise>
  */
@@ -19,7 +18,6 @@ class MixedExerciseFactory extends Factory
 
     public function definition(): array
     {
-
         $exerciseType = $this->faker->randomElement(
             ['match', 'fill', 'select', 'order']
         );
@@ -38,11 +36,11 @@ class MixedExerciseFactory extends Factory
 
         return [
             'lesson_id' => Lesson::factory(),
+            'type' => $exerciseType,
             'mxexerciseable_id' => $this->faker->randomNumber(),
             'mxexerciseable_type' => $mxableType,
             'name' => $this->faker->word,
-            'order' => $this->faker->numberBetween(1, 100),
-            'type' => $exerciseType,
+            'order' => $this->faker->randomNumber(3),
             'status' => $this->faker->boolean,
         ];
     }

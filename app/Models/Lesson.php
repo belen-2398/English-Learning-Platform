@@ -27,4 +27,42 @@ class Lesson extends Model
     {
         return $this->hasMany(MixedExercise::class);
     }
+
+    public function scopeSearch($query, $request)
+    {
+        $searchParameter = $request->input('query_parameter');
+        $searchText = $request->input('query');
+        $statusParameter = $request->input('status_parameter');
+
+        if ($searchParameter) {
+            $query->where($searchParameter, 'LIKE', "%{$searchText}%");
+        } elseif ($statusParameter) {
+            if ($statusParameter === 'visible') {
+                $query->where('status', 1);
+            } elseif ($statusParameter === 'not-visible') {
+                $query->where('status', 0);
+            }
+        } else {
+            $query->where('name', 'LIKE', "%{$searchText}%")
+                ->orWhere('description', 'LIKE', "%{$searchText}%");
+        }
+    }
+
+    public function scopeSort($query, $request)
+    {
+        $sort = $request->input('sort');
+        $sortBy = $request->input('sort_by');
+
+        if ($sort && $sortBy) {
+            if ($sortBy === 'name') {
+                $query->orderBy('name', $sort);
+            } elseif ($sortBy === 'order') {
+                $query->orderBy('order', $sort);
+            } elseif ($sortBy === 'level') {
+                $query->orderBy('level', $sort);
+            } else {
+                $query->orderBy('order', 'asc');
+            }
+        }
+    }
 }
