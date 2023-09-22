@@ -16,19 +16,26 @@ class WordOfDayFactory extends Factory
      */
     public function definition(): array
     {
+        $arraySize = $this->faker->numberBetween(1, 5);
+
+        $sentenceArray = [];
+
+        for ($i = 0; $i < $arraySize; $i++) {
+            $sentenceArray[] = $this->faker->sentence(4);
+        }
+
+        $startDate = '2023-01-01';
+        $endDate = '2024-01-01';
+
         return [
             'word' => $this->faker->word,
             'type' => $this->faker->word,
             'pronunciation' => $this->faker->word,
             'audio' => 'audiotest.mp3',
             'definition' => $this->faker->paragraph,
-            'example1' => $this->faker->sentence,
-            'example2' => $this->faker->sentence,
-            'example3' => $this->faker->sentence,
-            'example4' => $this->faker->sentence,
-            'example5' => $this->faker->sentence,
+            'examples' => $sentenceArray,
             'image' => 'imgtest.jpg',
-            'publish_date' => $this->faker->date(),
+            'publish_date' => $this->faker->dateTimeBetween($startDate, $endDate)->format('Y-m-d'),
         ];
     }
 }

@@ -7,7 +7,7 @@
                 class="w-11 h-6 bg-[var(--color-lightest)] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--color-medium1)]">
             </div>
             <span class="ml-3 text-sm font-medium text-[var(--color-darkest)]" v-if="!loading">
-                {{ completed !== false ? 'Marked as completed' : 'Mark as completed' }}
+                {{ completed !== false ? 'Marked as complete' : 'Mark as complete' }}
             </span>
             <span class="ml-3 text-sm font-medium text-[var(--color-darkest)]" v-else>
                 Wait a second...

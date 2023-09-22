@@ -1,4 +1,5 @@
 <template>
+    <!-- TODO: add exercise prompt -->
     <div class="flex-col items-center mt-8">
         <div class="mx-20 my-4 bg-[var(--color-lightest)] p-4">
             <ol>
@@ -6,6 +7,7 @@
                     <template v-for="(section, sectionIndex) in sentence.sections" :key="sectionIndex">
                         <p class="mx-2">{{ section }}</p>
                         <p class="mx-2">/</p>
+                        <!-- TODO: no / at the end of the sentence -->
                     </template>
                     <p class="mr-10">:</p>
                     <input type="text" class="mb-2" v-model="userResponses[index]">
@@ -13,7 +15,7 @@
             </ol>
         </div>
         <div class="mx-auto text-center">
-            <button @click="checkOrder" class="bg-[var(--color-medium2)] p-2 text-lg rounded">Correct</button>
+            <button @click="checkOrder" class="bg-[var(--color-medium2)] p-2 text-lg rounded text-white">Correct</button>
             <p v-if="showResult" class="mt-2">{{ resultMessage }}</p>
             <div class="flex mx-auto justify-center gap-10">
                 <button @click="redo" v-if="showResult" class="hover:underline">Re-do</button>

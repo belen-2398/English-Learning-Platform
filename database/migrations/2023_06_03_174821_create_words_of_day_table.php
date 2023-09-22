@@ -18,15 +18,10 @@ return new class extends Migration
             $table->string('pronunciation')->nullable();
             $table->string('audio')->nullable();
             $table->mediumText('definition');
-            $table->mediumText('example1');
-            $table->mediumText('example2')->nullable();
-            $table->mediumText('example3')->nullable();
-            $table->mediumText('example4')->nullable();
-            $table->mediumText('example5')->nullable();
+            $table->text('examples');
             $table->string('image')->nullable();
             $table->date('publish_date')->nullable();
             $table->timestamps();
-            // TODO: add publish date to views and controllers
         });
     }
 

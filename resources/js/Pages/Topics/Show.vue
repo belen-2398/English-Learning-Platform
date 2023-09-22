@@ -26,14 +26,14 @@
             </div>
             <Splide :options="splideOptions" aria-label="Topic">
                 <SplideSlide class="mx-10">
-                    <div class="flex bg-[var(--color-medium1)] mx-auto items-center min-h-[450px]">
-                        <p class="my-auto mx-auto text-3xl">
-                            Click on the right to start.
+                    <div class="flex mx-auto items-center h-full bg-[var(--color-medium1)]">
+                        <p class="mx-auto text-3xl">
+                            Click on the right arrow to start learning.
                         </p>
                     </div>
                 </SplideSlide>
                 <SplideSlide class="mx-10" v-for="topicSlide in topicSlides">
-                    <div class="flex-cols mx-auto items-center min-h-[500px] my-auto bg-[var(--color-medium1)] py-10">
+                    <div class="flex-cols mx-auto items-center my-auto py-10">
                         <h3 class="text-3xl text-center mx-auto pt-8">
                             {{ topicSlide.name }}
                         </h3>
@@ -64,8 +64,8 @@
                 </SplideSlide>
                 <SplideSlide class="mx-10">
                     <div
-                        class="slide1 bg-[var(--color-medium2)] mx-auto items-center min-h-[450px] hover:bg-[var(--color-medium2)]">
-                        <p class="my-auto text-3xl text-center mx-10 leading-10" v-if="nextTopic">
+                        class="slide1 bg-[var(--color-medium2)] mx-auto items-center h-full hover:bg-[var(--color-medium2)]">
+                        <p class="text-black my-auto text-3xl text-center mx-10 leading-10" v-if="nextTopic">
                             Great job! <br>
                             You finished this topic. <br>
                         <div>
@@ -80,7 +80,7 @@
                             </Link>
                         </div>
                         </p>
-                        <p v-else class="my-auto text-3xl text-center mx-10 leading-10">
+                        <p v-else class="text-black my-auto text-3xl text-center mx-10 leading-10">
                             Great job! <br>
                             You finished all the topics in this lesson. <br>
                         <div>

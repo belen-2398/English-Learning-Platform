@@ -15,8 +15,6 @@ class ExerciseTest extends TestCase
 {
     use RefreshDatabase;
 
-    // TODO: rerun after fixing views
-
     private $topicId;
 
     public function setUp(): void

@@ -80,18 +80,59 @@
                     Examples
                 </label>
             </div>
-            <div class="flex-cols">
+            <div class="flex-cols md:w-2/3" id="example-fields">
                 <div class="mb-2">
-                    <textarea type="text" name="example1" id="example1" rows="3"
-                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $wordOfDay->example1 }}</textarea>
+                    <input type="text" id="example1" name="example1" value="{{ $wordOfDay->examples[0] }}"
+                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
                 </div>
+                @if (isset($wordOfDay->examples[1]))
+                    <div class="mb-2">
+                        <input type="text" id="example2" name="example2" value="{{ $wordOfDay->examples[1] }}"
+                            class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+                    </div>
+                @else
+                    <div class="mb-2">
+                        <input type="text" id="example2" name="example2" value="{{ old('example2') }}" hidden
+                            class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+                    </div>
+                @endif
+                
+                @if (isset($wordOfDay->examples[2]))
+                    <div class="mb-2">
+                        <input type="text" id="example3" name="example3" value="{{ $wordOfDay->examples[2] }}"
+                            class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+                    </div>
+                @else
+                    <div class="mb-2">
+                        <input type="text" id="example3" name="example3" value="{{ old('example3') }}" hidden
+                            class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+                    </div>
+                @endif
+                @if (isset($wordOfDay->examples[3]))
+                    <div class="mb-2">
+                        <input type="text" id="example4" name="example4" value="{{ $wordOfDay->examples[3] }}"
+                            class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+                    </div>
+                @else
                 <div class="mb-2">
-                    <textarea type="text" name="example2" id="example2" rows="3"
-                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $wordOfDay->example2 }}</textarea>
+                    <input type="text" id="example4" name="example4" value="{{ old('example4') }}" hidden
+                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
                 </div>
+                @endif
+                @if (isset($wordOfDay->examples[4]))
+                    <div class="mb-2">
+                        <input type="text" id="example5" name="example5" value="{{ $wordOfDay->examples[4] }}"
+                            class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+                    </div>
+                @else
                 <div class="mb-2">
-                    <textarea type="text" name="example3" id="example3" rows="3"
-                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ $wordOfDay->example3 }}</textarea>
+                    <input type="text" id="example5" name="example5" value="{{ old('example5') }}" hidden
+                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+                </div>
+                @endif
+                <div class="flex-col justify-center my-4">
+                    <button type="button" id="addExampleBtn" class="uppercase text-sm text-white bg-gray-500 p-2 rounded font-semibold my-2 ml-2 flex justify-center">Add Example</button>
+                    <p id="maxExamplesMessage" class="text-red-500 p-2 text-center hidden">The maximum number of examples is 5.</p>
                 </div>
             </div>
 
@@ -105,20 +146,15 @@
             <div class="md:w-2/3">
                 <input type="file" id="image" name="image"
                     class="w-full py-2 px-4 text-gray-700 leading-tight">
-                <img src="{{ asset("$wordOfDay->image") }}" alt="{{ $wordOfDay->description }}" class="table-image">
+                <img src="{{ asset("$wordOfDay->image") }}" alt="{{ $wordOfDay->word }}" class="table-image">
             </div>
         </div>
         <div class="md:flex md:items-center mb-6">
             <div class="md:w-1/3"></div>
-            <label class="md:w-2/3 block text-gray-500 font-bold" for="status">
-                Status
+            <label class="md:w-2/3 block text-gray-500 font-bold" for="publish_date">
+                Date to be published
                 <br />
-                <input type="checkbox" name="status" id="status"
-                {{ $wordOfDay->status == '1' ? 'checked' : '' }} 
-                class="mr-2 leading-tight">
-                <span class="text-sm"> <br />
-                    Unchecked = hidden, checked = visible
-                </span>
+                <input type="date" min="2023-09-18" value="{{ $wordOfDay->publish_date }}" name="publish_date" id="publish_date" class="mr-2 leading-tight">
             </label>
         </div>
         <div class="md:flex md:items-center">
@@ -134,3 +170,22 @@
     </form>  
 </div>
 @endsection
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('addExampleBtn').addEventListener('click', function () {
+            var exampleFieldCount = document.querySelectorAll('input[id^="example"]:not([hidden])').length;
+            console.log(exampleFieldCount);
+            if (exampleFieldCount >= 5) {
+            this.disabled = true;
+            document.getElementById('maxExamplesMessage').style.display = 'block';
+            return;
+        }
+
+        const nextExampleIndex = exampleFieldCount + 1;
+
+        const exampleInput = document.getElementById(`example${nextExampleIndex}`);
+
+        exampleInput.removeAttribute('hidden');
+        })
+    });
+</script>

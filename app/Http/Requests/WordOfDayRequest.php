@@ -60,10 +60,20 @@ class WordOfDayRequest extends FormRequest
                 'string',
                 'max:250'
             ],
+            'example4' => [
+                'nullable',
+                'string',
+                'max:250'
+            ],
+            'example5' => [
+                'nullable',
+                'string',
+                'max:250'
+            ],
             'image' => [
                 'nullable',
             ],
-            'status' => [
+            'publish_date' => [
                 'nullable',
             ],
         ];

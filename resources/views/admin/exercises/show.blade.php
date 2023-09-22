@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('title', 'Exercise Show')
 @section('content')
-{{-- TODO: corregir falta de isset acá y edit --}}
+
 <div class="m-6 p-4 flex justify-between">
     <h2 class="head-title">Exercise: {{ $exercise->type }}</h2>
     <div class="justify-right gap-2 flex">

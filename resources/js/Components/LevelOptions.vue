@@ -4,7 +4,7 @@
     <div v-if="showModal" id="popup-modal" tabindex="-1" class="fixed inset-0 flex items-center justify-center z-20">
         <div class="flex">
             <button data-modal-hide="popup-modal" type="button" @click="closeModal"
-                class="text-white text-sm font-medium hover:text-gray-900 focus:z-10 -mt-52 mr-2">
+                class="text-white text-sm border rounded-full h-6 w-6 font-medium hover:text-gray-900 focus:z-10 -mt-8">
                 X
             </button>
             <div class="pb-5 text-center flex">

@@ -100,6 +100,22 @@ class LessonController extends Controller
         $grmTopics = $topics->where('category', 'grammar')->all();
         $vocabTopics = $topics->where('category', 'vocabulary')->all();
 
+        $completedTopics = [];
+
+        // TODO: avoid repeating this code with code from completedTopic function
+
+        foreach ($topics as $topic) {
+            $topic->isCompleted = false;
+
+            if ($topic->users()->where('id', optional(Auth::user())->id)->exists()) {
+                $topic->isCompleted = true;
+            }
+        }
+
+        $completedTopics = array_merge($completedTopics, $topics->filter(function ($topic) {
+            return $topic->isCompleted;
+        })->all());
+
         $mixedExercises = MixedExercise::where('lesson_id', $lesson->id)
             ->where('status', '1')
             ->orderBy('order', 'asc')
@@ -109,6 +125,7 @@ class LessonController extends Controller
             'lesson' => $lesson,
             'grmTopics' => $grmTopics,
             'vocabTopics' => $vocabTopics,
+            'completedTopics' => $completedTopics,
             'mixedExercises' => $mixedExercises,
         ]);
     }

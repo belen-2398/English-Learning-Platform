@@ -12,13 +12,12 @@ class FrontendController extends Controller
     public function index()
     {
         $sliders = Slider::where('status', '1')->get();
-        // TODO: fix the date to today for wordOfDay
-        // $wordOfDay = WordOfDay::where('publish_date', '1')->latest()->first();
+        $wordOfDay = WordOfDay::where('publish_date', today())->first();
         $topics = Topic::latest()->take('10')->get();
 
         return Inertia::render('Welcome', [
             'sliders' => $sliders,
-            // 'wordOfDay' => $wordOfDay,
+            'wordOfDay' => $wordOfDay,
             'topics' => $topics,
         ]);
     }

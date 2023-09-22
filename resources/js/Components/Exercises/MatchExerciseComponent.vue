@@ -1,24 +1,25 @@
 <template>
+       <!-- TODO: add exercise prompt -->
     <div class="flex-col items-center mt-8">
-        <div class="border-2 p-1 flex w-3/4 mx-auto my-2">
-            <div v-for="(rightItem, i) in shuffledRightItems" :key="i">
-                <div v-if="rightItem" class="text-lg text-center mx-10">
-                    {{ rightItem }}
+        <div class="border-2 p-1 flex w-3/4 mx-auto my-10 flex-wrap justify-center">
+            <div v-for="(leftItem, i) in shuffledLeftItems" :key="i">
+                <div v-if="leftItem" class="text-lg mx-8 my-3">
+                    {{ leftItem }}
                 </div>
             </div>
         </div>
-        <ul class="flex-cols columns-3 mx-20 my-4">
-            <div v-for="(leftItem, i) in exercise.left" :key="i">
-                <div class="flex" v-if="leftItem">
-                    <p class="text-xl text-center w-3/4 mb-4 p-2 rounded bg-[var(--color-lightest)]">
-                        {{ leftItem }}
+        <ul class="flex-cols columns-3 mx-20 my-8">
+            <div v-for="(rightItem, i) in exercise.right" :key="i">
+                <div class="flex" v-if="rightItem">
+                    <p class="text-center w-3/4 mb-4 p-2 rounded bg-[var(--color-lightest)]">
+                        {{ rightItem }}
                     </p>
                     <input type="text" :id="'leftItem_' + i" class="border w-3/4 mx-2 mb-4" v-model="userResponses[i]">
                 </div>
             </div>
         </ul>
         <div class="mx-auto text-center">
-            <button @click="checkOrder" class="bg-[var(--color-medium2)] p-2 text-lg rounded">Correct</button>
+            <button @click="checkOrder" class="bg-[var(--color-medium2)] p-2 text-lg rounded text-white">Correct</button>
             <p v-if="showResult" class="mt-2">{{ resultMessage }}</p>
             <div class="flex mx-auto justify-center gap-10">
                 <button @click="redo" v-if="showResult" class="hover:underline">Re-do</button>
@@ -48,8 +49,8 @@ export default {
         };
     },
     computed: {
-        shuffledRightItems() {
-            return this.shuffleArray(this.exercise.right);
+        shuffledLeftItems() {
+            return this.shuffleArray(this.exercise.left);
         },
     },
     methods: {
@@ -63,7 +64,7 @@ export default {
                 .map((response) => (response ? response.trim().toLowerCase() : ""))
                 .filter(Boolean);
 
-            const correctResponses = this.exercise.right
+            const correctResponses = this.exercise.left
                 .map((response) => (response ? response.trim().toLowerCase() : ""))
                 .filter(Boolean);
 
@@ -76,7 +77,7 @@ export default {
             this.showResult = true;
         },
         showAnswers() {
-            this.correctResponses = this.exercise.right
+            this.correctResponses = this.exercise.left
                 .map((response) => (response ? response.trim() : ""))
                 .filter(Boolean);
 

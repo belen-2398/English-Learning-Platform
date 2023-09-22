@@ -8,11 +8,8 @@ use App\Models\MixedExercise;
 use App\Models\SelectExercise;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Symfony\Component\Mime\Part\Multipart\MixedPart;
 use Tests\TestCase;
 
-// TODO: rerun after fixing gral index page and specific index page
 // TODO: eliminate repetitions similar to exerciseTest
 class MixedExerciseTest extends TestCase
 {

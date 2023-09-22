@@ -12,10 +12,11 @@ use App\Http\Controllers\Admin\TopicController as AdminTopicController;
 use App\Http\Controllers\Admin\WordOfDayController as AdminWordOfDayController;
 use App\Http\Controllers\Admin\ExerciseController as AdminExerciseController;
 use App\Http\Controllers\Admin\ExplanationController;
-use App\Http\Controllers\Admin\MixedExerciseController;
+use App\Http\Controllers\Admin\MixedExerciseController as AdminMixedExerciseController;
 use App\Http\Controllers\Admin\TopicSlideController;
 use App\Http\Controllers\DictionaryWordController;
 use App\Http\Controllers\ExerciseController;
+use App\Http\Controllers\MixedExerciseController;
 use App\Http\Controllers\WordOfDayController;
 
 // TODO: ver si lo comentado sirve
@@ -23,7 +24,7 @@ use App\Http\Controllers\WordOfDayController;
 Route::get('/', [FrontendController::class, 'index'])->name('welcome');
 
 Route::controller(LessonController::class)->group(function () {
-    Route::get('/lessons', 'index');
+    Route::get('/lessons', 'index')->name('user.lessons.index');
     Route::get('/lessons/level/{level}', 'levelIndex');
     Route::get('/lessons/from0/{level}', 'from0Index')->name('user.lessons.from0');
     Route::get('/lessons/{lesson}', 'show')->name('user.lessons.show');
@@ -35,9 +36,13 @@ Route::controller(TopicController::class)->group(function () {
 });
 
 Route::controller(WordOfDayController::class)->group(function () {
-    Route::get('/wordsOfDay', 'usersIndex');
     Route::get('/wordsOfDay/{wordOfDay}', 'usersShow')->name('user.wordsOfDay.show');
 });
+
+Route::controller(MixedExerciseController::class)->group(function () {
+    Route::get('/mixed-exercise/{mixedExercise}', 'usersShow')->name('user.mixedExercises.show');
+});
+
 
 // Route::controller(ExerciseController::class)->group(function () {
 //     Route::get('/exercises', 'usersIndex');
@@ -90,9 +95,9 @@ Route::prefix('admin')->middleware([IsAdmin::class])->group(function () {
     Route::resource('/exercises', AdminExerciseController::class)->except('create', 'destroy', 'index');
     Route::get('/exercises-create/{topicSlideId}', [AdminExerciseController::class, 'create'])->name('exercises.create');
 
-    Route::resource('/mixed-exercises', MixedExerciseController::class)->except('create');
-    Route::get('/mixed-exercises-lesson-index/{lessonId}', [MixedExerciseController::class, 'lessonIndex'])->name('mixed-exercises.lesson.index');
-    Route::get('/mixed-exercises-create/{lessonId?}', [MixedExerciseController::class, 'create'])->name('mixed-exercises.create');
+    Route::resource('/mixed-exercises', AdminMixedExerciseController::class)->except('create');
+    Route::get('/mixed-exercises-lesson-index/{lessonId}', [AdminMixedExerciseController::class, 'lessonIndex'])->name('mixed-exercises.lesson.index');
+    Route::get('/mixed-exercises-create/{lessonId?}', [AdminMixedExerciseController::class, 'create'])->name('mixed-exercises.create');
 
     Route::resource('/word-of-day', AdminWordOfDayController::class);
 });

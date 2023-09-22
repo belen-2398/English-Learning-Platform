@@ -1,4 +1,6 @@
 <template>
+       <!-- TODO: add exercise prompt -->
+       <!-- TODO: fix format -->
     <div class="flex-col items-center mt-8">
         <div class="mx-20 my-4 bg-[var(--color-lightest)] p-4">
             <div class="flex flex-wrap items-center">
@@ -17,7 +19,7 @@
             </div>
         </div>
         <div class="mx-auto text-center">
-            <button @click="checkOrder" class="bg-[var(--color-medium2)] p-2 text-lg rounded">Correct</button>
+            <button @click="checkOrder" class="bg-[var(--color-medium2)] p-2 text-lg rounded text-white">Correct</button>
             <p v-if="showResult" class="mt-2">{{ resultMessage }}</p>
             <div class="flex mx-auto justify-center gap-10">
                 <button @click="redo" v-if="showResult" class="hover:underline">Re-do</button>

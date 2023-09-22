@@ -10,60 +10,16 @@ use Illuminate\Support\Facades\File;
 
 class WordOfDayController extends Controller
 {
-    // TODO: sacarle info al index y dejarla en show
-    // TODO: reemplazar status por fecha en la que se debe mostrar
     public function index(Request $request)
     {
-        $wordsOfDayIndex = 'word-of-day.index';
+        $wordsOfDay = WordOfDay::search($request)
+            ->sort($request)
+            ->paginate(10)
+            ->appends($request->query());
 
-        $wordsOfDay = WordOfDay::query();
+        $actionUrl = 'word-of-day.index';
 
-        $this->applySearch($wordsOfDay, $request);
-        $this->applySort($wordsOfDay, $request);
-
-        $wordsOfDay = $wordsOfDay->paginate(10)->appends($request->query());
-
-        return view('admin.wordsOfDay.index', compact('wordsOfDay', 'wordsOfDayIndex'));
-    }
-
-    private function applySearch($query, Request $request)
-    {
-        $searchParameter = $request->input('query_parameter');
-        $searchText = $request->input('query');
-        $statusParameter = $request->input('status_parameter');
-
-        if ($searchParameter) {
-            $query->where($searchParameter, 'LIKE', "%{$searchText}%");
-        } elseif ($statusParameter) {
-            if ($statusParameter === 'visible') {
-                $query->where('status', 1);
-            } elseif ($statusParameter === 'not-visible') {
-                $query->where('status', 0);
-            }
-        } else {
-            $query->where('word', 'LIKE', "%{$searchText}%")
-                ->orWhere('type', 'LIKE', "%{$searchText}%")
-                ->orWhere('definition', 'LIKE', "%{$searchText}%")
-                ->orWhere('example1', 'LIKE', "%{$searchText}%")
-                ->orWhere('example2', 'LIKE', "%{$searchText}%")
-                ->orWhere('example3', 'LIKE', "%{$searchText}%");
-        }
-    }
-
-    private function applySort($query, Request $request)
-    {
-        $sort = $request->input('sort');
-        $sortBy = $request->input('sort_by');
-
-        if ($sort && $sortBy) {
-            if ($sortBy === 'word') {
-                $query->orderBy('word', $sort);
-            } elseif ($sortBy === 'type') {
-                $query->orderBy('type', $sort);
-            } else {
-                $query->orderBy('created_at', 'desc');
-            }
-        }
+        return view('admin.wordsOfDay.index', compact('wordsOfDay', 'actionUrl'));
     }
 
     public function create()
@@ -96,19 +52,21 @@ class WordOfDayController extends Controller
             $validatedData['audio'] = null;
         }
 
-        $validatedData['status'] = $request->status == true ? '1' : '0';
-
         WordOfDay::create([
             'word' => $validatedData['word'],
             'type' => $validatedData['type'],
             'pronunciation' => $validatedData['pronunciation'],
             'audio' => $validatedData['audio'],
             'definition' => $validatedData['definition'],
-            'example1' => $validatedData['example1'],
-            'example2' => $validatedData['example2'],
-            'example3' => $validatedData['example3'],
+            'examples' => [
+                $validatedData['example1'],
+                $validatedData['example2'],
+                $validatedData['example3'],
+                $validatedData['example4'],
+                $validatedData['example5'],
+            ],
             'image' => $validatedData['image'],
-            'status' => $validatedData['status']
+            'publish_date' => $validatedData['publish_date']
         ]);
 
         return redirect()->route('word-of-day.index')->with('message', 'Word of the Day created successfully');
@@ -116,7 +74,7 @@ class WordOfDayController extends Controller
 
     public function show(WordOfDay $wordOfDay)
     {
-        // TODO: hacerlo para mostrar bien toda la data
+        return view('admin.wordsOfDay.show', compact('wordOfDay'));
     }
 
     public function edit(WordOfDay $wordOfDay)
@@ -170,11 +128,15 @@ class WordOfDayController extends Controller
             'pronunciation' => $validatedData['pronunciation'],
             'audio' => $validatedData['audio']  ?? $wordOfDay->audio,
             'definition' => $validatedData['definition'],
-            'example1' => $validatedData['example1'],
-            'example2' => $validatedData['example2'],
-            'example3' => $validatedData['example3'],
+            'examples' => [
+                $validatedData['example1'],
+                $validatedData['example2'],
+                $validatedData['example3'],
+                $validatedData['example4'],
+                $validatedData['example5'],
+            ],
+            'publish_date' => $validatedData['publish_date'],
             'image' => $validatedData['image'] ?? $wordOfDay->image,
-            'status' => $validatedData['status']
         ]);
 
         return redirect()->route('word-of-day.index')->with('message', 'Word of the Day updated successfully');
@@ -197,7 +159,6 @@ class WordOfDayController extends Controller
 
             $wordOfDay->delete();
 
-               //    TODO: redireccionar a specific index
             return redirect()->route('word-of-day.index')->with('message', 'Word of the Day deleted successfully');
         }
     }

@@ -73,22 +73,34 @@
                     Examples
                 </label>
             </div>
-            <div class="flex-cols">
+            <div class="flex-cols md:w-2/3" id="example-fields">
                 <div class="mb-2">
                     <input type="text" id="example1" name="example1" value="{{ old('example1') }}"
                         class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
                 </div>
                 <div class="mb-2">
-                    <input type="text" id="example2" name="example2" value="{{ old('example2') }}"
+                    <input type="text" id="example2" name="example2" value="{{ old('example2') }}" hidden
                         class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
                 </div>
-                <div class="">
-                    <input type="text" id="example3" name="example3" value="{{ old('example3') }}"
+                <div class="mb-2">
+                    <input type="text" id="example3" name="example3" value="{{ old('example3') }}" hidden
                         class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+                </div>
+                <div class="mb-2">
+                    <input type="text" id="example4" name="example4" value="{{ old('example4') }}" hidden
+                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+                </div>
+                <div class="mb-2">
+                    <input type="text" id="example5" name="example5" value="{{ old('example5') }}" hidden
+                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+                </div>
+                <div class="flex-col justify-center my-4">
+                    <button type="button" id="addExampleBtn" class="uppercase text-sm text-white bg-gray-500 p-2 rounded font-semibold my-2 ml-2 flex justify-center">Add Example</button>
+                    <p id="maxExamplesMessage" class="text-red-500 p-2 text-center hidden">The maximum number of examples is 5.</p>
                 </div>
             </div>
-            
         </div>
+        
         <div class="md:flex md:items-center mb-6">
             <div class="md:w-1/3">
                 <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="image">
@@ -102,20 +114,17 @@
         </div>
         <div class="md:flex md:items-center mb-6">
             <div class="md:w-1/3"></div>
-            <label class="md:w-2/3 block text-gray-500 font-bold" for="status">
-                Status
+            <label class="md:w-2/3 block text-gray-500 font-bold" for="publish_date">
+                Date to be published
                 <br />
-                <input type="checkbox" name="status" id="status" class="mr-2 leading-tight">
-                <span class="text-sm"> <br />
-                    Unchecked = hidden, checked = visible
-                </span>
+                <input type="date" min="2023-09-18" name="publish_date" id="publish_date" class="mr-2 leading-tight">
             </label>
         </div>
         <div class="md:flex md:items-center">
             <div class="md:w-1/3"></div>
             <div class="md:w-2/3">
                 <div class="color-button font-semibold text-center">
-                    <button type="submit" id="submitBtn" disabled>
+                    <button type="submit" id="submitBtn">
                         Create
                     </button>
                 </div>
@@ -124,36 +133,25 @@
     </form>  
 </div>
 
-{{-- TODO: if page is refreshed with data still there, button appears as disabled, add autocomplete from dictionary --}}
+{{-- TODO: add autocomplete from dictionary --}}
+
+@endsection
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const submitBtn = document.getElementById('submitBtn');
-        submitBtn.disabled = true;
-
-        function checkRequiredFields() {
-            const word = document.getElementById('word').value;
-            const definition = document.getElementById('definition').value;
-            const example1 = document.getElementById('example1').value;
-
-            if (word && definition && example1) {
-                submitBtn.disabled = false;
-            } else {
-                
-                submitBtn.disabled = true;
-            }
+        document.getElementById('addExampleBtn').addEventListener('click', function () {
+            var exampleFieldCount = document.querySelectorAll('input[id^="example"]:not([hidden])').length;
+            console.log(exampleFieldCount);
+            if (exampleFieldCount >= 5) {
+            this.disabled = true;
+            document.getElementById('maxExamplesMessage').style.display = 'block';
+            return;
         }
 
-        const requiredFields = document.querySelectorAll('#word, #definition, #example1');
-        requiredFields.forEach(function (field) {
-            field.addEventListener('input', checkRequiredFields);
-        });
+        const nextExampleIndex = exampleFieldCount + 1;
 
-        // Prevent double submission
+        const exampleInput = document.getElementById(`example${nextExampleIndex}`);
 
-        submitBtn.addEventListener('click', function() {
-            submitBtn.disabled = true;
-            this.form.submit();
-        });
+        exampleInput.removeAttribute('hidden');
+        })
     });
 </script>
-@endsection

@@ -16,7 +16,9 @@
             <ul class="solid-border border-2 overflow-y-scroll h-96">
                 <li v-for="grmTopic in grmTopics" :key="grmTopic.id">
                     <Link :href="'/topics/' + grmTopic.id">
-                    <h6 class="hover:bg-[var(--color-medium2)] hover:text-[var(--color-darkest)] p-3">{{ grmTopic.name }}
+                    <h6 :class="{ 'completed-list-line': isGrmTopicCompleted }"
+                        class="hover:bg-[var(--color-medium2)] hover:text-[var(--color-darkest)] p-3">
+                        {{ grmTopic.name }}
                     </h6>
                     </Link>
                 </li>
@@ -28,7 +30,8 @@
             <ul class="solid-border border-2 overflow-y-scroll h-96">
                 <li v-for="vocabTopic in vocabTopics" :key="vocabTopic.id">
                     <Link :href="'/topics/' + vocabTopic.id">
-                    <h6 class="hover:bg-[var(--color-medium2)] hover:text-[var(--color-darkest)] p-3">{{ vocabTopic.name }}
+                    <h6 :class="{ 'completed-list-line': isVocabTopicCompleted }"
+                        class="hover:bg-[var(--color-medium2)] hover:text-[var(--color-darkest)] p-3">{{ vocabTopic.name }}
                     </h6>
                     </Link>
                 </li>
@@ -39,7 +42,7 @@
             <h4 class="mx-auto">Extra exercises</h4>
             <ul class="solid-border border-2 overflow-y-scroll h-96">
                 <li v-for="mixedExercise in mixedExercises" :key="mixedExercise.id">
-                    <Link :href="'/topics/' + mixedExercise.id">
+                    <Link :href="'/mixed-exercise/' + mixedExercise.id">
                     <h6 class="hover:bg-[var(--color-medium2)] hover:text-[var(--color-darkest)] p-3">{{ mixedExercise.name
                     }}
                     </h6>
@@ -65,7 +68,20 @@ export default {
         lesson: Object,
         grmTopics: Object,
         vocabTopics: Object,
+        completedTopics: Object,
         mixedExercises: Object,
+    },
+    computed: {
+        isGrmTopicCompleted() {
+            return grmTopic => {
+                return this.completedTopics.includes('grmTopic');
+            }
+        },
+        isVocabTopicCompleted() {
+            return vocabTopic => {
+                return this.completedTopics.includes('vocabTopic');
+            }
+        },
     },
     layout: FrontendLayout,
 }
