@@ -16,7 +16,7 @@
             <ul class="solid-border border-2 overflow-y-scroll h-96">
                 <li v-for="grmTopic in grmTopics" :key="grmTopic.id">
                     <Link :href="'/topics/' + grmTopic.id">
-                    <h6 :class="{ 'completed-list-line': isGrmTopicCompleted }"
+                    <h6 :class="{ 'completed-list-line': isGrmTopicCompleted(grmTopic) }"
                         class="hover:bg-[var(--color-medium2)] hover:text-[var(--color-darkest)] p-3">
                         {{ grmTopic.name }}
                     </h6>
@@ -30,7 +30,7 @@
             <ul class="solid-border border-2 overflow-y-scroll h-96">
                 <li v-for="vocabTopic in vocabTopics" :key="vocabTopic.id">
                     <Link :href="'/topics/' + vocabTopic.id">
-                    <h6 :class="{ 'completed-list-line': isVocabTopicCompleted }"
+                    <h6 :class="{ 'completed-list-line': isVocabTopicCompleted(vocabTopic) }"
                         class="hover:bg-[var(--color-medium2)] hover:text-[var(--color-darkest)] p-3">{{ vocabTopic.name }}
                     </h6>
                     </Link>
@@ -74,12 +74,12 @@ export default {
     computed: {
         isGrmTopicCompleted() {
             return grmTopic => {
-                return this.completedTopics.includes('grmTopic');
+                return this.completedTopics.some(completedTopic => completedTopic.id === grmTopic.id);
             }
         },
         isVocabTopicCompleted() {
             return vocabTopic => {
-                return this.completedTopics.includes('vocabTopic');
+                return this.completedTopics.some(completedTopic => completedTopic.id === vocabTopic.id);;
             }
         },
     },
