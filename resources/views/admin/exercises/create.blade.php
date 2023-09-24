@@ -2,7 +2,6 @@
 @section('title', 'Exercise Create')
 @section('content')
 <div>
-    {{-- TODO: all exercise variations hidden at first --}}
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -190,8 +189,8 @@
 
         {{-- Submit btn --}}
         <div class="flex items-center">
-            <div class="color-button font-semibold text-center flex items-center">
-                <button type="submit" id="submitBtn">
+            <div  id="submitBtn" class="color-button font-semibold text-center flex items-center">
+                <button type="submit">
                     Create
                 </button>
             </div>
@@ -200,24 +199,34 @@
 </div>
 
 <script>
-     document.getElementById('type').addEventListener('change', function() {
-        var matchSection = document.getElementById('match-section');
+    document.addEventListener('DOMContentLoaded', function () {
+    const matchSection = document.getElementById('match-section');
+    const fillSection = document.getElementById('fill-section');
+    const orderSection = document.getElementById('order-section');
+    const selectSection = document.getElementById('select-section');
 
+    const submitBtn = document.getElementById('submitBtn');
+
+    matchSection.style.display = 'none';
+    fillSection.style.display = 'none';
+    orderSection.style.display = 'none';
+    selectSection.style.display = 'none';
+
+    submitBtn.style.display = 'none';
+
+     document.getElementById('type').addEventListener('change', function() {
+        submitBtn.style.display = 'block';
         if (this.value === 'match') {
             matchSection.style.display = 'block';
         } else {
             matchSection.style.display = 'none';
         }
-
-        var fillSection = document.getElementById('fill-section');
         
         if (this.value === 'fill') {
             fillSection.style.display = 'block';
         } else {
             fillSection.style.display = 'none';
         }
-
-        var orderSection = document.getElementById('order-section');
         
         if (this.value === 'order') {
             orderSection.style.display = 'block';
@@ -225,8 +234,6 @@
             orderSection.style.display = 'none';
         }
 
-        var selectSection = document.getElementById('select-section');
-        
         if (this.value === 'select') {
             selectSection.style.display = 'block';
         } else {
@@ -270,14 +277,10 @@
         orSentenceTextarea.removeAttribute('hidden');
     });
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const submitBtn = document.getElementById('submitBtn');
-
-        // Prevent double submission
         submitBtn.addEventListener('click', function() {
             submitBtn.disabled = true;
             this.form.submit();
         });
-    });
+});
 </script>
 @endsection

@@ -22,6 +22,11 @@ class TopicSlideRequest extends FormRequest
                 'string',
                 'max:255'
             ],
+            'prompt' => [
+                'nullable',
+                'string',
+                'max:600'
+            ],
             'order' => [
                 'required',
                 'integer',

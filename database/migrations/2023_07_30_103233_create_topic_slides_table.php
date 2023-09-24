@@ -6,16 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('topic_slides', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('topic_id');
-            // $table->unsignedBigInteger('slideable_id')->nullable();
-            // $table->string('slideable_type')->nullable();
+            $table->mediumText('prompt')->nullable();
             $table->string('name');
             $table->smallInteger('order')->nullable();
             $table->smallInteger('status')->default('0')->comment('0=not visible, 1=visible');
@@ -24,9 +20,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('topic_slides');

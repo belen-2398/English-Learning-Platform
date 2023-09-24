@@ -37,10 +37,15 @@
                         <h3 class="text-3xl text-center mx-auto pt-8">
                             {{ topicSlide.name }}
                         </h3>
+                        <div v-if="topicSlide.prompt">
+                            <h4>{{ topicSlide.prompt }}</h4>
+                        </div>
                         <template v-if="topicSlide.explanation">
                             <div class="mx-auto text-center mt-8 border w-3/4 p-4"
                                 v-html="topicSlide.explanation.explanation">
                             </div>
+                            
+                            <!-- TODO: fix exercise as null and all topics appear as completed -->
                         </template>
                         <template v-else-if="topicSlide.exercise">
                             <div v-if="topicSlide.exercise.type === 'match'">

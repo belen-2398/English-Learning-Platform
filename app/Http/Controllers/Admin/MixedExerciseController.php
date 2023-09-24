@@ -118,6 +118,7 @@ class MixedExerciseController extends Controller
         $mixedExercise = $finalExercise->mixedExercise()->create([
             'lesson_id' => $validatedData['lesson_id'],
             'name' => $validatedData['name'],
+            'prompt' => $validatedData['prompt'],
             'order' => $validatedData['order'],
             'status' => $validatedData['status'],
             'type' => $validatedData['type'],
@@ -204,6 +205,7 @@ class MixedExerciseController extends Controller
         $mixedExercise->update([
             'lesson_id' => $validatedData['lesson_id'],
             'name' => $validatedData['name'],
+            'prompt' => $validatedData['prompt'],
             'order' => $validatedData['order'],
             'status' => $validatedData['status'],
             'type' => $validatedData['type'],

@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('title', 'Mixed Exercise Create')
 @section('content')
-{{-- TODO: all exercise variations hidden at first. Show mixed exercise lesson_id with lesson name --}}
+{{-- TODO: Show mixed exercise lesson_id with lesson name --}}
 <div>
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -19,64 +19,75 @@
     <form action="{{ route('mixed-exercises.store') }}" method="POST"
         class="flex-cols justify-center pb-10">
         @csrf
-        <div class="flex justify-center mt-4">
-            <div class="">
+        <div class="flex justify-center gap-20 mt-4">
+            <div class="flex items-center mb-6 w-1/3 justify-between">
                 <input type="hidden" name="lesson_id" id="lesson_id" value="{{ $lessonId }}">
-                <div class="md:flex md:items-center mb-6 justify-between">
-                    <div class="md:flex md:items-center mb-6">
-                        <div class="md:w-1/3">
-                            <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="name">
-                                Name
-                            </label>
-                        </div>
-                        <div class="md:w-2/3">
-                            <input type="text" id="name" name="name" value="{{ old('name') }}"
-                                class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
-                        </div>
-                    </div>
-                    <div class="md:flex md:items-center mb-6">
-                        <div class="md:w-1/3">
-                            <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="order">
-                                Order
-                            </label>
-                        </div>
-                        <div class="md:w-1/3">
-                            <input type="number" name="order" id="order" value="{{ old('order') }}"
-                                class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
-                        </div>
-                    </div>
+                <div class="md:w-1/3 mr-6">
+                    <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="name">
+                        Name
+                    </label>
                 </div>
-                
-                <div class="md:flex md:items-center mb-6 justify-between">
-                    <div class="md:w-1/2">
-                        <div class="flex items-center">
-                            <label class="md:w-1/3 block text-gray-500 font-bold" for="status">
-                                Status
-                            </label>
-                            <input type="checkbox" name="status" id="status" class="mr-2 leading-tight">
-                        </div>
-                        <span class="text-sm text-gray-600">
-                           Unchecked = hidden <br> Checked = visible
-                        </span>
-                    </div>
-                    <div class="">
-                        <label class="block text-gray-500 font-bold md:text-right mb-1 md pr-2" for="type">
-                            Type
+                <div class="md:w-2/3">
+                    <input type="text" id="name" name="name" value="{{ old('name') }}"
+                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+                </div>
+            </div>
+            <div class="flex items-center mb-6 w-1/3 justify-between">
+                    <div class="md:w-1/3 mr-6">
+                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="order">
+                            Order
                         </label>
                     </div>
-                    <div class="md:w-3/4">
-                        <select name="type" id="type"
+                    <div class="md:w-2/3 mr-6">
+                        <input type="number" name="order" id="order" value="{{ old('order') }}"
                             class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
-                            <option value="">Choose a type</option>
-                            <option value="match" {{ old('type') === 'match' ? 'selected' : '' }}>Match</option>
-                            <option value="fill" {{ old('type') === 'fill' ? 'selected' : '' }}>Fill</option>
-                            <option value="select" {{ old('type') === 'select' ? 'selected' : '' }}>Select</option>
-                            <option value="order" {{ old('type') === 'order' ? 'selected' : '' }}>Order</option>
-                        </select>
                     </div>
-                </div>
-                
             </div>
+        </div>
+        <div class="flex justify-center mt-4">
+            <div class="flex items-center mb-6 justify-center">
+                <div class="mr-6">
+                    <label class="block text-gray-500 font-bold text-right mb-1 pr-2" for="prompt">
+                        Prompt
+                    </label>
+                </div>
+                <div class="w-3/4">
+                    <textarea id="prompt" name="prompt" cols="50" rows="2"
+                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">{{ old('prompt') }}</textarea>
+                </div>
+            </div>
+        </div>      
+        <div class="flex justify-center gap-20 mt-4">
+            <div class="flex items-center mb-6 w-1/3 justify-between">
+                <div class="w-1/3 mr-6">
+                    <label class="block text-gray-500 font-bold text-right mb-1 pr-2" for="status">
+                        Visible?
+                    </label>
+                </div>
+                <div class="w-2/3 flex items-center">
+                    <input type="checkbox" name="status" id="status" class="mr-4">
+                    <span class="text-sm text-gray-500">
+                        Unchecked = hidden <br> Checked = visible
+                    </span>
+                </div>
+            </div>
+            <div class="flex items-center mb-6 w-1/3 justify-between">
+                <div class="w-1/3 mr-6">
+                    <label class="block text-gray-500 font-bold md:text-right mb-1 md pr-2" for="type">
+                        Type
+                    </label>
+                </div>
+                <div class="md:w-3/4">
+                    <select name="type" id="type"
+                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+                        <option value="">Choose a type</option>
+                        <option value="match" {{ old('type') === 'match' ? 'selected' : '' }}>Match</option>
+                        <option value="fill" {{ old('type') === 'fill' ? 'selected' : '' }}>Fill</option>
+                        <option value="select" {{ old('type') === 'select' ? 'selected' : '' }}>Select</option>
+                        <option value="order" {{ old('type') === 'order' ? 'selected' : '' }}>Order</option>
+                    </select>
+                </div>
+            </div>     
         </div>
         
         {{-- Match exercises --}}
@@ -229,8 +240,8 @@
 
         {{-- Submit btn --}}
         <div class="flex items-center">
-            <div class="color-button font-semibold text-center flex items-center">
-                <button type="submit" id="submitBtn">
+            <div  id="submitBtn" class="color-button font-semibold text-center flex items-center">
+                <button type="submit">
                     Create
                 </button>
             </div>
@@ -239,8 +250,24 @@
 </div>
 
 <script>
+
+document.addEventListener('DOMContentLoaded', function () {
+    const matchSection = document.getElementById('match-section');
+    const fillSection = document.getElementById('fill-section');
+    const orderSection = document.getElementById('order-section');
+    const selectSection = document.getElementById('select-section');
+
+    const submitBtn = document.getElementById('submitBtn');
+
+    matchSection.style.display = 'none';
+    fillSection.style.display = 'none';
+    orderSection.style.display = 'none';
+    selectSection.style.display = 'none';
+
+    submitBtn.style.display = 'none';
+
      document.getElementById('type').addEventListener('change', function() {
-        var matchSection = document.getElementById('match-section');
+        submitBtn.style.display = 'block';
 
         if (this.value === 'match') {
             matchSection.style.display = 'block';
@@ -248,24 +275,18 @@
             matchSection.style.display = 'none';
         }
 
-        var fillSection = document.getElementById('fill-section');
-        
         if (this.value === 'fill') {
             fillSection.style.display = 'block';
         } else {
             fillSection.style.display = 'none';
         }
 
-        var orderSection = document.getElementById('order-section');
-        
         if (this.value === 'order') {
             orderSection.style.display = 'block';
         } else {
             orderSection.style.display = 'none';
         }
 
-        var selectSection = document.getElementById('select-section');
-        
         if (this.value === 'select') {
             selectSection.style.display = 'block';
         } else {
@@ -309,14 +330,10 @@
         orSentenceTextarea.removeAttribute('hidden');
     });
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const submitBtn = document.getElementById('submitBtn');
-
-        // Prevent double submission
-        submitBtn.addEventListener('click', function() {
-            submitBtn.disabled = true;
-            this.form.submit();
-        });
+    submitBtn.addEventListener('click', function() {
+        submitBtn.disabled = true;
+        this.form.submit();
     });
+});
 </script>
 @endsection

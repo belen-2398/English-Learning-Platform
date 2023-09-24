@@ -49,6 +49,7 @@ class TopicSlideController extends Controller
         $topicSlide = TopicSlide::create([
             'topic_id' => $validatedData['topic_id'],
             'name' => $validatedData['name'],
+            'prompt' => $validatedData['prompt'],
             'order' => $validatedData['order'],
             'status' => $validatedData['status'],
         ]);
@@ -78,6 +79,7 @@ class TopicSlideController extends Controller
         $topicSlide->update([
             'topic_id' => $validatedData['topic_id'],
             'name' => $validatedData['name'],
+            'prompt' => $validatedData['prompt'],
             'order' => $validatedData['order'],
             'status' => $validatedData['status'],
         ]);

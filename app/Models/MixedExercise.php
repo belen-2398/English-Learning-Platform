@@ -17,6 +17,7 @@ class MixedExercise extends Model
         'mxexerciseable_id',
         'mxexerciseable_type',
         'name',
+        'prompt',
         'order',
         'type',
         'status',
@@ -40,20 +41,21 @@ class MixedExercise extends Model
 
         if ($searchParameter) {
             $query->where($searchParameter, 'LIKE', "%{$searchText}%");
-            } elseif ($statusParameter) {
-                if ($statusParameter === 'visible') {
-                    $query->where('mixed_exercises.status', 1);
-                } elseif ($statusParameter === 'not-visible') {
-                    $query->where('mixed_exercises.status', 0);
-                }
+        } elseif ($statusParameter) {
+            if ($statusParameter === 'visible') {
+                $query->where('mixed_exercises.status', 1);
+            } elseif ($statusParameter === 'not-visible') {
+                $query->where('mixed_exercises.status', 0);
+            }
         } elseif ($searchText) {
             $query->where(function ($query) use ($searchText) {
                 $query->where('mixed_exercises.name', 'LIKE', "%{$searchText}%")
                     ->orWhere('mixed_exercises.type', 'LIKE', "%{$searchText}%")
+                    ->orWhere('mixed_exercises.prompt', 'LIKE', "%{$searchText}%")
                     ->orWhereHas('lesson', function ($query) use ($searchText) {
                         $query->where('lessons.name', 'LIKE', "%{$searchText}%");
                     });
-                });
+            });
         }
     }
 

@@ -40,6 +40,7 @@ class MixedExerciseFactory extends Factory
             'mxexerciseable_id' => $this->faker->randomNumber(),
             'mxexerciseable_type' => $mxableType,
             'name' => $this->faker->word,
+            'prompt' => $this->faker->sentence(),
             'order' => $this->faker->randomNumber(3),
             'status' => $this->faker->boolean,
         ];

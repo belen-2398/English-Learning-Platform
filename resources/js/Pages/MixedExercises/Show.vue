@@ -29,10 +29,12 @@
 
                 <Link as="button" :href="route('user.lessons.show', { lesson: mixedExercise.lesson_id })"
                     class="bg-[var(--color-medium2)] p-2 text-lg rounded text-white" type="submit">
-                Go back                 
+                Go back
                 </Link>
             </div>
-
+            <div v-if="mixedExercise.prompt">
+                <h4>{{ mixedExercise.prompt }}</h4>
+            </div>
             <div v-if="mixedExercise.type === 'match'">
                 <MatchExerciseComponent :exercise="mixedExercise.mxexerciseable">
                 </MatchExerciseComponent>

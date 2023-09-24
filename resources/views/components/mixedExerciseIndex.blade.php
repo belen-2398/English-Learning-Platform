@@ -70,6 +70,9 @@
                     </th>
                 @endif
                 <th scope="col" class="px-6 py-3">
+                    Prompt
+                </th>
+                <th scope="col" class="px-6 py-3">
                     Type
                 </th>
                 <th scope="col" class="px-6 py-3">
@@ -96,6 +99,9 @@
                             </td>
                             <td class="px-6 py-4">
                                 {{ $mixedExercise->order }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $mixedExercise->prompt ?? 'No prompt' }}
                             </td>
                             <td class="px-6 py-4">
                                 {{ $mixedExercise->type }}

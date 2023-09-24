@@ -16,6 +16,7 @@ class TopicSlide extends Model
     protected $fillable = [
         'topic_id',
         'name',
+        'prompt',
         'order',
         'status',
     ];
@@ -52,6 +53,7 @@ class TopicSlide extends Model
         } else {
             $query->where('topic_slides.name', 'LIKE', "%{$searchText}%")
                 ->orWhere('topic_slides.order', 'LIKE', "%{$searchText}%")
+                ->orWhere('topic_slides.prompt', 'LIKE', "%{$searchText}%")
                 ->orWhereHas('topic', function ($query) use ($searchText) {
                     $query->where('topics.name', 'LIKE', "%{$searchText}%");
                 });

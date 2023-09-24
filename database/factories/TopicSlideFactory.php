@@ -22,6 +22,7 @@ class TopicSlideFactory extends Factory
             'name' => $this->faker->word,
             'order' => $this->faker->randomNumber(3),
             'status' => $this->faker->boolean(),
+            'prompt' => $this->faker->sentence(),
         ];
     }
 }

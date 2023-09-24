@@ -70,6 +70,9 @@
                             </th>
                         @endif
                         <th scope="col" class="px-6 py-3">
+                            Prompt
+                        </th>
+                        <th scope="col" class="px-6 py-3">
                             Status
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -95,6 +98,9 @@
                             </td>
                             <td class="px-6 py-4">
                                 {{ $topicSlide->order }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $topicSlide->prompt ?? 'No prompt' }}
                             </td>
                             <td class="px-6 py-4">
                                 {{ $topicSlide->status == 0 ? '' : 'V' }}
