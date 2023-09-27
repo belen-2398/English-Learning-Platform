@@ -2,18 +2,21 @@
 
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\LessonController;
-use App\Http\Controllers\Admin\LessonController as AdminLessonController;
+use App\Http\Controllers\NotUser\LessonController as NotUserLessonController;
 use Inertia\Inertia;
 use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\NotUser;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\TopicController;
-use App\Http\Controllers\Admin\TopicController as AdminTopicController;
-use App\Http\Controllers\Admin\WordOfDayController as AdminWordOfDayController;
-use App\Http\Controllers\Admin\ExerciseController as AdminExerciseController;
-use App\Http\Controllers\Admin\ExplanationController;
-use App\Http\Controllers\Admin\MixedExerciseController as AdminMixedExerciseController;
-use App\Http\Controllers\Admin\TopicSlideController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\NotUser\DashboardController as NotUserDashboardController;
+use App\Http\Controllers\NotUser\TopicController as NotUserTopicController;
+use App\Http\Controllers\NotUser\WordOfDayController as NotUserWordOfDayController;
+use App\Http\Controllers\NotUser\ExerciseController as NotUserExerciseController;
+use App\Http\Controllers\NotUser\ExplanationController;
+use App\Http\Controllers\NotUser\MixedExerciseController as NotUserMixedExerciseController;
+use App\Http\Controllers\NotUser\TopicSlideController;
 use App\Http\Controllers\DictionaryWordController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\MixedExerciseController;
@@ -62,8 +65,12 @@ Route::middleware([
 ])->group(function () {
 
     Route::get('/profile', function () {
-        return Inertia::render('Profile.Show');
+        return Inertia::render('Profile');
     })->name('profile');
+
+    // Route::get('/profile', function () {
+    //     return Inertia::render('Profile.Show');
+    // })->name('profile');
 
     Route::apiResource('/dictionary', DictionaryWordController::class)->except('show');
 
@@ -73,17 +80,22 @@ Route::middleware([
 });
 
 Route::prefix('admin')->middleware([IsAdmin::class])->group(function () {
-    Route::view('/dashboard', 'admin/dashboard')->name('admin.dashboard');
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+});
+
+Route::prefix('not-user')->middleware([NotUser::class])->group(function () {
+    Route::get('/dashboard', [NotUserDashboardController::class, 'index'])->name('not-user.dashboard');
+
     Route::view('/levels', 'admin/levels')->name('admin.levels');
 
     // Route::resource('/sliders', SliderController::class)->except('show');
-    Route::resource('/lessons', AdminLessonController::class)->except('show', 'create');
-    Route::get('/lessons-level-index/{level}', [AdminLessonController::class, 'levelIndex'])->name('lessons.level.index');
-    Route::get('/lessons-create/{level?}', [AdminLessonController::class, 'create'])->name('lessons.create');
+    Route::resource('/lessons', NotUserLessonController::class)->except('show', 'create');
+    Route::get('/lessons-level-index/{level}', [NotUserLessonController::class, 'levelIndex'])->name('lessons.level.index');
+    Route::get('/lessons-create/{level?}', [NotUserLessonController::class, 'create'])->name('lessons.create');
 
-    Route::resource('/topics', AdminTopicController::class)->except('show', 'create');
-    Route::get('/topics-lesson-index/{lessonId}', [AdminTopicController::class, 'lessonIndex'])->name('topics.lesson.index');
-    Route::get('/topics-create/{lessonId?}', [AdminTopicController::class, 'create'])->name('topics.create');
+    Route::resource('/topics', NotUserTopicController::class)->except('show', 'create');
+    Route::get('/topics-lesson-index/{lessonId}', [NotUserTopicController::class, 'lessonIndex'])->name('topics.lesson.index');
+    Route::get('/topics-create/{lessonId?}', [NotUserTopicController::class, 'create'])->name('topics.create');
 
     Route::resource('/topic-slides', TopicSlideController::class)->except('create', 'show');
     Route::get('/topic-slides-topic-index/{topicId}', [TopicSlideController::class, 'topicIndex'])->name('topic-slides.topic.index');
@@ -92,12 +104,12 @@ Route::prefix('admin')->middleware([IsAdmin::class])->group(function () {
     Route::resource('/explanations', ExplanationController::class)->except('create', 'destroy', 'index');
     Route::get('/explanations-create/{topicSlideId}', [ExplanationController::class, 'create'])->name('explanations.create');
 
-    Route::resource('/exercises', AdminExerciseController::class)->except('create', 'destroy', 'index');
-    Route::get('/exercises-create/{topicSlideId}', [AdminExerciseController::class, 'create'])->name('exercises.create');
+    Route::resource('/exercises', NotUserExerciseController::class)->except('create', 'destroy', 'index');
+    Route::get('/exercises-create/{topicSlideId}', [NotUserExerciseController::class, 'create'])->name('exercises.create');
 
-    Route::resource('/mixed-exercises', AdminMixedExerciseController::class)->except('create');
-    Route::get('/mixed-exercises-lesson-index/{lessonId}', [AdminMixedExerciseController::class, 'lessonIndex'])->name('mixed-exercises.lesson.index');
-    Route::get('/mixed-exercises-create/{lessonId?}', [AdminMixedExerciseController::class, 'create'])->name('mixed-exercises.create');
+    Route::resource('/mixed-exercises', NotUserMixedExerciseController::class)->except('create');
+    Route::get('/mixed-exercises-lesson-index/{lessonId}', [NotUserMixedExerciseController::class, 'lessonIndex'])->name('mixed-exercises.lesson.index');
+    Route::get('/mixed-exercises-create/{lessonId?}', [NotUserMixedExerciseController::class, 'create'])->name('mixed-exercises.create');
 
-    Route::resource('/word-of-day', AdminWordOfDayController::class);
+    Route::resource('/word-of-day', NotUserWordOfDayController::class);
 });

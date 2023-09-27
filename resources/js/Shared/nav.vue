@@ -33,13 +33,28 @@
                     <template v-if="$page.props.auth.user">
                         <div class="flex gap-2">
                             <!-- TODO: fix it so that only admin can access it -->
+                            <template v-if="$page.props.auth.user.role_as === 2">
+                                <li class="color-button">
+                                    <a href="/admin/dashboard" target="_blank"
+                                        :active="$page.component === 'Admin Dashboard'">Dashboard</a>
+                                </li>
+                            </template>
+                            <template v-else-if="$page.props.auth.user.role_as === 1">
+                                <li class="color-button">
+                                    <a href="/not-user/dashboard" target="_blank"
+                                        :active="$page.component === 'Teacher Dashboard'">Dashboard</a>
+                                </li>
+                            </template>
+                            <!-- <template v-else>
+                                <li class="color-button">
+                                    <a href="/user/dashboard" target="_blank"
+                                        :active="$page.component === 'User Dashboard'">Dashboard</a>
+                                </li>
+                            </template> -->
                             <li class="color-button">
-                                <a href="/admin/dashboard" target="_blank" :active="$page.component === 'Admin Dashboard'">Dashboard</a>
+                                <Link :href="route('profile')" :active="$page.component === 'Profile'">Profile</Link>
                             </li>
-                            <!-- TODO: replace it with round profile icon -->
-                            <li class="color-button">
-                                <Link href="/user/profile" :active="$page.component === 'Profile'">Profile</Link>
-                            </li>
+                            
                             <li class="color-button">
                                 <Link :href="route('logout')" method="post" as="button">Logout</Link>
                             </li>

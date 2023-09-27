@@ -61,10 +61,14 @@ return [
     | and the user is authenticated. You are free to change this value.
     |
     */
-    // TODO: add for the case of the teacher
+    // TODO: uncomment user
     'home' => function () {
         if (Auth::user()->role_as === 2) {
             return RouteServiceProvider::ADMINHOME;
+        } elseif (Auth::user()->role_as === 1) {
+            return RouteServiceProvider::TEACHERHOME;
+        // } elseif (Auth::user()->role_as === 0) {
+        //     return RouteServiceProvider::USERHOME;
         } else {
             return RouteServiceProvider::HOME;
         }

@@ -1,25 +1,65 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\NotUser;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ExerciseRequest;
-use App\Models\Exercise;
+use App\Http\Requests\MixedExerciseRequest;
 use App\Models\FillExercise;
+use App\Models\Lesson;
 use App\Models\MatchExercise;
+use App\Models\MixedExercise;
 use App\Models\OrderExercise;
 use App\Models\SelectExercise;
+use Illuminate\Http\Request;
 
-class ExerciseController extends Controller
+
+class MixedExerciseController extends Controller
 {
-    public function create($topicSlideId)
+    // TODO: ver si se puede mantener los resultados del search al aplicar status
+    public function index(Request $request)
     {
-        return view('admin.exercises.create', compact('topicSlideId'));
+        $mixedExercises = MixedExercise::search($request)
+            ->sort($request)
+            ->paginate(10)
+            ->appends($request->query());
+
+        $actionUrl = 'mixed-exercises.index';
+
+        return view('admin.exercises.mixed.index', compact(
+            'mixedExercises',
+            'actionUrl'
+        ));
     }
 
-    public function store(ExerciseRequest $request)
+    public function lessonIndex($lessonId, Request $request)
+    {
+        $lesson = Lesson::findOrFail($lessonId);
+        $mixedExercises = MixedExercise::where('lesson_id', $lessonId)
+            ->search($request)
+            ->sort($request)
+            ->paginate(10)
+            ->appends($request->query());
+
+        $actionUrl = 'mixed-exercises.lesson.index';
+
+        return view('admin.exercises.mixed.lessonIndex', compact(
+            'mixedExercises',
+            'lesson',
+            'lessonId',
+            'actionUrl'
+        ));
+    }
+
+    public function create($lessonId = null)
+    {
+        $lessons = Lesson::orderBy('level')->get()->groupBy('level');
+        return view('admin.exercises.mixed.create', compact('lessonId', 'lessons'));
+    }
+
+    public function store(MixedExerciseRequest $request)
     {
         $validatedData = $request->validated();
+        $validatedData['status'] = $request->status == true ? '1' : '0';
 
         if ($validatedData['type'] === 'match') {
             $finalExercise = MatchExercise::create([
@@ -75,38 +115,41 @@ class ExerciseController extends Controller
             ]);
         }
 
-        $exercise = $finalExercise->exercise()->create([
-            'topic_slide_id' => $validatedData['topic_slide_id'],
+        $mixedExercise = $finalExercise->mixedExercise()->create([
+            'lesson_id' => $validatedData['lesson_id'],
+            'name' => $validatedData['name'],
+            'prompt' => $validatedData['prompt'],
+            'order' => $validatedData['order'],
+            'status' => $validatedData['status'],
             'type' => $validatedData['type'],
         ]);
 
-        $topicSlide = $exercise->topicSlide;
-        $topic = $topicSlide->topic;
+        $lesson = $mixedExercise->lesson;
 
-        return redirect()->route('topic-slides.topic.index', ['topicId' => $topic->id])->with('message', 'Exercise slide created successfully');
+        return redirect()->route('mixed-exercises.lesson.index', ['lessonId' => $lesson->id])->with('message', 'Mixed exercise created successfully');
     }
 
-    public function show(Exercise $exercise)
+    public function show(MixedExercise $mixedExercise)
     {
-        return view('admin.exercises.show', compact('exercise'));
+        return view('admin.exercises.mixed.show', compact('mixedExercise'));
     }
 
-
-    public function edit(Exercise $exercise)
+    public function edit(MixedExercise $mixedExercise)
     {
-        $finalExercise = $exercise->exerciseable;
-        $topicSlideId = $exercise->topicSlide->id;
-        return view('admin.exercises.edit', compact('exercise', 'finalExercise', 'topicSlideId'));
+        $lessons = Lesson::orderBy('level')->get()->groupBy('level');
+        $finalExercise = $mixedExercise->mxexerciseable;
+        $lessonId = $mixedExercise->lesson->id;
+        return view('admin.exercises.mixed.edit', compact('mixedExercise', 'lessons', 'finalExercise', 'lessonId'));
     }
 
-    public function update(ExerciseRequest $request, Exercise $exercise)
+    public function update(MixedExerciseRequest $request, MixedExercise $mixedExercise)
     {
         $validatedData = $request->validated();
         $validatedData['status'] = $request->status == true ? '1' : '0';
+        $finalExercise = $mixedExercise->mxexerciseable;
 
         if ($validatedData['type'] === 'match') {
-            $matchExercise = $exercise->exerciseable;
-            $finalExercise = $matchExercise->update([
+            $finalExercise->update([
                 'left' => [
                     $validatedData['left1'],
                     $validatedData['left2'],
@@ -133,14 +176,12 @@ class ExerciseController extends Controller
                 ],
             ]);
         } elseif ($validatedData['type'] === 'fill') {
-            $fillExercise = $exercise->exerciseable;
-            $finalExercise = $fillExercise->update([
+            $finalExercise->update([
                 'text' => $validatedData['fillText'],
                 'words_to_fill' => $validatedData['words_to_fill'],
             ]);
         } elseif ($validatedData['type'] === 'order') {
-            $orderExercise = $exercise->exerciseable;
-            $finalExercise = $orderExercise->update([
+            $finalExercise->update([
                 'sentences' => [
                     $validatedData['orSentence1'],
                     $validatedData['orSentence2'],
@@ -155,18 +196,32 @@ class ExerciseController extends Controller
                 ],
             ]);
         } elseif ($validatedData['type'] === 'select') {
-            $selectExercise = $exercise->exerciseable;
-            $finalExercise = $selectExercise->update([
+            $finalExercise->update([
                 'text' => $validatedData['selectText'],
                 'answers' => $validatedData['selectAnswers'],
             ]);
         }
 
-        $exercise->update([
-            'topic_slide_id' => $validatedData['topic_slide_id'],
+        $mixedExercise->update([
+            'lesson_id' => $validatedData['lesson_id'],
+            'name' => $validatedData['name'],
+            'prompt' => $validatedData['prompt'],
+            'order' => $validatedData['order'],
+            'status' => $validatedData['status'],
             'type' => $validatedData['type'],
         ]);
 
-        return redirect()->route('topic-slides.topic.index', ['topicId' => $exercise->topicSlide->topic->id])->with('message', 'Exercise slide updated successfully');
+        $lesson = $mixedExercise->lesson;
+
+        return redirect()->route('mixed-exercises.lesson.index', ['lessonId' => $lesson->id])->with('message', 'Mixed exercise updated successfully');
+    }
+
+    public function destroy(MixedExercise $mixedExercise)
+    {
+        $lessonId = $mixedExercise->lesson_id;
+        $mixedExercise->mxexerciseable->delete();
+        $mixedExercise->delete();
+
+        return redirect()->route('mixed-exercises.lesson.index', compact('lessonId'))->with('message', 'Mixed exercise deleted successfully');
     }
 }

@@ -18,7 +18,7 @@ class ExerciseFactory extends Factory
 {
     public function definition(): array
     {
-        // TODO: fix exerciseable.id
+        // TODO: something doesn't work with the connection between topic_slide, exercise and exerciseable
         $exerciseType = $this->faker->randomElement(
             ['match', 'fill', 'select', 'order']
         );

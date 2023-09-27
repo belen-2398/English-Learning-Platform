@@ -17,8 +17,12 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
+    // TODO: uncomment userHome when user is created
     public const HOME = '/';
     public const ADMINHOME = '/admin/dashboard';
+    public const TEACHERHOME = '/not-user/dashboard';
+    // public const USERHOME = '/user/dashboard';
+
     // public const HOME = function () {
     //     if (Auth::user()->role_as === 2) {
     //       return route('admin.dashboard');
