@@ -44,14 +44,48 @@ class TopicController extends Controller
 
     public function completedIndex()
     {
-        $completed = $this->completedTopics()
+        $completedTopics = $this->completedTopics()
             ->orderBy('order', 'asc')
             ->with('lesson')
-            ->get()
-            ->groupBy('lesson.name');
+            ->get();
+
+        $totalUserPts = $completedTopics->sum('points');
+
+        $userPtCategory = '';
+        $nextCatPts = 0;
+        $completedCatPercentage = 0;
+
+        // TODO: change categories to Babel theme
+
+        $ptsCategories = [
+            0 => 'Baby learner',
+            20 => 'First learning steps',
+            50 => 'Teenage learning years',
+            100 => 'Experienced learner',
+            500 => 'Expert learner',
+        ];
+
+        foreach ($ptsCategories as $ptsCategory => $categoryName) {
+            if ($totalUserPts <= $ptsCategory) {
+                $userPtCategory = $categoryName;
+                $nextCatPts = $ptsCategory - $totalUserPts;
+
+                $completedCatPercentage = ($totalUserPts / $ptsCategory) * 100;
+
+                break;
+            }
+        }
+
+
+
+        $completed = $completedTopics->groupBy('lesson.name');
 
         return Inertia::render('Completed', [
             'completed' => $completed,
+            'totalUserPts' => $totalUserPts,
+            'userPtCategory' => $userPtCategory,
+            'nextCatPts' => $nextCatPts,
+            'completedCatPercentage' => $completedCatPercentage,
         ]);
     }
 
