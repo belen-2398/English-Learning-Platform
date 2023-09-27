@@ -12,6 +12,7 @@
     <title>@yield('title') | {{ config('app.name', 'Learn English') }}</title>
   @vite(['resources/css/app.css','resources/js/app.js'])
   <script src="{{ asset('vendor/tinymce/tinymce.min.js') }}"></script>
+  <script src="https://kit.fontawesome.com/5fbb74cc1e.js" crossorigin="anonymous"></script>
 
 
 </head>
