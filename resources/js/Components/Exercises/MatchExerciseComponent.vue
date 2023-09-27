@@ -1,5 +1,4 @@
 <template>
-       <!-- TODO: add exercise prompt -->
     <div class="flex-col items-center mt-8">
         <div class="border-2 p-1 flex w-3/4 mx-auto my-10 flex-wrap justify-center">
             <div v-for="(leftItem, i) in shuffledLeftItems" :key="i">

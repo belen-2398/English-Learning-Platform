@@ -1,5 +1,4 @@
 <template>
-    <!-- TODO: add exercise prompt -->
     <div class="flex-col items-center mt-8">
         <div class="mx-20 my-4 bg-[var(--color-lightest)] p-4">
             <ol>

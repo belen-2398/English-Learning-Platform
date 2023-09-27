@@ -1,5 +1,4 @@
 <template>
-    <!-- TODO: add exercise prompt -->
     <!-- TODO: ver si se puede drag también en esta y en match o como minimo tachar palabras ya usadas -->
     <div class="flex-col items-center mt-8">
         <div v-if="shuffledWords" class="border-2 py-1 px-4 flex w-3/4 mx-auto my-2">

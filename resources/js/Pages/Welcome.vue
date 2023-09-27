@@ -26,7 +26,6 @@
     </div>
     <!-- TODO: everywhere: fix links/btns outside so that you can click directly on the component and get redirected -->
     <!-- TODO: everywhere: fix layout in different screen sizes, add dark mode -->
-    <!-- TODO: profile everything -->
     <!-- TODO: in blade, add teacher's part -->
     <section id="slides" class="flex-col">
         <button class="scroll-button mx-auto mb-4" @click="scrollToTop()">
