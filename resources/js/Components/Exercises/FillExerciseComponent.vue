@@ -39,7 +39,6 @@
                 <button @click="showAnswers" v-if="showResult" class="hover:underline">Show answers</button>
             </div>
             <p v-if="showAnswersFlag">Correct answer: {{ correctResponses }}</p>
-
         </div>
 
     </div>
