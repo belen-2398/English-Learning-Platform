@@ -71,4 +71,35 @@ class User extends Authenticatable
     {
         return $this->hasMany(DictionaryWord::class);
     }
+
+    public function scopeSearch($query, $request)
+    {
+        $searchParameter = $request->input('query_parameter');
+        $searchText = $request->input('query');
+
+        if ($searchParameter) {
+            $query->where($searchParameter, 'LIKE', "%{$searchText}%");
+        } else {
+            $query->where('users.name', 'LIKE', "%{$searchText}%")
+                ->orWhere('users.email', 'LIKE', "%{$searchText}%");
+        }
+    }
+
+    public function scopeSort($query, $request)
+    {
+        $sort = $request->input('sort');
+        $sortBy = $request->input('sort_by');
+
+        if ($sort && $sortBy) {
+            if ($sortBy === 'name') {
+                $query->orderBy('users.name', $sort);
+            } elseif ($sortBy === 'email') {
+                $query->orderBy('users.email', $sort);
+            } elseif ($sortBy === 'role_as') {
+                $query->orderBy('users.role_as', $sort);
+            } else {
+                $query->orderBy('users.role_as', 'asc');
+            }
+        }
+    }
 }

@@ -7,9 +7,9 @@ use Inertia\Inertia;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\NotUser;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\NotUser\DashboardController as NotUserDashboardController;
 use App\Http\Controllers\NotUser\TopicController as NotUserTopicController;
 use App\Http\Controllers\NotUser\WordOfDayController as NotUserWordOfDayController;
@@ -18,11 +18,9 @@ use App\Http\Controllers\NotUser\ExplanationController;
 use App\Http\Controllers\NotUser\MixedExerciseController as NotUserMixedExerciseController;
 use App\Http\Controllers\NotUser\TopicSlideController;
 use App\Http\Controllers\DictionaryWordController;
-use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\MixedExerciseController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\WordOfDayController;
-
-// TODO: ver si lo comentado sirve
 
 Route::get('/', [FrontendController::class, 'index'])->name('welcome');
 
@@ -46,12 +44,6 @@ Route::controller(MixedExerciseController::class)->group(function () {
     Route::get('/mixed-exercise/{mixedExercise}', 'usersShow')->name('user.mixedExercises.show');
 });
 
-
-// Route::controller(ExerciseController::class)->group(function () {
-//     Route::get('/exercises', 'usersIndex');
-//     Route::get('/wordsOfDay/{wordOfDay}', 'usersShow')->name('user.wordsOfDay.show');
-// });
-
 Route::get('/about', function () {
     return Inertia::render('About', [
         'time' => now()->toTimeString()
@@ -68,11 +60,8 @@ Route::middleware([
         return Inertia::render('Profile');
     })->name('profile');
 
-    // Route::get('/profile', function () {
-    //     return Inertia::render('Profile.Show');
-    // })->name('profile');
-
     Route::apiResource('/dictionary', DictionaryWordController::class)->except('show');
+    Route::get('/review', [ReviewController::class, 'review']);
 
     Route::get('/completed', [TopicController::class, 'completedIndex']);
     Route::post('/topics/markAsCompleted/{topic}', [TopicController::class, 'markAsCompleted']);
@@ -81,6 +70,9 @@ Route::middleware([
 
 Route::prefix('admin')->middleware([IsAdmin::class])->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users.index');
+    Route::get('/users/{user}/edit', [AdminUserController::class, 'edit'])->name('admin.users.edit');
+    Route::put('/users/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');
 });
 
 Route::prefix('not-user')->middleware([NotUser::class])->group(function () {
@@ -88,7 +80,6 @@ Route::prefix('not-user')->middleware([NotUser::class])->group(function () {
 
     Route::view('/levels', 'admin/levels')->name('admin.levels');
 
-    // Route::resource('/sliders', SliderController::class)->except('show');
     Route::resource('/lessons', NotUserLessonController::class)->except('show', 'create');
     Route::get('/lessons-level-index/{level}', [NotUserLessonController::class, 'levelIndex'])->name('lessons.level.index');
     Route::get('/lessons-create/{level?}', [NotUserLessonController::class, 'create'])->name('lessons.create');
