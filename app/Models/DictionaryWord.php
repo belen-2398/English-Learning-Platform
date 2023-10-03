@@ -18,11 +18,14 @@ class DictionaryWord extends Model
         'notes',
         'definition',
         'pronunciation',
-        'example1',
-        'example2',
-        'example3',
+        'examples',
         'translation',
     ];
+
+    protected $casts = [
+        'examples' => 'array',
+    ];
+
 
     public function user(): BelongsTo
     {

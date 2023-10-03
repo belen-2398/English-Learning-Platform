@@ -13,6 +13,7 @@ class DictionaryWordController extends Controller
 {
     public function index(Request $request)
     {
+        // TODO: pasar search and sort a model
         $dictionaryWords = DictionaryWord::where('user_id', Auth::user()->id);
 
         $this->applySearch($dictionaryWords, $request);
@@ -64,17 +65,21 @@ class DictionaryWordController extends Controller
             'notes' => $validatedData['notes'],
             'definition' => $validatedData['definition'],
             'pronunciation'  => $validatedData['pronunciation'],
-            'example1' => $validatedData['example1'],
-            'example2' => $validatedData['example2'],
-            'example3' => $validatedData['example3'],
+            'examples' =>  [
+                $validatedData['example1'],
+                $validatedData['example2'],
+                $validatedData['example3'],
+                $validatedData['example4'],
+                $validatedData['example5'],
+            ],
             'translation' => $validatedData['translation'],
         ]);
     }
 
     public function update(DictionaryWordRequest $request, $dictionary)
     {
-
         $validatedData = $request->validated();
+        
         DictionaryWord::findOrFail($dictionary)
             ->update([
                 'user_id' => Auth::user()->id,
@@ -82,9 +87,13 @@ class DictionaryWordController extends Controller
                 'notes' => $validatedData['notes'],
                 'definition' => $validatedData['definition'],
                 'pronunciation'  => $validatedData['pronunciation'],
-                'example1' => $validatedData['example1'],
-                'example2' => $validatedData['example2'],
-                'example3' => $validatedData['example3'],
+                'examples' =>  [
+                    $validatedData['example1'],
+                    $validatedData['example2'],
+                    $validatedData['example3'],
+                    $validatedData['example4'],
+                    $validatedData['example5'],
+                ],
                 'translation' => $validatedData['translation'],
             ]);
     }

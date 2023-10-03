@@ -18,9 +18,7 @@ return new class extends Migration
             $table->text('notes')->nullable();
             $table->text('definition')->nullable();
             $table->string('pronunciation')->nullable();
-            $table->mediumText('example1')->nullable();
-            $table->mediumText('example2')->nullable();
-            $table->mediumText('example3')->nullable();
+            $table->text('examples')->nullable();
             $table->string('translation')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->OnDelete('cascade');
             $table->timestamps();

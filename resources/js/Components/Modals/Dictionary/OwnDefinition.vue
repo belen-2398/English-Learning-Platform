@@ -40,15 +40,11 @@
                         </div>
                         <h4 class="underline">Examples</h4>
                         <ul>
-                            <li v-if="dictionaryWord.example1" class="mt-2 py-2">
-                                <p>{{ dictionaryWord.example1 }}</p>
-                            </li>
-                            <li v-if="dictionaryWord.example2" class="mt-2 py-2">
-                                <p>{{ dictionaryWord.example2 }}</p>
-                            </li>
-                            <li v-if="dictionaryWord.example3" class="mt-2 py-2">
-                                <p>{{ dictionaryWord.example3 }}</p>
-                            </li>
+                            <template v-for="example in dictionaryWord.examples">
+                                <li class="mt-2 py-2">
+                                    {{ example }}
+                                </li>
+                            </template>
                         </ul>
                         <h4 class="underline">Notes</h4>
                         <div v-if="dictionaryWord.notes" class=" my-2 border-2 border-dashed p-2">

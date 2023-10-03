@@ -55,6 +55,16 @@ class DictionaryWordRequest extends FormRequest
                 'string',
                 'max:600'
             ],
+            'example4' => [
+                'nullable',
+                'string',
+                'max:600'
+            ],
+            'example5' => [
+                'nullable',
+                'string',
+                'max:600'
+            ],
             'translation' => [
                 'nullable',
                 'string',

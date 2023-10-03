@@ -6,22 +6,16 @@
             <div class="bg-[var(--color-lightest)] max-w-3xl">
                 <div class="flex justify-between bg-[var(--color-medium1)]">
                     <h2 class="m-6 text-xl">New word</h2>
-                    <!-- <h2 v-else class="m-6 text-xl">Edit {{ dictionaryWord.word }}</h2> -->
                     <button type="button" class="m-2 mr-4 -mt-6 text-[var(--color-darker)] hover:underline"
                         @click="closeModal">X</button>
                 </div>
                 <div class="p-6 max-h-96 overflow-y-scroll">
-                    <!-- <form @submit.prevent="submitForm"> -->
                     <form @submit.prevent="form.post('/dictionary', {
                         onSuccess: () => {
                             form.reset();
-                            this.showSuccessMessage = true;
+                            this.closeModal();
                         },
                     })">
-                        <div v-if="showSuccessMessage"
-                            class="bg-[var(--color-medium2)] mt-2 mb-6 text-white text-center py-2">
-                            Word added successfully
-                        </div>
                         <div class="flex flex-wrap mb-6">
                             <div class="w-1/3 md:w-1/3 px-3 mb-6 md:mb-0">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -92,34 +86,26 @@
                         <div v-if="showExamples" class="flex flex-wrap -mx-3 mb-6">
                             <div class="w-full px-3">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                    for="example1">
-                                    First Example
+                                    for="examples">
+                                    Examples
                                 </label>
-                                <textarea v-model="form.example1"
-                                    class="appearance-none block w-full h-10 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"></textarea>
-                                <div v-if="form.errors.example1">{{ form.errors.example1 }}</div>
-                            </div>
-                        </div>
-                        <div v-if="showExamples" class="flex flex-wrap -mx-3 mb-6">
-                            <div class="w-full px-3">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                    for="example2">
-                                    Second example
-                                </label>
-                                <textarea v-model="form.example2"
-                                    class="appearance-none block w-full h-10 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"></textarea>
-                                <div v-if="form.errors.example2">{{ form.errors.example2 }}</div>
-                            </div>
-                        </div>
-                        <div v-if="showExamples" class="flex flex-wrap -mx-3 mb-6">
-                            <div class="w-full px-3">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                    for="example3">
-                                    Third example
-                                </label>
-                                <textarea v-model="form.example3"
-                                    class="appearance-none block w-full h-10 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"></textarea>
-                                <div v-if="form.errors.example3">{{ form.errors.example3 }}</div>
+                                <div id="examples">
+                                    <textarea v-model="form.example1"
+                                        class="appearance-none block w-full h-10 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"></textarea>
+                                    <div v-if="form.errors.example1">{{ form.errors.example1 }}</div>
+                                    <textarea v-model="form.example2"
+                                        class="appearance-none block w-full h-10 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"></textarea>
+                                    <div v-if="form.errors.example2">{{ form.errors.example2 }}</div>
+                                    <textarea v-model="form.example3"
+                                        class="appearance-none block w-full h-10 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"></textarea>
+                                    <div v-if="form.errors.example3">{{ form.errors.example3 }}</div>
+                                    <textarea v-model="form.example4"
+                                        class="appearance-none block w-full h-10 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"></textarea>
+                                    <div v-if="form.errors.example4">{{ form.errors.example4 }}</div>
+                                    <textarea v-model="form.example5"
+                                        class="appearance-none block w-full h-10 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"></textarea>
+                                    <div v-if="form.errors.example5">{{ form.errors.example5 }}</div>
+                                </div>
                             </div>
                         </div>
                         <div class="flex justify-center" v-if="!showNotes">
@@ -167,14 +153,12 @@ export default {
     name: 'AddToDictionaryModal',
     props: {
         showModal: Boolean,
-        // dictionaryWord: Object,
     },
     data() {
         return {
             showExamples: false,
             showDefinition: false,
             showNotes: false,
-            showSuccessMessage: false,
         };
     },
     setup() {
@@ -186,29 +170,14 @@ export default {
             example1: '',
             example2: '',
             example3: '',
+            example4: '',
+            example5: '',
             notes: '',
         });
 
         return { form };
     },
     methods: {
-        // submitForm() {
-        //     const { form, dictionaryWord } = this;
-        //     if (dictionaryWord) {
-        //         form.put('/dictionary/' + dictionaryWord.id, {
-        //             onSuccess: () => {
-        //                 this.showSuccessMessage = true;
-        //             },
-        //         })
-        //     } else {
-        //         form.post('/dictionary', {
-        //             onSuccess: () => {
-        //                 form.reset();
-        //                 this.showSuccessMessage = true;
-        //             },
-        //         });
-        //     }
-        // },
         closeModal() {
             this.$emit('closeModal');
         }
