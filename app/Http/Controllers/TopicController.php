@@ -10,6 +10,7 @@ use Inertia\Inertia;
 
 class TopicController extends Controller
 {
+    // TODO: clean up controller
     public function usersShow(Topic $topic)
     {
         $topic->with('lesson');
@@ -75,8 +76,6 @@ class TopicController extends Controller
                 break;
             }
         }
-
-
 
         $completed = $completedTopics->groupBy('lesson.name');
 

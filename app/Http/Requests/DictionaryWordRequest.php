@@ -33,7 +33,7 @@ class DictionaryWordRequest extends FormRequest
             'definition' => [
                 'nullable',
                 'string',
-                'max:800'
+                'max:4000'
             ],
             'pronunciation' => [
                 'nullable',

@@ -10,22 +10,23 @@
           <button type="button" class="m-2 mr-4 -mt-6 text-[var(--color-darker)] hover:underline"
             @click="closeModal">X</button>
         </div>
-        <!-- <div>
+        <div>
           <form>
             <label class="relative inline-flex items-center cursor-pointer mt-4 ml-4">
-              <input type="checkbox" class="sr-only peer" :checked="added" :disabled="loading" @change="submitForm" />
-              <div
-                class="w-11 h-6 bg-[var(--color-medium2)] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--color-medium1)]">
+              <input type="checkbox" class="sr-only peer" :checked="added" :disabled="loading"
+                @change="addToDictionary" />
+              <div :class="{ 'bg-gray-400': !added, 'bg-[var(--color-medium1)]': added }"
+                class="w-11 h-6  peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--color-medium1)]">
               </div>
               <span class="ml-3 text-sm font-medium text-[var(--color-darkest)]" v-if="!loading">
-                {{ completed !== false ? 'Add word to dictionary' : 'Word added to dictionary' }}
+                {{ added === false ? 'Add word to dictionary' : 'Word added to dictionary' }}
               </span>
               <span class="ml-3 text-sm font-medium text-[var(--color-darkest)]" v-else>
                 Wait a second...
               </span>
             </label>
           </form>
-        </div> -->
+        </div>
         <ul class="max-h-80 overflow-y-scroll p-6">
           <li v-if="loading" class="my-4">
             <div role="status" class="flex items-center">
@@ -48,12 +49,6 @@
               recommend looking it up with dashes between the words (e.g.: "wake-up").
             </p>
             <li v-else v-for="entry in data" :key="entry.word" class="my-4">
-              <!-- <button class="color-button hover:text-[var(--color-darker)] m-6 rounded"
-                @click="openAddToDictionaryModal(entry)">
-                Add a new word
-              </button>
-              <AddToDictionary :showModal="showAddToDictionaryModal" @closeModal="closeAddToDictionaryModal">
-              </AddToDictionary> -->
               <strong class="underline">{{ entry.word }}</strong>
               <ul>
                 <li v-for="meaning in entry.meanings" :key="meaning.partOfSpeech"
@@ -84,36 +79,58 @@
 </template>
 
 <script>
-// import AddToDictionary from '../../Components/Modals/Dictionary/AddToDictionary.vue';
+import axios from 'axios';
+
 export default {
 
   name: 'DefinitionModal',
-  // components: {
-  //   AddToDictionary,
-  // },
   props: {
     showModal: Boolean,
     word: String,
     data: Object,
-    loading: Boolean
-    // added: Boolean,
+    loading: Boolean,
   },
-  // data() {
-  //   return {
-  //     showAddToDictionaryModal: false,
-  //     dictionaryWord: null,
-  //     formUrl: '/dictionary',
-  //     objectId: '',
-  //   };
-  // },
+  data() {
+    return {
+      added: false,
+    }
+  },
   methods: {
-    // openAddToDictionaryModal(dictionaryWord) {
-    //   this.dictionaryWord = dictionaryWord;
-    //   this.showAddToDictionaryModal = true;
-    // },
-    // closeAddToDictionaryModal() {
-    //   this.showAddToDictionaryModal = false;
-    // },
+    addToDictionary() {
+      const allDefinitions = this.data.flatMap(entry => {
+        return entry.meanings.flatMap(meaning => {
+          return meaning.definitions.map(definition => definition.definition);
+        });
+      });
+
+      const combinedDefinitions = allDefinitions.join('<br>');
+
+      const wordData = {
+        word: this.word,
+        notes: '',
+        definition: combinedDefinitions,
+        pronunciation: this.data[0].phonetics[0].text,
+        example1: '',
+        example2: '',
+        example3: '',
+        example4: '',
+        example5: '',
+        translation: '',
+      };
+
+      console.log(wordData);
+
+      axios.post('/dictionary', wordData)
+        .then(response => {
+          this.added = true;
+          console.log('Word added to dictionary:', response.data);
+        })
+        .catch(error => {
+          console.error('Error adding word to dictionary:', error);
+        });
+
+
+    },
     closeModal() {
       this.$emit('closeModal');
     }

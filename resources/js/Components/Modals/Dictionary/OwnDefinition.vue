@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="fixed inset-0 bg-gray-900 opacity-50 z-50" v-if="showModal"></div>
-        <div id="popup-modal" tabindex="-1" class="fixed inset-0 flex items-center justify-center z-50 my-auto"
+        <div id="popup-modal" tabindex="-1" class="fixed inset-0 flex items-center justify-center z-50 my-auto w-3/4 mx-auto"
             v-if="showModal">
             <div class="bg-[var(--color-lightest)]">
                 <div class="flex justify-between bg-[var(--color-medium1)]">
@@ -36,7 +36,7 @@
                                 @click="openDefinitionModal(dictionaryWord.word)">dictionary</button>.
                         </p>
                         <div v-else class="my-4 border-2 border-dashed p-2">
-                            <p>{{ dictionaryWord.definition }}</p>
+                            <p v-html="dictionaryWord.definition"></p>
                         </div>
                         <h4 class="underline">Examples</h4>
                         <ul>
