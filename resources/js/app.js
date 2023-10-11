@@ -9,6 +9,7 @@ import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import NestedReply from "./Components/Modals/Comments/NestedReply.vue";
 // import { faClipboard } from "@fortawesome/free-regular-svg-icons";
 // import { faClipboardCheck } from "@fortawesome/free-solid-svg-icons";
 
@@ -29,6 +30,7 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .component("Head", Head)
             .component("font-awesome-icon", FontAwesomeIcon)
+            .component("NestedReply", NestedReply)
             .use(plugin)
             .use(ZiggyVue, Ziggy)
             .mount(el);

@@ -1,8 +1,7 @@
 <template>
-    <!-- <form @submit.prevent="form.delete(formUrl + '/' + objectId)"> -->
     <form @submit.prevent="confirmDelete">
         <button type="submit" :disabled="form.processing"
-            class="text-xs px-1 text-[var(--color-lightest)] bg-red-500 hover:bg-[var(--color-darkest)]">
+            class="text-xs px-1 font-semibold text-[var(--color-darkest)]">
             Delete
         </button>
     </form>

@@ -1,5 +1,5 @@
 <template>
-    <!-- TODO: change exercises, add translation button -->
+    <!-- TODO: change exercise frontend -->
     <div class="mb-10">
 
         <Head :title="topic.name" />
@@ -44,8 +44,6 @@
                             <div class="mx-auto text-center mt-8 border w-3/4 p-4"
                                 v-html="topicSlide.explanation.explanation">
                             </div>
-                            
-                            <!-- TODO: fix exercise as null and all topics appear as completed -->
                         </template>
                         <template v-else-if="topicSlide.exercise">
                             <div v-if="topicSlide.exercise.type === 'match'">
@@ -102,6 +100,10 @@
                 </SplideSlide>
             </Splide>
         </div>
+        <div>
+            <Comments :topicId="topic.id" :comments="comments" :commentsCount="commentsCount">
+            </Comments>
+        </div>
     </div>
     <Definition :word="inputWord" :data="data" :showModal="showDefinitionModal" :loading="loading"
         @closeModal="closeDefinitionModal">
@@ -118,6 +120,7 @@ import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
 import axios from 'axios';
 import Definition from '../../Components/Modals/Dictionary/Definition.vue';
+import Comments from '../../Components/Modals/Comments/Comments.vue';
 import AddToDictionary from '../../Components/Modals/Dictionary/AddToDictionary.vue';
 import CompletedForm from '../../Components/CompletedForm.vue';
 import MatchExerciseComponent from '../../Components/Exercises/MatchExerciseComponent.vue';
@@ -133,6 +136,7 @@ export default defineComponent({
         Splide,
         SplideSlide,
         Definition,
+        Comments,
         AddToDictionary,
         CompletedForm,
         MatchExerciseComponent,
@@ -146,6 +150,8 @@ export default defineComponent({
         nextTopic: Object,
         lesson: Object,
         completed: Boolean,
+        commentsCount: Number,
+        comments: Object,
     },
     data() {
         return {
@@ -154,6 +160,7 @@ export default defineComponent({
             inputWord: '',
             data: null,
             showAddToDictionaryModal: false,
+            topicId: '',
         };
     },
     setup() {

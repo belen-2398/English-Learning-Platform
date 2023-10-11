@@ -72,6 +72,11 @@ class User extends Authenticatable
         return $this->hasMany(DictionaryWord::class);
     }
 
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function scopeSearch($query, $request)
     {
         $searchParameter = $request->input('query_parameter');

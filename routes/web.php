@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\NotUser\DashboardController as NotUserDashboardController;
 use App\Http\Controllers\NotUser\TopicController as NotUserTopicController;
 use App\Http\Controllers\NotUser\WordOfDayController as NotUserWordOfDayController;
@@ -59,6 +60,10 @@ Route::middleware([
     Route::get('/profile', function () {
         return Inertia::render('Profile');
     })->name('profile');
+
+    Route::apiResource('/comments', CommentController::class)->except('index', 'show', 'store');
+    Route::post('/comments-store/{topicId}', [CommentController::class, 'store'])->name('comments.store');
+    Route::post('/replies-store/{commentId}', [CommentController::class, 'storeReply'])->name('comments.store.reply');
 
     Route::apiResource('/dictionary', DictionaryWordController::class)->except('show');
     Route::get('/review', [ReviewController::class, 'review']);

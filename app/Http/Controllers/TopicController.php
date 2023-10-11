@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Topic;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -11,8 +10,11 @@ use Inertia\Inertia;
 class TopicController extends Controller
 {
     // TODO: clean up controller
-    public function usersShow(Topic $topic)
-    {
+    // TODO: add sort function to comments
+    public function usersShow(
+        Topic $topic
+        // , Request $request
+    ) {
         $topic->with('lesson');
 
         $lesson = $topic->lesson;
@@ -27,12 +29,18 @@ class TopicController extends Controller
 
         $completed = $this->completedTopics()->where('id', $topic->id)->exists();
 
+        $comments = $topic->comments()->get();
+
+        $commentsCount = $comments->count();
+
         return Inertia::render('Topics/Show', [
             'topic' => $topic,
             'topicSlides' => $topicSlides,
             'nextTopic' => $nextTopic,
             'lesson' => $lesson,
             'completed' => $completed,
+            'comments' => $comments,
+            'commentsCount' => $commentsCount,
         ]);
     }
 
