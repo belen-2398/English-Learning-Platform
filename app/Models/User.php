@@ -32,6 +32,8 @@ class User extends Authenticatable
         'role_as'
     ];
 
+    // protected $with = ['notifications', 'unreadNotifications'];
+
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -173,7 +173,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('addExampleBtn').addEventListener('click', function () {
-            var exampleFieldCount = document.querySelectorAll('input[id^="example"]:not([hidden])').length;
+            let exampleFieldCount = document.querySelectorAll('input[id^="example"]:not([hidden])').length;
             console.log(exampleFieldCount);
             if (exampleFieldCount >= 5) {
             this.disabled = true;

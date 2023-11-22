@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CommentRequest;
 use App\Models\Comment;
 use App\Models\Topic;
+use App\Models\User;
+use App\Notifications\CommentHasReply;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class CommentController extends Controller
 {
@@ -30,6 +33,16 @@ class CommentController extends Controller
         $parentComment->replies()->create([
             'user_id' => Auth::user()->id,
             'content' => $validatedData['content'],
+        ]);
+
+        $parentUser = User::findOrFail($parentComment->user_id);
+        $parentUser->notify(new CommentHasReply($parentComment));
+    }
+
+    public function show(Comment $comment)
+    {
+        return Inertia::render('Comments/Show', [
+            'comment' => $comment,
         ]);
     }
 

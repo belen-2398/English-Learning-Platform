@@ -28,15 +28,15 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        var dateParameterSelect = document.getElementById('date_parameter');
-        var fieldContainer = document.getElementById('fieldContainer');
-        var searchButton = document.getElementById('searchButton');
+        let dateParameterSelect = document.getElementById('date_parameter');
+        let fieldContainer = document.getElementById('fieldContainer');
+        let searchButton = document.getElementById('searchButton');
         
         dateParameterSelect.addEventListener('change', function() {
 
             searchButton.style.display = 'block';
 
-            var selectedValue = this.value;
+            let selectedValue = this.value;
             
             fieldContainer.innerHTML = '';
 
@@ -45,34 +45,34 @@
             }
 
             if (selectedValue === 'date') {
-                var dateInput = document.createElement('input');
+                let dateInput = document.createElement('input');
                 dateInput.type = 'date';
                 dateInput.name = 'query';
                 dateInput.id = 'query';
                 dateInput.className = 'block p-2.5 pr-16 w-full text-sm text-gray-900 bg-gray-50 rounded-r-lg border border-gray-300 focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-gray-500';
                 
-                var dateOption = document.createElement('div');
+                let dateOption = document.createElement('div');
                 dateOption.id = 'date_option';
                 dateOption.appendChild(dateInput);
                 
                 fieldContainer.appendChild(dateOption);
             } else if (selectedValue === 'month') {
-                var monthSelect = document.createElement('select');
+                let monthSelect = document.createElement('select');
                 monthSelect.name = 'query';
                 monthSelect.id = 'query';
                 monthSelect.className = 'block p-2.5 mr-12 w-full text-sm text-gray-900 bg-gray-50 rounded-r-lg border border-gray-300 focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-gray-500';
                 
-                var selectOption = document.createElement('option');
+                let selectOption = document.createElement('option');
                 selectOption.value = '';
                 selectOption.textContent = 'Select Month';
                 monthSelect.appendChild(selectOption);
                 
-                var monthOption = document.createElement('div');
+                let monthOption = document.createElement('div');
                 monthOption.id = 'month_option';
                 monthOption.appendChild(monthSelect);
                 fieldContainer.appendChild(monthOption);
                 
-                var months = [
+                const months = [
                     { value: '01', name: 'January' },
                     { value: '02', name: 'February' },
                     { value: '03', name: 'March' },
@@ -88,20 +88,20 @@
                 ];
 
                 months.forEach(function(month) {
-                    var option = document.createElement('option');
+                    let option = document.createElement('option');
                     option.value = month.value;
                     option.textContent = month.name;
                     monthSelect.appendChild(option);
                 });
             } else if (selectedValue === 'year') {
-                var yearInput = document.createElement('input');
+                let yearInput = document.createElement('input');
                 yearInput.type = 'number';
                 yearInput.min = '1900';
                 yearInput.name = 'query';
                 yearInput.id = 'query';
                 yearInput.className = 'block p-2.5 pr-16 w-full text-sm text-gray-900 bg-gray-50 rounded-r-lg border border-gray-300 focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-gray-500';
                 
-                var yearOption = document.createElement('div');
+                let yearOption = document.createElement('div');
                 yearOption.id = 'year_option';
                 yearOption.appendChild(yearInput);
                 
