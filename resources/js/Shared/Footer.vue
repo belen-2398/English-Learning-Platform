@@ -1,6 +1,6 @@
 <template>
     <!-- TODO: links, add social media -->
-    <div class="w-full mx-auto max-w-screen-xl p-2 md:p-4 md:flex md:items-center md:justify-between">
+    <div class="w-full mx-auto p-2 md:p-4 md:flex md:items-center md:justify-between">
         <ul class="flex flex-wrap items-center justify-center text-xs md:text-sm font-medium">
             <li>
                 <Link href="/about" class="mr-4 hover:underline md:mr-6 ">About</Link>

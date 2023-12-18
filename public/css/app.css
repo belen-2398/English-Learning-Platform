@@ -52,6 +52,7 @@ h2 {
     color: var(--color-dark);
 }
 
+
 h3 {
     font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
         "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
@@ -269,10 +270,6 @@ p {
 
 .slide2:hover {
     background-color: var(--color-medium2);
-}
-
-.level-container {
-    margin-bottom: 2rem;
 }
 
 .circle-connect:before {

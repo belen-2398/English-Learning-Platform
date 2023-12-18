@@ -18,30 +18,31 @@
                                 </div>
                             </MenuButton>
                             <MenuItems
-                                class="absolute left-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                                class="absolute left-0 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
                                 <MenuItem v-slot="{ active }"
                                     class="p-2 hover:underline hover:bg-lighterColor text-sm text-darkColor dark:text-gray-200 border-b border-gray-300 flex justify-between items-center w-full">
-                                    <MyNavLink href="/" :active="$page.component === 'Welcome'">Home</MyNavLink>
+                                <MyNavLink href="/" :active="$page.component === 'Welcome'">Home</MyNavLink>
                                 </MenuItem>
                                 <MenuItem v-slot="{ active }"
                                     class="p-2 hover:underline hover:bg-lighterColor text-sm text-darkColor dark:text-gray-200 border-b border-gray-300 flex justify-between items-center w-full">
-                                    <MyNavLink href="/lessons" :active="$page.component === 'Lessons'">Lessons</MyNavLink>
+                                <MyNavLink href="/lessons" :active="$page.component === 'Lessons/Lessons'">Lessons
+                                </MyNavLink>
                                 </MenuItem>
                                 <template v-if="$page.props.auth.user">
                                     <MenuItem v-slot="{ active }"
-                                    class="p-2 hover:underline hover:bg-lighterColor text-sm text-darkColor dark:text-gray-200 border-b border-gray-300 flex justify-between items-center w-full">
-                                        <MyNavLink href="/dictionary" :active="$page.component === 'Dictionary'">Dictionary
-                                        </MyNavLink>
+                                        class="p-2 hover:underline hover:bg-lighterColor text-sm text-darkColor dark:text-gray-200 border-b border-gray-300 flex justify-between items-center w-full">
+                                    <MyNavLink href="/dictionary" :active="$page.component === 'Dictionary'">Dictionary
+                                    </MyNavLink>
                                     </MenuItem>
                                     <MenuItem v-slot="{ active }"
-                                    class="p-2 hover:underline hover:bg-lighterColor text-sm text-darkColor dark:text-gray-200 border-b border-gray-300 flex justify-between items-center w-full">
-                                        <MyNavLink href="/completed" :active="$page.component === 'Completed'">Completed
-                                        </MyNavLink>
+                                        class="p-2 hover:underline hover:bg-lighterColor text-sm text-darkColor dark:text-gray-200 border-b border-gray-300 flex justify-between items-center w-full">
+                                    <MyNavLink href="/completed" :active="$page.component === 'Completed'">Completed
+                                    </MyNavLink>
                                     </MenuItem>
                                 </template>
                                 <MenuItem v-slot="{ active }"
                                     class="p-2 hover:underline hover:bg-lighterColor text-sm text-darkColor dark:text-gray-200 border-b border-gray-300 flex justify-between items-center w-full">
-                                    <MyNavLink href="/about" :active="$page.component === 'About'">About us</MyNavLink>
+                                <MyNavLink href="/about" :active="$page.component === 'About'">About us</MyNavLink>
                                 </MenuItem>
                             </MenuItems>
                         </Menu>
@@ -51,11 +52,12 @@
                             <MyNavLink href="/" :active="$page.component === 'Welcome'">Home</MyNavLink>
                         </li>
                         <li class="text-sm md:text-lg">
-                            <MyNavLink href="/lessons" :active="$page.component === 'Lessons'">Lessons</MyNavLink>
+                            <MyNavLink href="/lessons" :active="$page.component === 'Lessons/Lessons'">Lessons</MyNavLink>
                         </li>
                         <template v-if="$page.props.auth.user">
                             <li class="text-sm md:text-lg">
-                                <MyNavLink href="/dictionary" :active="$page.component === 'Dictionary'">Dictionary</MyNavLink>
+                                <MyNavLink href="/dictionary" :active="$page.component === 'Dictionary'">Dictionary
+                                </MyNavLink>
                             </li>
                             <li class="text-sm md:text-lg">
                                 <MyNavLink href="/completed" :active="$page.component === 'Completed'">Completed</MyNavLink>
@@ -93,7 +95,7 @@
                                         </div>
                                     </MenuButton>
                                     <MenuItems
-                                        class="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                                        class="absolute right-0 mt-2 w-56 origin-top-right rounded-md shadow-lg focus:outline-none">
                                         <template v-if="unreadNotifications.length > 0">
                                             <MenuItem v-slot="{ active }"
                                                 class="p-2 justify-right hover:underline text-sm text-mainColor dark:text-gray-200 w-full">
@@ -166,10 +168,12 @@
                     </template>
                     <template v-else>
                         <div class="flex gap-1 -mt-3 md:mt-0 md:gap-2">
-                            <li class="bg-accentColor hover:bg-darkColor p-1 rounded text-sm md:color-button md:text-lg md:p-2">
+                            <li
+                                class="bg-accentColor hover:bg-darkColor p-1 rounded text-sm md:color-button md:text-lg md:p-2">
                                 <Link :href="route('login')">Login</Link>
                             </li>
-                            <li class="bg-accentColor hover:bg-darkColor p-1 rounded text-sm md:color-button md:text-lg md:p-2">
+                            <li
+                                class="bg-accentColor hover:bg-darkColor p-1 rounded text-sm md:color-button md:text-lg md:p-2">
                                 <Link :href="route('register')">Register</Link>
                             </li>
                         </div>

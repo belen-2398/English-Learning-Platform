@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="min-h-screen flex flex-col">
         <header>
             <Head>
                 <title>Learn English</title>
@@ -20,7 +20,7 @@
             </div>
 
         </main>
-        <footer class="rounded-lg shadow md:m-4">
+        <footer class="rounded-lg shadow mx-4 md:mt-4">
             <Footer />
         </footer>
     </div>

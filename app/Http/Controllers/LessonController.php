@@ -26,7 +26,7 @@ class LessonController extends Controller
             }
         }
 
-        return Inertia::render('Lessons', [
+        return Inertia::render('Lessons/Lessons', [
             'lessons' => $lessons,
         ]);
     }

@@ -1,8 +1,8 @@
 <template>
   <Head :title="`${level}-From-0`" />
   <div class="short-line">
-    <h1 class="pt-6 mb-6">{{ level }} From 0</h1>
-    <h2 class="pb-6 text-xl">
+    <h1 class="pt-6 mb-4 font-bold">{{ level }} From 0</h1>
+    <h2 class="pb-4">
       <Link v-if="lessons[0].topics[0].isCompleted" class="color-button text-xl mx-auto mb-6"
         :href="'/topics/' + firstTopicId">
       CONTINUE</Link>
@@ -12,21 +12,21 @@
   </div>
   <!-- Progress bar -->
   <div class="flex" v-if="$page.props.auth.user">
-    <div class="w-2/3 mx-auto mt-8 bg-[var(--color-light)] rounded-full dark:bg-gray-700">
-      <div class="bg-[var(--color-medium1)] text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+    <div class="w-2/3 mx-auto mt-8 bg-lightColor rounded-full dark:bg-gray-700">
+      <div class="bg-mainColor text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
         :style="{ width: completedLessonPercentage + '%' }"> {{ completedLessonPercentage }}%</div>
     </div>
   </div>
   <!-- End progress bar -->
-  <div class="mt-8 flex flex-col">
-    <div class="columns-4 mb-6">
+  <div class="my-8 flex flex-col">
+    <div class="md:columns-4">
       <ol class="flex" v-for="lesson in lessons" :key="lesson.id">
         <li class="relative w-1 mx-20">
           <div class="inline-flex items-top">
             <template v-if="lesson.isCompleted">
               <div class="flex items-top circle-connect">
                 <div class="z-10 flex items-center justify-center w-6 h-6
-                  bg-[var(--color-medium1)] rounded-full ring-0 ring-white shrink-0">
+                  bg-mainColor rounded-full ring-0 ring-white shrink-0">
                   <svg aria-hidden="true" class="w-4 h-4 text-[var(--color-lightest)]" fill="currentColor"
                     viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd"

@@ -1,23 +1,22 @@
 <template>
   <Head title="Lessons" />
   <div class="short-line">
-    <h1 class="pt-6 mb-6">Lessons</h1>
-    <h2 class="pb-4 uppercase">SELECT A LESSON BASED ON YOUR LEVEL
-    </h2>
+    <h1 class="pt-6 font-bold">Lessons</h1>
+    <h2 class="mx-2 text-sm md:text-xl pb-4 uppercase">CHOOSE A LESSON</h2>
   </div>
 
-  <div class="mx-20 mt-20">
-    <ul class="solid-border border-2 p-12">
+  <div class="mx-4 md:mx-20 my-10 md:mt-20">
+    <ul class="solid-border border-2 p-6 md:p-12">
       <li v-for="(lessonsByLevel, level) in lessons" :key="level">
-        <div class="level-container mb-6">
+        <div class="mb-6">
           <h3
-            class="mx-60 border-b-2 border-[var(--color-medium2)] pb-2 text-center text-6xl text-[var(--color-medium2)]">
+            class="mx-10 md:mx-60 border-b-2 border-accentColor pb-2 text-center text-4xl md:text-6xl text-accentColor">
             {{ level }}</h3>
-          <ul class="grid grid-cols-3 gap-4">
+          <ul class="grid md:grid-cols-3 md:gap-4">
             <li v-for="lesson in lessonsByLevel" :key="lesson.id" class="list-line"
               :class="{ 'completed-list-line': lesson.isCompleted }">
               <Link :href="'/lessons/' + lesson.id">
-              <h4 class="text-xl mb-2 underline">
+              <h4 class="text-lg md:text-xl mb-2 underline">
                 {{ lesson.name }}
               </h4>
               <p class="font-small text-justify">
