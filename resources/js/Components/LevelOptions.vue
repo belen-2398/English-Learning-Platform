@@ -4,16 +4,16 @@
     <div v-if="showModal" id="popup-modal" tabindex="-1" class="fixed inset-0 flex items-center justify-center z-20">
         <div class="flex">
             <button data-modal-hide="popup-modal" type="button" @click="closeModal"
-                class="text-white text-sm border rounded-full h-6 w-6 font-medium hover:text-gray-900 focus:z-10 -mt-8">
+                class="text-bgColor text-sm border rounded-full h-6 w-6 font-medium hover:text-accentColor focus:z-10 -mt-8">
                 X
             </button>
-            <div class="pb-5 text-center flex">
+            <div class="text-center flex gap-2 md:gap-6">
                 <Link :href="chooseLessonLink" data-modal-hide="popup-modal"
-                    class="bg-[var(--color-medium2)] hover:bg-[var(--color-light)] font-medium text-xl rounded-lg inline-flex items-center p-16 text-center ml-auto mr-5">
+                    class="bg-accentColor hover:bg-lightColor font-medium text-xl rounded-lg inline-flex items-center w-32 h-40 md:w-72 md:h-52 justify-center mx-auto">
                 Choose a lesson
                 </Link>
                 <Link :href="from0Link" data-modal-hide="popup-modal"
-                    class="bg-[var(--color-medium2)] hover:bg-[var(--color-light)] font-medium text-xl rounded-lg inline-flex items-center p-16 text-center mr-auto">
+                    class="bg-accentColor hover:bg-lightColor font-medium text-xl rounded-lg inline-flex items-center w-32 h-40 md:w-72 md:h-52 justify-center mr-auto">
                 Start level from 0
                 </Link>
             </div>

@@ -30,18 +30,18 @@ footer {
 
 h1 {
     text-align: center;
-    font-size: 80px !important;
+    font-size: 40px !important;
     font-weight: 500;
-    /* background-color: var(--color-medium1);
-    background: linear-gradient(
-        180deg,
-        var(--color-medium1) 0%,
-        var(--color-lightest) 96%
-    ); */
     font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
         "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
     color: var(--color-darker);
-    /* text-shadow: 2px 2px 2px var(--color-darkest); */
+}
+
+@media (min-width: 768px) {
+    h1 {
+        font-size: 80px !important;
+        font-weight: 500;
+    }
 }
 
 h2 {
@@ -112,7 +112,6 @@ p {
 .cut-line {
     border-bottom: 2px solid var(--color-darker);
     width: 80%;
-    margin-top: -90px;
     z-index: 1;
 }
 
@@ -152,13 +151,20 @@ p {
 }
 
 .small-sign {
-    width: 40%;
-    height: 250px;
+    width: 90%;
+    height: auto;
     background-color: var(--color-medium2);
     display: flex;
     flex-direction: column;
     position: relative;
     z-index: 2;
+}
+
+@media (min-width: 768px) {
+    .small-sign {
+        width: 60%;
+        height: 280px;
+    }
 }
 
 .small-sign:hover {
@@ -166,13 +172,20 @@ p {
 }
 
 .no-hover-small-sign {
-    width: 40%;
-    height: 280px;
+    width: 90%;
+    height: 180px;
     background-color: var(--color-medium2);
     display: flex;
     flex-direction: column;
     position: relative;
     z-index: 2;
+}
+
+@media (min-width: 768px) {
+    .no-hover-small-sign {
+        width: 40%;
+        height: 280px;
+    }
 }
 
 .invisible-border {
@@ -230,13 +243,19 @@ p {
 }
 
 .slide1 {
-    width: 80%;
-    height: 200px;
+    width: 70%;
+    height: 140px;
     background-color: var(--color-medium1);
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* border: 2px solid var(--color-darker); */
+}
+
+@media (min-width: 768px) {
+    .slide1 {
+        width: 80%;
+        height: 200px;
+    }
 }
 
 .slide1:hover {
@@ -246,7 +265,6 @@ p {
 .slide2 {
     background-color: var(--color-lighter);
     color: var(--color-lightest) !important;
-    /* text-shadow: 1px 1px 1px var(--color-darkest); */
 }
 
 .slide2:hover {

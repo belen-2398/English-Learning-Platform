@@ -20,7 +20,6 @@
     </head>
     <body class="font-sans antialiased min-h-screen">
         @inertia
-
     </body>
 
 </html>
