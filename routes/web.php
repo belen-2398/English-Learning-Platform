@@ -21,6 +21,7 @@ use App\Http\Controllers\NotUser\TopicSlideController;
 use App\Http\Controllers\DictionaryWordController;
 use App\Http\Controllers\MixedExerciseController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\UserNotificationsController;
 use App\Http\Controllers\WordOfDayController;
 
 Route::get('/', [FrontendController::class, 'index'])->name('welcome');
@@ -45,11 +46,7 @@ Route::controller(MixedExerciseController::class)->group(function () {
     Route::get('/mixed-exercise/{mixedExercise}', 'usersShow')->name('user.mixedExercises.show');
 });
 
-Route::get('/about', function () {
-    return Inertia::render('About', [
-        'time' => now()->toTimeString()
-    ]);
-});
+Route::inertia('/about', 'About');
 
 Route::middleware([
     'auth:sanctum',
@@ -57,13 +54,18 @@ Route::middleware([
     'verified',
 ])->group(function () {
 
+    Route::get('/notifications', [UserNotificationsController::class, 'show'])->name('user-notifications.show');
+    Route::post('/mark-as-read/{notificationId}', [UserNotificationsController::class, 'markAsRead'])->name('user-notifications.markAsRead');
+    Route::post('/mark-all-as-read', [UserNotificationsController::class, 'markAllAsRead'])->name('user-notifications.markAllAsRead');
+
     Route::get('/profile', function () {
         return Inertia::render('Profile');
     })->name('profile');
 
-    Route::apiResource('/comments', CommentController::class)->except('index', 'show', 'store');
+    Route::apiResource('/comments', CommentController::class)->except('index', 'store');
     Route::post('/comments-store/{topicId}', [CommentController::class, 'store'])->name('comments.store');
     Route::post('/replies-store/{commentId}', [CommentController::class, 'storeReply'])->name('comments.store.reply');
+    Route::get('/mark-as-read', [CommentController::class, 'markAsRead'])->name('mark-as-read');
 
     Route::apiResource('/dictionary', DictionaryWordController::class)->except('show');
     Route::get('/review', [ReviewController::class, 'review']);

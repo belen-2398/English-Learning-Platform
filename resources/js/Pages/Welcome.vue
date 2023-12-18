@@ -129,18 +129,42 @@
             </svg>
         </button>
         <div class="block mb-28 mt-6">
-            <div class="small-sign mx-auto invisible-border" v-if="wordOfDay">
-                <Link :href="route('user.wordsOfDay.show', { wordOfDay: wordOfDay.id })"
-                    class="flex flex-col items-center md:flex-row md:max-w-xl">
-                <img class="w-auto rounded items-center my-3 h-52 mx-3 border" :src="wordOfDay.image" :alt="wordOfDay.word">
-                <div class="flex flex-col p-4 leading-normal">
-                    <h5 class="font-bold tracking-tight underline">Word of the Day</h5>
-                    <h6 class="mb-3">{{ wordOfDay.word }}</h6>
-                    <p class="text-justify">{{ wordOfDay.definition }}</p>
+            <div v-if="wordOfDay">
+                <div class="small-sign mx-auto invisible-border">
+                    <Link :href="route('user.wordsOfDay.show', { wordOfDay: wordOfDay.id })"
+                        class="flex flex-col items-center md:flex-row md:max-w-xl">
+                    <img class="w-auto rounded items-center my-3 h-52 mx-3 border" :src="wordOfDay.image" :alt="wordOfDay.word">
+                    <div class="flex flex-col p-4 leading-normal">
+                        <h5 class="font-bold tracking-tight underline">Word of the Day</h5>
+                        <h6 class="mb-3">{{ wordOfDay.word }}</h6>
+                        <p class="text-justify">{{ wordOfDay.definition }}</p>
+                    </div>
+                    </Link>
                 </div>
-                </Link>
+                <div class="cut-line mx-auto"></div>
             </div>
-            <div class="cut-line mx-auto"></div>
+            <div v-else>
+                <div class="no-hover-small-sign mx-auto invisible-border">
+                    <div class="flex flex-col items-center my-auto">
+                        <h5 class="font-bold text-2xl border-b-4 border-darkestColor border-double">Word of the Day</h5>
+
+                        <p class="text-lg text-center text-darkColor mx-10 my-3">Sorry, we have taken a break for today,<br>but have a look at words from previous days:</p>
+                        <Splide :options="splideWordOptions" aria-label="previousWordsOfDay" class="mx-6 mt-2">
+                            <SplideSlide v-for="previousWordOfDay in previousWordsOfDay" :key="previousWordOfDay.id">
+                                <div class="border-darkColor hover:bg-lightColor border-2 border-dotted hover:border-lightColor py-6">
+                                    <Link :href="route('user.wordsOfDay.show', { wordOfDay: previousWordOfDay.id })" class="block">
+                                    <h3 class="mb-2 text-darkestColor text-xl font-semibold text-center">
+                                        {{ previousWordOfDay.word }}
+                                    </h3>
+                                    </Link>
+                                </div>
+                            </SplideSlide>
+                        </Splide>
+                    </div>
+                </div>
+                <div class="second-cut-line mx-auto"></div>
+            </div>
+            
         </div>
     </section>
     <LevelOptions :showModal="showModal" :chooseLessonLink="chooseLessonLink" :from0Link="from0Link"
@@ -162,7 +186,8 @@ export default defineComponent({
         Head, Link, Splide, SplideSlide, LevelOptions
     },
     props: {
-        sliders: Array,
+        // sliders: Array,
+        previousWordsOfDay: Array,
         wordOfDay: Object,
         topics: Array,
     },
@@ -211,7 +236,15 @@ export default defineComponent({
             pagination: false
         };
 
-        return { splideOptions, splideTwoOptions };
+        const splideWordOptions = {
+            rewind: true,
+            perPage: 3,
+            gap: '2rem',
+            arrows: false,
+            pagination: false
+        };
+
+        return { splideOptions, splideTwoOptions, splideWordOptions };
     },
     layout: FrontendLayout,
 });

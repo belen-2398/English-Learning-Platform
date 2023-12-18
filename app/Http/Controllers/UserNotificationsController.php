@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\NotificationRequest;
-use Illuminate\Http\Request;
-use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Illuminate\Notifications\Notifiable;
 
 class UserNotificationsController extends Controller
 {
@@ -23,8 +20,14 @@ class UserNotificationsController extends Controller
         ]);
     }
 
-    public function markAsRead(Notification $notification)
+    public function markAsRead($notificationId)
     {
-        $notification->markAsRead();
+        $unreadNotification = auth()->user()->unreadNotifications->find($notificationId);
+        return $unreadNotification->markAsRead();
+    }
+
+    public function markAllAsRead()
+    {
+        auth()->user()->unreadNotifications->markAsRead();
     }
 }

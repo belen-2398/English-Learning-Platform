@@ -11,16 +11,24 @@ export default {
         "./storage/framework/views/*.php",
         "./resources/views/**/*.blade.php",
         "./resources/js/**/*.vue",
-        "./node_modules/flowbite/**/*.js",
-        // Ver si sacar prox 2, sacados de flowbite+tailwinds
-        "./index.html",
-        "./src/**/*.{vue,js,ts,jsx,tsx}",
+        "node_modules/flowbite-vue/**/*.{js,jsx,ts,tsx}",
+        "node_modules/flowbite/**/*.{js,jsx,ts,tsx}",
     ],
 
     theme: {
         extend: {
             fontFamily: {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                mainColor: "#81d8be",
+                accentColor: "#ee9292",
+                bgColor: "#f9f6f6",
+                lighterColor: "#d0ece3",
+                lightColor: "#dbdbd8",
+                darkColor: "#585858",
+                darkerColor: "#599b87",
+                darkestColor: "#051014",
             },
         },
     },

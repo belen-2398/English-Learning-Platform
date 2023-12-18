@@ -9,11 +9,15 @@ import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { faBell } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 import NestedReply from "./Components/Modals/Comments/NestedReply.vue";
-// import { faClipboard } from "@fortawesome/free-regular-svg-icons";
-// import { faClipboardCheck } from "@fortawesome/free-solid-svg-icons";
 
-// library.add(faClipboard, faClipboardCheck);
+library.add(faBell, faUser, faEye, faEyeSlash, faTrash, faBars);
 
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText ||

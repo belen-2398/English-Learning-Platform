@@ -11,13 +11,19 @@ class FrontendController extends Controller
 {
     public function index()
     {
-        $sliders = Slider::where('status', '1')->get();
+        // $sliders = Slider::where('status', '1')->get();
         $wordOfDay = WordOfDay::where('publish_date', today())->first();
+        $previousWordsOfDay = WordOfDay::where('publish_date', '<', today())
+            ->latest()
+            ->take(5)
+            ->get();
+
         $topics = Topic::latest()->take('10')->get();
 
         return Inertia::render('Welcome', [
-            'sliders' => $sliders,
+            // 'sliders' => $sliders,
             'wordOfDay' => $wordOfDay,
+            'previousWordsOfDay' => $previousWordsOfDay,
             'topics' => $topics,
         ]);
     }

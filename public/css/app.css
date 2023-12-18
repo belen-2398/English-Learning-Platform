@@ -116,6 +116,13 @@ p {
     z-index: 1;
 }
 
+.second-cut-line {
+    border-bottom: 2px solid var(--color-darker);
+    width: 80%;
+    margin-top: -140px;
+    z-index: 1;
+}
+
 .list-line {
     display: block;
     align-items: center;
@@ -156,6 +163,16 @@ p {
 
 .small-sign:hover {
     background-color: var(--color-light);
+}
+
+.no-hover-small-sign {
+    width: 40%;
+    height: 280px;
+    background-color: var(--color-medium2);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
 }
 
 .invisible-border {
