@@ -79,7 +79,7 @@ class TopicController extends Controller
                 $userPtCategory = $categoryName;
                 $nextCatPts = $ptsCategory - $totalUserPts;
 
-                $completedCatPercentage = ($totalUserPts / $ptsCategory) * 100;
+                $completedCatPercentage = $ptsCategory !== 0 ? ($totalUserPts / $ptsCategory) * 100 : 0;
 
                 break;
             }

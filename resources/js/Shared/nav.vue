@@ -1,5 +1,6 @@
 <template>
     <!-- TODO: search bar -->
+    <!-- TODO: dropdown menues not closing when clicking on Items, probably because of NavLink -->
     <nav class="font-semibold flex flex-col mt-8 mx-2 md:mx-6">
         <div class="flex justify-between align-center">
             <div class="flex justify-between align-center -mt-3 md:mt-1">
@@ -21,7 +22,8 @@
                                 class="absolute left-0 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
                                 <MenuItem v-slot="{ active }"
                                     class="p-2 hover:underline hover:bg-lighterColor text-sm text-darkColor dark:text-gray-200 border-b border-gray-300 flex justify-between items-center w-full">
-                                <MyNavLink href="/" :active="$page.component === 'Welcome'">Home</MyNavLink>
+                                <MyNavLink href="/" :active="$page.component === 'Welcome'">Home
+                                </MyNavLink>
                                 </MenuItem>
                                 <MenuItem v-slot="{ active }"
                                     class="p-2 hover:underline hover:bg-lighterColor text-sm text-darkColor dark:text-gray-200 border-b border-gray-300 flex justify-between items-center w-full">
@@ -31,7 +33,8 @@
                                 <template v-if="$page.props.auth.user">
                                     <MenuItem v-slot="{ active }"
                                         class="p-2 hover:underline hover:bg-lighterColor text-sm text-darkColor dark:text-gray-200 border-b border-gray-300 flex justify-between items-center w-full">
-                                    <MyNavLink href="/dictionary" :active="$page.component === 'Dictionary'">Dictionary
+                                    <MyNavLink href="/dictionary" :active="$page.component === 'Dictionary/Words'">
+                                        Dictionary
                                     </MyNavLink>
                                     </MenuItem>
                                     <MenuItem v-slot="{ active }"
@@ -42,7 +45,8 @@
                                 </template>
                                 <MenuItem v-slot="{ active }"
                                     class="p-2 hover:underline hover:bg-lighterColor text-sm text-darkColor dark:text-gray-200 border-b border-gray-300 flex justify-between items-center w-full">
-                                <MyNavLink href="/about" :active="$page.component === 'About'">About us</MyNavLink>
+                                <MyNavLink href="/about" :active="$page.component === 'About'">About us
+                                </MyNavLink>
                                 </MenuItem>
                             </MenuItems>
                         </Menu>
@@ -56,7 +60,7 @@
                         </li>
                         <template v-if="$page.props.auth.user">
                             <li class="text-sm md:text-lg">
-                                <MyNavLink href="/dictionary" :active="$page.component === 'Dictionary'">Dictionary
+                                <MyNavLink href="/dictionary" :active="$page.component === 'Dictionary/Words'">Dictionary
                                 </MyNavLink>
                             </li>
                             <li class="text-sm md:text-lg">
@@ -95,7 +99,7 @@
                                         </div>
                                     </MenuButton>
                                     <MenuItems
-                                        class="absolute right-0 mt-2 w-56 origin-top-right rounded-md shadow-lg focus:outline-none">
+                                        class="absolute right-0 mt-2 w-56 origin-top-right bg-white rounded-md shadow-lg focus:outline-none">
                                         <template v-if="unreadNotifications.length > 0">
                                             <MenuItem v-slot="{ active }"
                                                 class="p-2 justify-right hover:underline text-sm text-mainColor dark:text-gray-200 w-full">
@@ -202,6 +206,8 @@ export default {
     data() {
         return {
             unreadNotifications: this.$page.props.auth.user?.unreadNotifications || 0,
+            isMenuOpen: false,
+            isProfileMenuOpen: false
         };
     },
     methods: {

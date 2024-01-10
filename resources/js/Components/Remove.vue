@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="confirmDelete">
         <button type="submit" :disabled="form.processing"
-            class="text-xs px-1 font-semibold text-[var(--color-darkest)]">
+            class="text-xs p-1 font-semibold text-darkestColor hover:bg-accentColor">
             Delete
         </button>
     </form>

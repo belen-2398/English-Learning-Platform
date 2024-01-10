@@ -20,7 +20,7 @@
             </div>
 
         </main>
-        <footer class="rounded-lg shadow mx-4 md:mt-4">
+        <footer class="rounded-lg shadow mx-4 md:my-6">
             <Footer />
         </footer>
     </div>

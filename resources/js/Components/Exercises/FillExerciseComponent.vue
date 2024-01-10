@@ -1,14 +1,14 @@
 <template>
-    <!-- TODO: ver si se puede drag también en esta y en match o como minimo tachar palabras ya usadas -->
+    <!-- TODO: ver si se puede drag también en esta, order y en match o como minimo tachar palabras ya usadas -->
     <div class="flex-col items-center mt-8">
-        <div v-if="shuffledWords" class="border-2 py-1 px-4 flex w-3/4 mx-auto my-2">
+        <div v-if="shuffledWords" class="border-2 py-1 px-2 md:px-4 flex md:w-3/4 mx-2 md:mx-auto my-2">
             <div v-for="(word_to_fill, i) in shuffledWords" :key="i" class="p-2">
-                <div v-if="word_to_fill" class="text-lg bg-[var(--color-lightest)] rounded p-2 mx-2">
+                <div v-if="word_to_fill" class="md:text-lg bg-bgColor rounded p-2 mx-2">
                     {{ word_to_fill }}
                 </div>
             </div>
         </div>
-        <div class="mx-20 my-4 bg-[var(--color-lightest)] p-4">
+        <div class="mx-4 md:mx-20 my-4 bg-bgColor p-4">
             <template v-if="textHasInputPlaceholder(exercise.text)">
                 <div class="flex flex-wrap">
                     <template v-for="(part, index) in splitTextWithInput(exercise.text)">
@@ -38,7 +38,7 @@
                 <button @click="redo" v-if="showResult" class="hover:underline">Re-do</button>
                 <button @click="showAnswers" v-if="showResult" class="hover:underline">Show answers</button>
             </div>
-            <p v-if="showAnswersFlag">Correct answer: {{ correctResponses }}</p>
+            <p v-if="showAnswersFlag" class="mx-2">Correct answer: {{ correctResponses }}</p>
         </div>
 
     </div>

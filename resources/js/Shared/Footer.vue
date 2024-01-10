@@ -1,6 +1,6 @@
 <template>
     <!-- TODO: links, add social media -->
-    <div class="w-full mx-auto p-2 md:p-4 md:flex md:items-center md:justify-between">
+    <div class="w-full mx-auto p-1 md:p-4 md:flex md:items-center md:justify-between">
         <ul class="flex flex-wrap items-center justify-center text-xs md:text-sm font-medium">
             <li>
                 <Link href="/about" class="mr-4 hover:underline md:mr-6 ">About</Link>
@@ -15,7 +15,7 @@
                 <Link href="#" class="hover:underline">Contact</Link>
             </li>
         </ul>
-        <span class="text-xs md:text-sm sm:text-center">
+        <span class="text-xs mt-1 md:mt-0 md:text-sm sm:text-center text-darkestColor">
             © 2023 <Link href="#" class="hover:underline">LanguageTower™</Link>. All Rights Reserved.
         </span>
     </div>

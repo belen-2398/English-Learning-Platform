@@ -1,19 +1,17 @@
 <template>
-       <!-- TODO: fix format -->
-    <div class="flex-col items-center mt-8">
-        <div class="mx-20 my-4 bg-[var(--color-lightest)] p-4">
-            <div class="flex flex-wrap items-center">
+    <!-- TODO: fix format -->
+    <div class="flex-col md:mt-8">
+        <div class="md:mx-20 my-4 bg-bgColor p-4">
+            <div class="flex flex-wrap items-center justify-center">
                 <template v-for="(section, index) in transformedText" :key="index">
-                    <div>
-                        <span> {{ section.text }}</span>
-                        <template v-if="section.options.length > 0">
-                            <select v-model="selectedOptions[index]" class="mx-2 h-10 text-sm mb-2">
-                                <option v-for="(option, optionIndex) in section.options" :key="optionIndex">
-                                    {{ option }}
-                                </option>
-                            </select>
-                        </template>
-                    </div>
+                    <span> {{ section.text }}</span>
+                    <template v-if="section.options.length > 0">
+                        <select v-model="selectedOptions[index]" class="mx-2 h-10 text-sm mb-2">
+                            <option v-for="(option, optionIndex) in section.options" :key="optionIndex">
+                                {{ option }}
+                            </option>
+                        </select>
+                    </template>
                 </template>
             </div>
         </div>
@@ -24,8 +22,9 @@
                 <button @click="redo" v-if="showResult" class="hover:underline">Re-do</button>
                 <button @click="showAnswers" v-if="showResult" class="hover:underline">Show answers</button>
             </div>
-            <p v-if="showAnswersFlag">Correct answer: {{ exercise.answers }}</p>
-
+            <div v-if="showAnswersFlag" class="my-2 border-2 w-2/3 md:w-1/3 mx-auto p-1">
+                <p>Correct answer: {{ exercise.answers }}</p>
+            </div>
         </div>
 
     </div>

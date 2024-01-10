@@ -3,37 +3,40 @@
 
         <Head title="Review" />
         <div class="short-line">
-            <h1 class="pt-6">Review</h1>
-            <h2 class="uppercase">Let's review the words you saved.</h2>
+            <h1 class="pt-6 font-semibold">Review</h1>
+            <h2 class="uppercase">Revise your saved words.</h2>
         </div>
 
-        <div class="flex-cols m-8">
-            <div class="flex justify-between my-6 mx-10">
-                <h3 class="mb-6 font-semibold">Drag the definition/translation to match them with the words </h3>
-                <button class="color-button hover:text-[var(--color-darker)] items-center flex" @click="reloadPage">
-                    Change words
+        <div class="flex-cols mt-8 md:m-8">
+            <div class="flex justify-between my-6 mx-10 text-justify gap-6">
+                <h3 class="font-semibold text-sm md:text-lg">Drag the definition or translation to match them with the words
+                </h3>
+                <button class="color-button hover:text-darkerColor items-center flex" @click="reloadPage">
+                    Shuffle
                 </button>
             </div>
 
+
             <div class="flex mx-6">
-                <div class="w-1/5 px-4 border-r-2 text-center">
-                    <div v-for="(word, index) in dictionaryWords" :key="index" class="h-20 mb-6">
-                        <p class="uppercase mt-5">
+                <div class="md:w-1/5 px-4 border-r-2 text-center">
+                    <div v-for="(word, index) in dictionaryWords" :key="index" class="h-20 mb-4 flex">
+                        <p class="uppercase items-center mx-auto my-auto">
                             {{ word.word }}
                         </p>
                     </div>
                 </div>
 
-                <div class="w-4/5 px-4">
+                <div class="md:w-4/5 px-4">
                     <draggable v-model="draggableWords" group="draggableWords" @start="drag = true" @end="drag = false"
                         item-key="id">
-                        <template #item="{ element, index }" class="flex gap-8 mx-10 p-2 border-2">
+                        <template #item="{ element }">
                             <div v-if="element.definition"
-                                class="p-2 hover:bg-[var(--color-light)] text-[var(--color-darker)] cursor-grab h-20 mb-6">
-                                <p class="text-justify">{{ element.definition }}</p>
+                                class="p-2 hover:bg-lightColor flex text-darkerColor cursor-grab h-20 mb-4">
+                                <p class="text-justify text-sm md:text-base items-center my-auto">{{ processText(element.definition) }}
+                                </p>
                             </div>
-                            <div v-else class="p-2 bg-[var(--color-light)] text-[var(--color-darker)] cursor-grab h-20">
-                                <p class="text-justify">
+                            <div v-else class="p-2 hover:bg-lightColor flex text-darkerColor cursor-grab h-20 mb-4">
+                                <p class="text-justify text-sm md:text-base items-center my-auto">
                                     {{ element.translation || 'No translation nor definition provided' }}
                                 </p>
                             </div>
@@ -42,15 +45,19 @@
                 </div>
             </div>
 
-            <div class="mx-auto text-center">
-                <button @click="checkOrder"
-                    class="bg-[var(--color-medium2)] p-2 text-lg text-white rounded">Correct</button>
+            <div class="mx-auto text-center mb-2">
+                <button @click="checkOrder" class="bg-accentColor p-2 text-lg text-white rounded">Correct</button>
                 <p v-if="showResult" class="mt-2">{{ resultMessage }}</p>
                 <div class="flex mx-auto justify-center gap-10">
                     <button @click="reloadPage" v-if="showResult" class="hover:underline">Keep practicing</button>
                     <button @click="showAnswers" v-if="showResult" class="hover:underline">Show answers</button>
                 </div>
-                <p v-if="showAnswersFlag">Correct answer: {{ answers }}</p>
+                <div v-if="showAnswersFlag" class="my-2 border-2 w-2/3 md:w-1/3 mx-auto p-1">
+                    <p>Correct answer:</p>
+                    <ul v-for="answer in answers">
+                        <li> {{ answer }}</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -93,6 +100,13 @@ export default {
         };
     },
     methods: {
+        processText(text) {
+            const limitedText = text.slice(0, 250);
+            const sanitizedText = limitedText.replace(/<[^>]+>/g, ' ');
+            const finalText = limitedText.length < text.length ? sanitizedText + '...' : sanitizedText;
+
+            return finalText;
+        },
         shuffleArray(array) {
             const shuffledArray = [...array];
             for (let i = shuffledArray.length - 1; i > 0; i--) {
@@ -116,9 +130,6 @@ export default {
             } else {
                 this.resultMessage = "Incorrect!";
             }
-
-            console.log(userResponses);
-            console.log(this.correctResponses);
             this.showResult = true;
         },
         showAnswers() {

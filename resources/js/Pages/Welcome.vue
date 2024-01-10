@@ -1,5 +1,6 @@
 <template>
     <div>
+
         <Head title="Welcome Page" />
         <section class="mx-6 md:my-52" id="title">
             <h1 class="font-bold pb-2">Welcome <span v-if="$page.props.auth.user"> {{
@@ -7,8 +8,10 @@
             }}</span>
             </h1>
             <h2 v-if="!$page.props.auth.user" class="md:pb-14">CHECK OUT OUR
-                <Link class="hover-underline text-xl bg-lighterColor hover:bg-transparent rounded p-1" href="/lessons">LESSONS</Link> OR
-                <Link class="hover-underline text-xl bg-lighterColor hover:bg-transparent rounded p-1" :href="route('login')">LOGIN</Link> FOR FULL ACCESS.
+                <Link class="hover-underline text-xl bg-lighterColor hover:bg-transparent rounded p-1" href="/lessons">
+                LESSONS</Link> OR
+                <Link class="hover-underline text-xl bg-lighterColor hover:bg-transparent rounded p-1"
+                    :href="route('login')">LOGIN</Link> FOR FULL ACCESS.
             </h2>
             <h2 v-else class="pb-6 text-2xl">
                 START LEARNING
@@ -110,22 +113,22 @@
                 </Splide>
             </div>
         </div>
-            <button @click="scrollToBottom()" class="hidden md:block scroll-button mx-auto">
-                <svg class="down-arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-                    <path fill="currentColor"
-                        d="M49.5 206.1l141.1 141.1c4.7 4.7 12.3 4.7 17 0l141.1-141.1c9.4-9.4 2.7-25.4-10.6-25.4H60.1c-13.3 0-20 16-10.6 25.4z" />
-                </svg>
-            </button>
+        <button @click="scrollToBottom()" class="hidden md:block scroll-button mx-auto">
+            <svg class="down-arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                <path fill="currentColor"
+                    d="M49.5 206.1l141.1 141.1c4.7 4.7 12.3 4.7 17 0l141.1-141.1c9.4-9.4 2.7-25.4-10.6-25.4H60.1c-13.3 0-20 16-10.6 25.4z" />
+            </svg>
+        </button>
     </section>
 
-    <section id="wordOfDay" class="md:my-56 flex-cols">
+    <section id="wordOfDay" class="md:my-32 flex-cols">
         <button class="hidden md:block scroll-button mx-auto" @click="scrollToTop()">
             <svg class="up-arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
                 <path fill="currentColor"
                     d="M49.5 305.9L190.6 164.8c4.7-4.7 12.3-4.7 17 0l141.1 141.1c9.4 9.4 2.7 25.4-10.6 25.4H60.1c-13.3 0-20-16-10.6-25.4z" />
             </svg>
         </button>
-        <div class="block mb-10 md:mb-28 md:mt-6">
+        <div class="block mb-10 md:mb-60">
             <div v-if="wordOfDay">
                 <div class="small-sign mx-auto invisible-border">
                     <Link :href="route('user.wordsOfDay.show', { wordOfDay: wordOfDay.id })"
@@ -144,9 +147,10 @@
             <div v-else>
                 <div class="no-hover-small-sign mx-auto invisible-border">
                     <div class="flex flex-col items-center my-auto">
-                        <h5 class="font-bold md:text-2xl border-b-2 md:border-b-4 border-darkestColor md:border-double">Word of the Day</h5>
-                        <p class="md:text-lg text-center text-darkColor mx-2 md:mx-24 my-4">Sorry, we have taken a break for
-                            today. <br> Have a look at previous words:</p>
+                        <h5 class="font-bold md:text-2xl border-b-2 md:border-b-4 border-darkestColor md:border-double">Word
+                            of the Day</h5>
+                        <p class="md:text-lg text-center text-darkColor mx-2 md:mx-24 my-4">Sorry, no word for today. <br>
+                            Have a look at previous words:</p>
                         <Splide :options="splideWordOptions" aria-label="previousWordsOfDay" class="md:mx-6 md:mt-2">
                             <SplideSlide v-for="previousWordOfDay in previousWordsOfDay" :key="previousWordOfDay.id">
                                 <div

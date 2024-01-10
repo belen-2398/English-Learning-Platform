@@ -1,12 +1,12 @@
 <template>
     <div>
         <div class="fixed inset-0 bg-gray-900 opacity-50 z-50" v-if="showModal"></div>
-        <div id="popup-modal" tabindex="-1" class="fixed inset-0 flex items-center justify-center z-50 my-auto"
+        <div id="popup-modal" tabindex="-1" class="fixed inset-0 flex items-center justify-center z-50 my-auto mx-2"
             v-if="showModal">
-            <div class="bg-[var(--color-lightest)] max-w-3xl">
-                <div class="flex justify-between bg-[var(--color-medium1)]">
-                    <h2 class="m-6 text-xl">New word</h2>
-                    <button type="button" class="m-2 mr-4 -mt-6 text-[var(--color-darker)] hover:underline"
+            <div class="bg-bgColor max-w-3xl">
+                <div class="flex justify-between bg-mainColor">
+                    <h2 class="ml-4 md:m-6 md:text-xl">New word</h2>
+                    <button type="button" class="m-2 mr-4 md:-mt-6 text-darkerColor hover:underline"
                         @click="closeModal">X</button>
                 </div>
                 <div class="p-6 max-h-96 overflow-y-scroll">
@@ -16,8 +16,8 @@
                             this.closeModal();
                         },
                     })">
-                        <div class="flex flex-wrap mb-6">
-                            <div class="w-1/3 md:w-1/3 px-3 mb-6 md:mb-0">
+                        <div class="flex flex-col md:flex-row md:flex-wrap mb-6">
+                            <div class="md:w-1/3 px-3 mb-6 md:mb-0 mx-auto">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                     for="word">
                                     Word
@@ -27,7 +27,7 @@
                                     type="text" placeholder="dog">
                                 <div v-if="form.errors.word">{{ form.errors.word }}</div>
                             </div>
-                            <div class="w-1/3 md:w-1/3 px-3 mb-6 md:mb-0">
+                            <div class="md:w-1/3 px-3 mb-6 md:mb-0 mx-auto">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                     for="pronunciation">
                                     Pronunciation
@@ -37,7 +37,7 @@
                                     type="text" placeholder="/dog/">
                                 <div v-if="form.errors.pronunciation">{{ form.errors.pronunciation }}</div>
                             </div>
-                            <div class="w-1/3 md:w-1/3 px-3 mb-6 md:mb-0">
+                            <div class="md:w-1/3 px-3 mb-6 md:mb-0 mx-auto">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                     for="word">
                                     Translation

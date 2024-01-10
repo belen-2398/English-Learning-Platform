@@ -65,7 +65,6 @@ export default {
     Head,
     Link
   },
-  layout: FrontendLayout,
-  props: { time: String }
+  layout: FrontendLayout
 }
 </script>

@@ -4,41 +4,37 @@
 
         <Head :title="topic.name" />
 
-        <div class="short-line pb-6">
+        <div class="pb-6">
             <h1> {{ topic.name }} </h1>
-            <h2 class="mt-6 text-xl">
-                WELCOME TO THIS TOPIC
-            </h2>
         </div>
     </div>
     <div class="flex flex-col">
         <div class="mt-10 mb-4">
-            <div class="mb-8 mx-20 flex justify-between items-center">
-                <template v-if="$page.props.auth.user">
-                    <button class="color-button rounded" @click="openAddToDictionaryModal()">Add word to dictionary</button>
-                </template>
-                <div class="flex justify-end">
-                    <input type="text" v-model="inputWord" placeholder="Enter a word.">
-                    <button class="color-button ml-2 rounded" @click="openDefinitionModal(inputWord)">Look up in the
+            <div class="mb-8 md:mx-20 flex md:flex-row flex-col md:justify-between items-center">
+                <div class="flex justify-end mb-2 md:mb-0 mx-2">
+                    <input type="text" class="w-1/2 md:w-auto" v-model="inputWord" placeholder="Enter a word.">
+                    <button class="color-button ml-2 rounded text-sm md:text-base" @click="openDefinitionModal(inputWord)">Look up in the
                         dictionary</button>
                 </div>
-
+                <template v-if="$page.props.auth.user">
+                    <button class="bg-darkerColor p-2 text-bgColor rounded text-sm md:text-base" @click="openAddToDictionaryModal()">Add a word to your dictionary</button>
+                </template>
             </div>
             <Splide :options="splideOptions" aria-label="Topic">
-                <SplideSlide class="mx-10">
-                    <div class="flex mx-auto items-center h-full bg-[var(--color-medium1)]">
-                        <p class="mx-auto text-3xl">
-                            Click on the right arrow to start learning.
+                <SplideSlide class="md:mx-10">
+                    <div class="flex mx-auto justify-center items-center h-full bg-mainColor">
+                        <p class="md:mx-auto mx-10 text-center text-wrap text-3xl ">
+                            Swipe right to start learning
                         </p>
                     </div>
                 </SplideSlide>
                 <SplideSlide class="mx-10" v-for="topicSlide in topicSlides">
-                    <div class="flex-cols mx-auto items-center my-auto py-10">
+                    <div class="flex-cols mx-auto items-center my-auto py-20 md:py-10">
                         <h3 class="text-3xl text-center mx-auto pt-8">
                             {{ topicSlide.name }}
                         </h3>
                         <div v-if="topicSlide.prompt">
-                            <h4>{{ topicSlide.prompt }}</h4>
+                            <h4 class="mx-2.5">{{ topicSlide.prompt }}</h4>
                         </div>
                         <template v-if="topicSlide.explanation">
                             <div class="mx-auto text-center mt-8 border w-3/4 p-4"
@@ -67,8 +63,8 @@
                 </SplideSlide>
                 <SplideSlide class="mx-10">
                     <div
-                        class="slide1 bg-[var(--color-medium2)] mx-auto items-center h-full hover:bg-[var(--color-medium2)]">
-                        <p class="text-black my-auto text-3xl text-center mx-10 leading-10" v-if="nextTopic">
+                        class="slide1 bg-accentColor mx-auto items-center h-full hover:bg-accentColor">
+                        <p class="text-black my-auto text-xl md:text-3xl text-center mx-2 md:mx-10 md:leading-10" v-if="nextTopic">
                             Great job! <br>
                             You finished this topic. <br>
                         <div>
@@ -168,7 +164,8 @@ export default defineComponent({
             rewind: false,
             perPage: 1,
             width: '100%',
-            drag: false,
+            drag: true,
+            arrows: false,
         };
 
         return {

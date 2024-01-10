@@ -1,18 +1,18 @@
 <template>
-    <div class=" flex justify-between items-center my-2 border-b-2 border-[var(--color-darker)]"
-        :style="{ marginLeft: depth * 20 + 'px' }">
+    <div class="flex justify-between items-center my-2 border-b-2 border-darkerColor"
+        :style="{ marginLeft: depth * 2 + 'px' }">
         <div class="flex items-center">
-            <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
+            <p class="inline-flex items-center mx-2 text-sm text-darkestColor dark:text-white font-semibold">
                 {{ comment.user.name }}
             </p>
-            <p class="text-sm text-gray-600 dark:text-gray-400">
+            <p class="text-sm text-darkColor dark:text-gray-400">
                 {{ formatDate(comment.created_at) }}
             </p>
-            <span v-if="isEdited" class="text-xs text-red-500 ml-1">Edited</span>
+            <span v-if="isEdited" class="text-xs text-accentColor ml-1">Edited</span>
         </div>
         <div class="relative inline-block text-left">
             <button @click="toggleDropdown"
-                class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-400"
+                class="inline-flex items-center p-2 text-sm font-medium text-center text-darkColor dark:text-gray-400"
                 type="button">
                 <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                     viewBox="0 0 16 3">
@@ -42,12 +42,11 @@
                 </div>
             </div>
         </div>
-
     </div>
-    <p class="text-gray-600 dark:text-gray-400 mt-3">{{ comment.content }}</p>
-    <div class="flex items-center mt-4 justifty-between gap-8">
+    <p class="text-darkColor dark:text-gray-400 mt-3 ml-2">{{ comment.content }}</p>
+    <div class="flex items-center mt-4 ml-2 justifty-between gap-8">
         <button type="button" @click="openReplyCommentModal(comment)"
-            class=" flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium">
+            class=" flex items-center text-sm text-darkColor hover:underline dark:text-gray-400 font-medium">
             <svg class="mr-1.5 w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 20 18">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -56,7 +55,7 @@
             Reply
         </button>
         <button v-if="comment.replies.length" type="button" @click="toggleReplies"
-            class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium">
+            class="flex items-center text-sm text-darkColor hover:underline dark:text-gray-400 font-medium">
             <svg class="mr-1.5 w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24">
                 <path
@@ -67,7 +66,7 @@
         </button>
     </div>
     <div v-if="showReplies && comment.replies.length"
-        class="p-3 border-2 rounded-lg dark:bg-gray-900 w-3/4 justify-center mx-auto mt-4">
+        class="p-3 border-l-2 dark:bg-darkestColor justify-center mx-2 mt-4">
         <div v-for="(reply, replyIndex) in comment.replies" :key="reply.id">
             <NestedReply :comment="reply" :depth="depth + 0.2" />
         </div>

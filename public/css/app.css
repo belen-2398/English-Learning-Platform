@@ -164,7 +164,7 @@ p {
 @media (min-width: 768px) {
     .small-sign {
         width: 60%;
-        height: 280px;
+        height: 320px;
     }
 }
 
@@ -211,6 +211,7 @@ p {
     text-decoration: underline;
     background-color: var(--color-light);
     color: var(--color-darker);
+    border-radius: 0%;
 }
 
 .nav-link:hover {

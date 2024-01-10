@@ -1,12 +1,10 @@
-<template class="bg-white dark:bg-gray-900 py-8 lg:py-16 antialiased">
+<template>
     <div>
-
         <Head title="Comment Show" />
+        <!-- TODO: change link of report to send message to admin, see replies toggles all buttons -->
 
-        <!-- TODO: change link of report to send message to admin -->
-
-        <div class="p-4 text-base bg-[var(--color-lighter)] rounded-lg dark:bg-gray-900 w-3/4 justify-center mx-auto my-3">
-            <div class="flex justify-between items-center mb-2 border-b-2 border-[var(--color-darker)]">
+        <div class="p-4 text-base bg-lighterColor rounded-lg dark:bg-gray-900 justify-center mx-4 mb-3">
+            <div class="flex justify-between items-center mb-2 mt-5 border-b-2 border-darkerColor">
                 <div class="flex items-center">
                     <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
                         {{ comment.user.name }}
@@ -31,18 +29,18 @@
                         <div>
                             <div v-if="$page.props.auth.user.id === comment.user_id" class="flex-col">
                                 <button @click="openEditCommentModal(comment)"
-                                    class="w-full bg-[var(--color-lightest)] text-left text-xs py-1 px-4 text-[var(--color-darkest)] font-semibold hover:bg-[var(--color-lighter)]">
+                                    class="w-full bg-bgColor text-left text-xs py-1 px-4 text-darkestColor font-semibold hover:bg-lighterColor">
                                     Edit
                                 </button>
                                 <div
-                                    class="bg-[var(--color-medium2)] w-full hover:bg-[var(--color-lighter)] pb-1 text-center">
+                                    class="bg-accentColor w-full hover:bg-lighterColor pb-1 text-center">
                                     <Remove :objectId="comment.id" :formUrl="formUrl"></Remove>
                                 </div>
                             </div>
                             <div v-else>
                                 <div>
                                     <a @click="reportComment(comment)"
-                                        class="bg-[var(--color-medium2)] w-full hover:bg-[var(--color-lighter)] py-1 px-4 font-semibold text-sm">Report</a>
+                                        class="bg-accentColor w-full hover:bg-lighterColor py-1 px-4 font-semibold text-sm">Report</a>
                                 </div>
                             </div>
                         </div>
@@ -71,9 +69,9 @@
                     {{ showReplies ? 'Hide Replies' : 'See Replies' }}
                 </button>
             </div>
-            <div v-if="showReplies" class="my-6">
+            <div v-if="showReplies" class="my-3">
                 <div v-for="(reply, replyIndex) in comment.replies" :key="'R' + replyIndex"
-                    class="bg-white p-4 rounded-lg dark:bg-gray-900 w-3/4 justify-center mx-auto my-4">
+                    class="bg-white p-2 rounded-lg dark:bg-gray-900 justify-center mx-2 my-4">
                     <NestedReply :comment="reply" :depth="depth + 0.2" />
                 </div>
             </div>
@@ -86,7 +84,7 @@
 </template>
   
 <script>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 import FrontendLayout from '@/Layouts/FrontendLayout.vue';
 import Remove from '../../Components/Remove.vue';
 import Edit from '../../Components/Modals/Comments/Edit.vue';

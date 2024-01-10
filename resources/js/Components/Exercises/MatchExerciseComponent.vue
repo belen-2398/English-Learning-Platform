@@ -1,16 +1,16 @@
 <template>
     <div class="flex-col items-center mt-8">
-        <div class="border-2 p-1 flex w-3/4 mx-auto my-10 flex-wrap justify-center">
+        <div class="border-2 p-1 flex w-3/4 mx-auto md:gap-4 flex-wrap justify-center">
             <div v-for="(leftItem, i) in shuffledLeftItems" :key="i">
-                <div v-if="leftItem" class="text-lg mx-8 my-3">
+                <div v-if="leftItem" class="md:text-lg mx-8 my-3">
                     {{ leftItem }}
                 </div>
             </div>
         </div>
-        <ul class="flex-cols columns-3 mx-20 my-8">
+        <ul class="flex-cols md:columns-3 mx-4 md:mx-20 my-8">
             <div v-for="(rightItem, i) in exercise.right" :key="i">
                 <div class="flex" v-if="rightItem">
-                    <p class="text-center w-3/4 mb-4 p-2 rounded bg-[var(--color-lightest)]">
+                    <p class="text-center w-3/4 gap-4 p-2 rounded bg-bgColor">
                         {{ rightItem }}
                     </p>
                     <input type="text" :id="'leftItem_' + i" class="border w-3/4 mx-2 mb-4" v-model="userResponses[i]">
@@ -18,14 +18,18 @@
             </div>
         </ul>
         <div class="mx-auto text-center">
-            <button @click="checkOrder" class="bg-[var(--color-medium2)] p-2 text-lg rounded text-white">Correct</button>
+            <button @click="checkOrder" class="bg-accentColor p-2 text-lg rounded text-white">Correct</button>
             <p v-if="showResult" class="mt-2">{{ resultMessage }}</p>
             <div class="flex mx-auto justify-center gap-10">
                 <button @click="redo" v-if="showResult" class="hover:underline">Re-do</button>
                 <button @click="showAnswers" v-if="showResult" class="hover:underline">Show answers</button>
             </div>
-            <p v-if="showAnswersFlag">Correct order: {{ correctResponses }}</p>
-
+            <div v-if="showAnswersFlag" class="my-2 border-2 w-2/3 md:w-1/3 mx-auto p-1">
+                <p>Correct answer:</p>
+                <ul v-for="answer in correctResponses">
+                    <li> {{ answer }}</li>
+                </ul>
+            </div>
         </div>
 
     </div>
