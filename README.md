@@ -4,15 +4,38 @@ It is a PHP + Vue project to make English learning and teacher easier. The admin
 
 ## Explanation of the platform:
 
-The admin can create English lessons (similar to units in a book) according to the Common European Framework of Reference (CEFR) levels A1 to C2. The lessons, in turn, have topics (similar to each page in an unit) and mixed exercises (which combine elements from the different topics for the user to practice). Each topic has slides with either an exercise or an explanation.
+<img src="public/images/readMe/WelcomeLesson.gif" style="width: 400px; margin-bottom: 1rem" alt="Gif with how welcome and lesson look like"/>
 
-The exercises and mixed exercises can be of four types: match, order, fill and select. They are corrected automatically.
+<p style="text-align: justify"> The admin can create English lessons (similar to units in a book) according to the Common European Framework of Reference (CEFR) levels A1 to C2. The lessons, in turn, have topics (similar to each page in an unit) and mixed exercises (which combine elements from the different topics for the user to practice). Each topic has slides with either an exercise or an explanation.</p>
 
-The user can choose to start a level from 0, following the path of lessons and topics that the admin determined, or they can choose which a topic based on their specific needs. If they have any questions about the topic, they can leave a comment and interact with other users, as well as teachers, in the comment section. Once the user has finished all the slides in the topic, they can mark the topic as complete, thus earning points. They can also look up words they don't know in a dictionary, add words to their personalised dictionary and later practice those words.
+<p style="text-align: justify">The exercises and mixed exercises can be of four types: match, order, fill and select. They are corrected automatically.</p>
 
-The page also has a "Word of the Day" section with audio and images that the admin can set up.
+<img src="public/images/readMe/Match.jpg" style="width: 500px; margin-bottom: 1rem" alt="Home screen from website"/>
+
+<p style="text-align: justify">The user can choose to start a level from 0, following the path of lessons and topics that the admin determined, or they can choose a topic based on their specific needs.</p>
+
+<img src="public/images/readMe/From 0.jpg" style="width: 500px; margin-bottom: 1rem" alt="Home screen from website"/>
+
+<p style="text-align: justify">If they have any questions about the topic, they can leave a comment and interact with other users, as well as teachers, in the comment section. They will be notified when someone answers.</p>
+
+<img src="public/images/readMe/Comments.jpg" style="width: 500px; margin-bottom: 1rem" alt="Home screen from website"/>
+<img src="public/images/readMe/Notif.jpg" style="width: 500px; margin-bottom: 1rem" alt="Home screen from website"/>
+
+<p style="text-align: justify">Once the user has finished all the slides in the topic, they can mark the topic as complete, thus earning points.</p>
+
+<img src="public/images/readMe/Completed.jpg" style="width: 500px; margin-bottom: 1rem" alt="Home screen from website"/>
+
+<p style="text-align: justify">They can also look up words they don't know in a dictionary, add words to their personalised dictionary and later practice those words in the Review section.</p>
+
+<img src="public/images/readMe/Dictionary.jpg" style="width: 500px; margin-bottom: 1rem" alt="Home screen from website"/>
+<img src="public/images/readMe/Review.jpg" style="width: 500px; margin-bottom: 1rem" alt="Home screen from website"/>
 
 
-## Abbreviations
+<p style="text-align: justify">The page also has a "Word of the Day" section with audio and images that the admin can set up.</p>
 
-u - unused file - might have to be deleted
+<img src="public/images/readMe/WoD.jpg" style="width: 500px; margin-bottom: 1rem" alt="Home screen from website"/>
+
+
+
+
+
