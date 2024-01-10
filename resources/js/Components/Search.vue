@@ -2,10 +2,9 @@
     <form @submit.prevent="form.get(formUrl)">
         <div class="flex m-4 items-center">
             <div class="relative w-full">
-                <input type="search" v-model="form.query" class="block p-2.5 w-full text-sm" placeholder="Search..."
-                    required>
+                <input type="search" v-model="form.query" class="block p-2.5 w-full text-sm" placeholder="Search...">
                 <button type="submit" :disabled="form.processing"
-                    class="absolute top-0 right-0 p-2.5 text-sm font-medium text-[var(--color-lightest)] bg-[var(--color-medium1)] border border-[var(--color-darker)] hover:bg-[var(--color-darkest)]">
+                    class="absolute top-0 right-0 p-2.5 text-sm font-medium text-white bg-mainColor border border-darkerColor hover:bg-darkestColor">
                     <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

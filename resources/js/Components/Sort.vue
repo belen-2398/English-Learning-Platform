@@ -3,14 +3,14 @@
         <div class="flex m-4 items-center">
             <div class="flex">
                 <select name="sort" v-model="form.sort"
-                    class="bg-[var(--color-lightest)] rounded p-2.5 mr-1 text-sm text-[var(--color-dark)] focus:bg-[var(--color-lightest)]">
+                    class="bg-white rounded p-2.5 mr-1 text-sm text-darkColor focus:bg-white">
                     <option value="">
                         Sort by
                     </option>
                     <slot></slot>
                 </select>
                 <button type="submit" :disabled="form.processing"
-                    class="p-2.5 text-sm text-[var(--color-lightest)] bg-[var(--color-medium1)] border border-[var(--color-darker)] hover:bg-[var(--color-darkest)]">
+                    class="p-2.5 text-sm text-white bg-mainColor border border-darkerColor hover:bg-darkestColor">
                     <span class="font-bold">Sort</span>
                 </button>
             </div>
