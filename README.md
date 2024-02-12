@@ -35,7 +35,9 @@ It is a PHP + Vue project to make English learning and teacher easier. The admin
 
 <img src="public/images/readMe/WoD.jpg" style="width: 500px; margin-bottom: 1rem" alt="Screenshot of Word of the Day"/>
 
+## Currently working on:
 
+Cleaning up the controllers and making the page more interactive.
 
 
 
