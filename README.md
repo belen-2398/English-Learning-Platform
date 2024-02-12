@@ -1,6 +1,6 @@
 ## English-Learning-Platform
 
-It is a PHP + Vue project to make English learning and teacher easier. The admin panel is currently set up in Blade, but will be eventually migrated to Vue for more consistency.
+It is a Laravel Jetstream (PHP + Vue) project to make English learning and teacher easier. The admin panel is currently set up in Blade, but will be eventually migrated to Vue for more consistency. This project uses Inertia and Tailwinds Css.
 
 ## Explanation of the platform:
 
