@@ -16,7 +16,7 @@
             <h2 v-else class="pb-6 text-2xl">
                 START LEARNING
             </h2>
-            <button @click="scrollToSection('slides')" class="hidden md:block scroll-button mx-auto md:mb-20">
+            <button @click="scrollToSection('slides')" class="hidden md:block scroll-button mx-auto md:mb-20" aria-label="Scroll to next section of the page">
                 <svg class="down-arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
                     <path fill="currentColor"
                         d="M49.5 206.1l141.1 141.1c4.7 4.7 12.3 4.7 17 0l141.1-141.1c9.4-9.4 2.7-25.4-10.6-25.4H60.1c-13.3 0-20 16-10.6 25.4z" />
@@ -28,7 +28,7 @@
     <!-- TODO: everywhere: fix layout in different screen sizes, add dark mode -->
     <!-- TODO: in blade, add teacher's part -->
     <section id="slides" class="flex-col">
-        <button class="hidden md:block scroll-button mx-auto" @click="scrollToTop()">
+        <button class="hidden md:block scroll-button mx-auto" @click="scrollToTop()" aria-label="Scroll to the top">
             <svg class="up-arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
                 <path fill="currentColor"
                     d="M49.5 305.9L190.6 164.8c4.7-4.7 12.3-4.7 17 0l141.1 141.1c9.4 9.4 2.7 25.4-10.6 25.4H60.1c-13.3 0-20-16-10.6-25.4z" />
@@ -113,7 +113,7 @@
                 </Splide>
             </div>
         </div>
-        <button @click="scrollToBottom()" class="hidden md:block scroll-button mx-auto">
+        <button @click="scrollToBottom()" class="hidden md:block scroll-button mx-auto" aria-label="Scroll to the bottom">
             <svg class="down-arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
                 <path fill="currentColor"
                     d="M49.5 206.1l141.1 141.1c4.7 4.7 12.3 4.7 17 0l141.1-141.1c9.4-9.4 2.7-25.4-10.6-25.4H60.1c-13.3 0-20 16-10.6 25.4z" />
@@ -122,7 +122,7 @@
     </section>
 
     <section id="wordOfDay" class="md:my-32 flex-cols">
-        <button class="hidden md:block scroll-button mx-auto" @click="scrollToTop()">
+        <button class="hidden md:block scroll-button mx-auto" @click="scrollToTop()" aria-label="Scroll to the top">
             <svg class="up-arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
                 <path fill="currentColor"
                     d="M49.5 305.9L190.6 164.8c4.7-4.7 12.3-4.7 17 0l141.1 141.1c9.4 9.4 2.7 25.4-10.6 25.4H60.1c-13.3 0-20-16-10.6-25.4z" />

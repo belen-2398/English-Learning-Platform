@@ -9,7 +9,7 @@
         <div class="flex justify-between bg-mainColor">
           <h2 class="ml-2 md:m-6 md:text-xl">Definition of {{ word }}</h2>
           <button type="button" class="m-2 mr-4 md:-mt-6 text-darkerColor hover:underline"
-            @click="closeModal">X</button>
+            @click="closeModal" aria-label="Close">X</button>
         </div>
         <div v-if="$page.props.auth.user">
           <form>

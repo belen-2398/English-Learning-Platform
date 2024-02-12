@@ -7,7 +7,7 @@
                 <div class="flex justify-between bg-[var(--color-medium1)]">
                     <h2 class="m-6 text-xl">Reply</h2>
                     <button type="button" class="m-2 mr-4 -mt-6 text-[var(--color-darker)] hover:underline"
-                        @click="closeModal">X</button>
+                        @click="closeModal" aria-label="Close">X</button>
                 </div>
                 <div class="p-6 max-h-2/3 overflow-y-scroll">
                     <form class="mb-6" @submit.prevent="form.post(`/replies-store/${commentId}`, {

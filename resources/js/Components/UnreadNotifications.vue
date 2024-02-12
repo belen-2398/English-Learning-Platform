@@ -7,7 +7,7 @@
         <div class="text-darkColor text-xs justify-right flex-row w-1/4">
             <span class="text-mainColor">{{ formatDate(notification.created_at) }}</span>
             <br>
-            <button @click="markNotificationAsRead(notification.id)">
+            <button @click="markNotificationAsRead(notification.id)" aria-label="Mark notification as read">
                 <font-awesome-icon icon="fa-solid fa-eye" class="hover:text-accentColor ml-2 pt-1" />
             </button>
         </div>

@@ -7,7 +7,7 @@
                 <div class="flex justify-between bg-[var(--color-medium1)]">
                     <h2 class="m-6 text-xl">Edit {{ dictionaryWord.word }}</h2>
                     <button type="button" class="m-2 mr-4 -mt-6 text-[var(--color-darker)] hover:underline"
-                        @click="closeModal">X</button>
+                        @click="closeModal" aria-label="Close">X</button>
                 </div>
                 <div class="p-6 max-h-96 overflow-y-scroll">
                     <form @submit.prevent="form.put('/dictionary/' + dictionaryWord.id, {

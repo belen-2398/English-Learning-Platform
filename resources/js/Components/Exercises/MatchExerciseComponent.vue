@@ -13,7 +13,7 @@
                     <p class="text-center w-3/4 gap-4 p-2 rounded bg-bgColor">
                         {{ rightItem }}
                     </p>
-                    <input type="text" :id="'leftItem_' + i" class="border w-3/4 mx-2 mb-4" v-model="userResponses[i]">
+                    <input type="text" :id="'leftItem_' + i" class="border w-3/4 mx-2 mb-4" v-model="userResponses[i]" aria-label="Your answer">
                 </div>
             </div>
         </ul>

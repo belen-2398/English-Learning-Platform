@@ -12,7 +12,7 @@
         <div class="mt-10 mb-4">
             <div class="mb-8 md:mx-20 flex md:flex-row flex-col md:justify-between items-center">
                 <div class="flex justify-end mb-2 md:mb-0 mx-2">
-                    <input type="text" class="w-1/2 md:w-auto" v-model="inputWord" placeholder="Enter a word.">
+                    <input type="text" class="w-1/2 md:w-auto" v-model="inputWord" placeholder="Enter a word." aria-label="Word to look up in the dictionary">
                     <button class="color-button ml-2 rounded text-sm md:text-base" @click="openDefinitionModal(inputWord)">Look up in the
                         dictionary</button>
                 </div>

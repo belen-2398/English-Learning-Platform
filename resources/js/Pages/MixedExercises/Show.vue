@@ -17,7 +17,7 @@
             <div class="md:flex md:flex-row md:justify-between md:mx-8 mb-8 ">
                 <div class="md:flex md:flex-row md:justify-between items-center">
                     <div class="flex justify-end bg-lightColor p-2 mx-1">
-                        <input type="text" class="w-auto" v-model="inputWord" placeholder="Enter a word...">
+                        <input type="text" class="w-auto" v-model="inputWord" placeholder="Enter a word..." aria-label="Word to look up in the dictionary">
                         <button class="color-button ml-2 rounded text-sm md:text-base" @click="openDefinitionModal(inputWord)">Look up in the dictionary</button>
                     </div>
                     <div v-if="$page.props.auth.user" class="flex justify-center mx-auto">

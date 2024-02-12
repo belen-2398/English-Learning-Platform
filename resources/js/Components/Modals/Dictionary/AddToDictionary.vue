@@ -7,7 +7,7 @@
                 <div class="flex justify-between bg-mainColor">
                     <h2 class="ml-4 md:m-6 md:text-xl">New word</h2>
                     <button type="button" class="m-2 mr-4 md:-mt-6 text-darkerColor hover:underline"
-                        @click="closeModal">X</button>
+                        @click="closeModal" aria-label="Close">X</button>
                 </div>
                 <div class="p-6 max-h-96 overflow-y-scroll">
                     <form @submit.prevent="form.post('/dictionary', {

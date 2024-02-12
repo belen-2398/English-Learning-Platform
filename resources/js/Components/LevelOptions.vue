@@ -3,7 +3,7 @@
     <!-- <div v-if="showModal" class="fixed inset-0 w-full h-full z-15" @click.self="closeModal"></div> -->
     <div v-if="showModal" id="popup-modal" tabindex="-1" class="fixed inset-0 flex items-center justify-center z-20">
         <div class="flex">
-            <button data-modal-hide="popup-modal" type="button" @click="closeModal"
+            <button data-modal-hide="popup-modal" type="button" @click="closeModal" aria-label="Close"
                 class="text-bgColor text-sm border rounded-full h-6 w-6 font-medium hover:text-accentColor focus:z-10 -mt-8">
                 X
             </button>

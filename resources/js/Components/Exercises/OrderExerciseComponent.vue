@@ -11,7 +11,7 @@
                             </div>
                         </template>
                     </div>
-                    <input type="text" class="mb-2" v-model="userResponses[index]">
+                    <input type="text" class="mb-2" v-model="userResponses[index]" aria-label="Your answer">
                 </li>
             </ol>
         </div>
